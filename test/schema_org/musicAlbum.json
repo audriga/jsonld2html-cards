@@ -1,0 +1,25 @@
+{
+  "@context": "http://schema.googleapis.com/",
+  "@type": "MusicAlbum",
+  "@id": "https://open.spotify.com/album/4F1fUukNCGBD5YjDViOJtu",
+  "url": "https://open.spotify.com/album/4F1fUukNCGBD5YjDViOJtu",
+  "name": "Semantics",
+  "description": "Listen to Semantic Email on Spotify. Audrigians · Album · 2022 · 7 songs.",
+  "datePublished": "2022-08-19",
+  "potentialAction": {
+    "@type": "ListenAction",
+    "target": [
+      {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://open.spotify.com/album/4F1fUukNCGBD5YjDViOJtu?autoplay=true",
+        "actionPlatform": [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/IOSPlatform",
+          "http://schema.googleapis.com/GoogleAudioCast",
+          "http://schema.googleapis.com/GoogleVideoCast"
+        ]
+      },
+      "android-app://com.spotify.music/spotify/album/4F1fUukNCGBD5YjDViOJtu/play"
+    ]
+  }
+}

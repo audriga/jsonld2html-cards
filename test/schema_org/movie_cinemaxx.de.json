@@ -1,0 +1,84 @@
+{
+    "@context": "https://schema.org",
+    "@type": "Movie",
+    "name": "Barbie",
+    "productionCompany": "USA",
+    "dateCreated": "2023-07-20T00:00:00",
+    "genre": "Kom&#246;die",
+    "typicalAgeRange": "FSK 6",
+    "duration": "PT1H55M",
+    "description": "Live-Action-Komödie um die wohl bekannteste Puppe und Spielzeugmarke der Welt, in der die Heldin zusammen mit Ken in der realen Welt landet.",
+    "director": [
+        {
+            "@type": "Person",
+            "name": "Alethea Jones"
+        }
+    ],
+    "actor": [
+        {
+            "@type": "Person",
+            "name": "Amy Schumer"
+        },
+        {
+            "@type": "Person",
+            "name": "Anne Hathaway"
+        },
+        {
+            "@type": "Person",
+            "name": "Margot Robbie"
+        },
+        {
+            "@type": "Person",
+            "name": "Emma Mackey"
+        },
+        {
+            "@type": "Person",
+            "name": "Ryan Gosling"
+        },
+        {
+            "@type": "Person",
+            "name": "Michael Cera"
+        },
+        {
+            "@type": "Person",
+            "name": "Will Ferrell"
+        },
+        {
+            "@type": "Person",
+            "name": "Issa Rae"
+        },
+        {
+            "@type": "Person",
+            "name": "Kate McKinnon"
+        },
+        {
+            "@type": "Person",
+            "name": "Alexandra Shipp"
+        },
+        {
+            "@type": "Person",
+            "name": "Simu Liu"
+        },
+        {
+            "@type": "Person",
+            "name": "Kingsley Ben-Adir"
+        },
+        {
+            "@type": "Person",
+            "name": "John Cena"
+        }
+    ],
+    "aggregateRating": {
+        "@type": "aggregateRating",
+        "ratingCount": 2382,
+        "ratingValue": 7.44,
+        "bestRating": 10,
+        "worstRating": 1
+    },
+    "trailer": {
+        "@type": "VideoObject",
+        "name": "Barbie",
+        "description": "Live-Action-Komödie um die wohl bekannteste Puppe und Spielzeugmarke der Welt, in der die Heldin zusammen mit Ken in der realen Welt landet.",
+        "uploadDate": "2023-07-20"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "name": "jsonld2html-cards",
+    "version": "1.0.0-beta",
+    "license": "MIT",
+    "dependencies": {
+        "mustache": "^4.2.0"
+    },
+    "main": "jsonld2html-bundle.js",
+    "exports": {
+        ".": {
+            "import": "./jsonld2html-bundle.mjs",
+            "require": "./jsonld2html-bundle.js"
+        },
+        "./*": "./*"
+    },
+    "scripts": {
+        "build": "rollup -c rollup.config.mjs && rollup jsonld2html.js --file jsonld2html-bundle.mjs --format esm",
+        "test": "npm run test-lint && npm run test-unit",
+        "test-lint": "eslint jsonld2html.js",
+        "test-unit": "cd test/ && node render.js",
+        "prepublishOnly": "npm run build"
+    },
+    "devDependencies": {
+        "eslint": "^8.56.0",
+        "rollup": "^4.9.2"
+    }
+}

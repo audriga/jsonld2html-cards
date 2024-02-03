@@ -1,0 +1,306 @@
+* {
+    box-sizing: border-box;
+}
+
+.smlCard {
+    /* maximal absoulute card width */
+    max-width: 600px;
+
+    /* round corners*/
+    border-radius: 0.75rem;
+
+    /* padding in the card*/
+    padding: 0.5rem;
+
+    font-family: "Arial";
+
+    background: #f1f1f3;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+
+}
+
+.smlCard .header {
+
+    margin-bottom: 3px;
+    border-bottom-width: 1px;
+    border-bottom-color: #dddddd;
+    border-bottom-style: solid;
+
+}
+
+
+ul.breadcrumb {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+    display: inline;
+    font-size: 14px;
+
+
+
+
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+
+
+
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+/* Defines the horizontal row container in which the image and text column are placed =====*/
+.smlCardRow {
+
+
+    /*Layout Settings*/
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* positioning in a html document*/
+    position: relative;
+
+    /* maximal absoulute card width */
+    max-width: 600px;
+
+    /* maximal absolute card height */
+    max-height: 150px;
+
+}
+
+
+.smlCardRow .text_column {
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 90%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 100px;
+    max-height: 100px;
+
+    /* this property is needed to make the truncating working for the child elements*/
+    min-width: 0;
+
+
+
+}
+
+.smlCardRow .image_column {
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* align the items horizontally in the cointainer to center */
+    justify-content: center;
+
+    min-height: 100px;
+    min-width: 100px;
+    max-width: 100px;
+
+    /* in case of bigger elements in the box, cut off the sides*/
+    overflow: hidden;
+}
+
+
+
+
+
+.smlCardRow img{
+
+    display: block;
+    max-width: 100px;
+    max-height: 100px;
+    min-width: 100px;
+}
+
+
+.smlCardRow .card_content {
+
+    margin-top: 4px;
+    margin-bottom: 2px;
+    margin-left: 8%;
+    margin-right: 8%;
+
+    font-size: 0.86rem;
+
+    margin-bottom: 2px;
+
+
+    /* this is for truncating multiline texts*/
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+
+}
+
+.smlCardRow .card_title {
+
+    margin: 4px;
+    margin-left: 8%;
+
+
+    font-size: 1.1rem;
+    font-weight: bold;
+    min-height: 20%;
+
+    /* settings for truncating single line text */
+
+    max-width: 90%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+
+
+
+
+
+
+}
+
+.smlCardRow .card_footnote {
+    padding-left: 15%;
+    color: #6e6b80;
+    font-size: 0.8rem;
+}
+
+.smlCard .footer {
+
+
+
+    max-height: 50px;
+    margin-top: 3px;
+
+    border-top-width: 1px;
+    border-top-color: #dddddd;
+    border-top-style: solid;
+
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: wrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-end;
+
+    /* align the items vertically in the center */
+    align-items: flex-end;
+;
+
+}
+
+ .actionButton {
+    transition-duration: 0.4s;
+
+    background-color: #e8e3e3;
+    border: #cccccc;
+    border-width: 2px;
+    border-radius: 0.3rem;
+    color: black;
+    padding: 02px 8px;
+
+    margin-top: 3px;
+    margin-bottom: 0px;
+    margin-right: 5px;
+    margin-left: 5px;
+
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    float: right;
+
+}
+.actionButton:hover {
+    background-color: #4CAF50;
+    color: #01447e;
+    text-decoration: underline;
+}
+
+
+
+details {
+    user-select: none;
+}
+
+details>summary span.icon {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s;
+    margin-left: auto;
+}
+
+details[open] summary span.icon {
+    transform: rotate(180deg);
+}
+
+summary {
+    display: flex;
+    cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+.imageErrorMessage {
+    color: firebrick;
+}
+
+
+
+/* ======  component promo cards  ========*/
+

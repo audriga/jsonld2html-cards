@@ -1,0 +1,267 @@
+.promoCard {
+
+    /* round corners*/
+    border-radius: 0.75rem;
+
+    border-style: groove;
+    border-color: #d8d7e0;
+    border-width: 2px;
+
+    /* padding in the card*/
+    padding: 0.1rem;
+
+    font-family: "Arial";
+
+    background: #f1f1f3;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+
+    /*Layout Settings*/
+
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: center;
+
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* positioning in a html document*/
+    position: relative;
+
+    /* maximal absoulute card width
+
+    */
+    max-width: 100px;
+
+
+
+    margin-left: 1% ;
+    margin-right: 1%;
+
+    /* maximal absolute card height
+
+    */
+    max-height: 200px;
+}
+.promoCard .promoCard_image_row{
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+    border-radius: 0.75rem;
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* align the items horizontally in the cointainer to center */
+    justify-content: center;
+
+    min-height: 100px;
+    min-width: 100px;
+    max-width: 100px;
+
+
+
+
+
+    /* in case of bigger elements in the box, cut off the sides*/
+    overflow: hidden;
+}
+
+.promoCard_image_row img{
+
+    padding: 2px;
+    display: block;
+    max-width: 100px;
+    max-height: 100px;
+    min-width: 100px;
+    overflow: hidden;
+    font-size: 10px;
+    border-radius: 0.75rem;
+}
+
+.promoCard_text_row {
+
+    width: 100%;
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* positioning in a html document*/
+    position: relative;
+}
+
+.promoCard_headline{
+    margin: 0;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    margin-left: 10%;
+}
+.promoCard_price_footer{
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* positioning in a html document*/
+    position: relative;
+}
+
+.promoCard_price_footer .promoCard_text_row_price {
+    text-decoration:line-through;
+    margin-right: 10%;
+    margin-left: 10%;
+}
+.promoCard_price_footer .promoCard_text_row_discount {
+    margin-left: 10%;
+}
+
+p.price {
+    font-size: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+p.discountedPrice {
+    font-size: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.smlCardPromoRow {
+
+
+    /*Layout Settings*/
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* positioning in a html document*/
+    position: relative;
+
+    /* maximal absoulute card width */
+    max-width: 600px;
+
+    /* maximal absolute card height */
+    max-height: 150px;
+
+}
+
+/* Defines the alternative horizontal row container which is used for the promotion tabs/cards */
+.smlCardPromoRow .smlCardPromoTabsRow{
+    /*Layout Settings*/
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* positioning in a html document*/
+    position: relative;
+
+    /* maximal absoulute card width */
+    max-width: 600px;
+
+    /* maximal absolute card height */
+    max-height: 150px;
+}
+
+.smlCardPromoTextColumn{
+
+
+    max-width: 150px;
+    min-height: 150px;
+
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: space-around;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* positioning in a html document*/
+    position: relative;
+
+
+}
+
+.smlCardPromoTitle{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.smlCardPromoDescription{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.smlCardPromoCode{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.smlCardPromoRow .image_column {
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* align the items horizontally in the cointainer to center */
+    justify-content: center;
+
+    min-height: 100px;
+    min-width: 100px;
+    max-width: 100px;
+
+    /* in case of bigger elements in the box, cut off the sides*/
+    overflow: hidden;
+
+}

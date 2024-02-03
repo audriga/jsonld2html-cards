@@ -1,0 +1,119 @@
+/* Style the tab */
+.tab {
+
+    display: flex;
+
+    flex-direction: row;
+
+    justify-content: flex-end;
+
+    overflow: hidden;
+
+    background-color: #f1f1f1;
+
+
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+
+    font-size: 10px;
+    border-radius: 0.25rem;
+
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 14px;
+    transition: 0.3s;
+    margin: 0;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.smlCard .smlCardRow .smlCardFlightReservationTextColumn .tabcontent {
+    display: none;
+    padding: 3px 2px;
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: center;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 90%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 150px;
+    max-height: 150px;
+
+    max-width: inherit;
+
+
+}
+/*   A specific text column for flight reservations*/
+.smlCardRow .smlCardFlightReservationTextColumn {
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: center;
+
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 100%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 150px;
+    max-height: 150px;
+
+    /* this property is needed to make the truncating working for the child elements*/
+    min-width: 0;
+
+}
+
+.smlCardFlightReservationTextColumn .flightReservationFirstColumn{
+    max-width: 150px;
+    overflow-wrap: break-word;
+    padding: 10px;
+}
+
+.smlCardFlightReservationTextColumn .flightReservationMidColumn{
+    overflow-wrap: break-word;
+    padding: 10px;
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: center;
+
+    /* align the items vertically in the center */
+    align-items: center;
+}
+
+
+.smlCardFlightReservationTextColumn .flightReservationLastColumn{
+    max-width: 150px;
+    overflow-wrap: break-word;
+    padding: 10px;
+}

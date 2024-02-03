@@ -1,0 +1,50 @@
+
+<div class="smlCard">
+<div class = "header">
+    {{^breadcrumbList.itemListElement}} {{type}}   {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}}  {{/breadcrumbList.itemListElement}}
+    <ul class="breadcrumb">
+        {{#breadcrumbList.itemListElement}}<li><a href= {{item.id}} >{{item.name}}</a></li>{{/breadcrumbList.itemListElement}}
+    </ul>
+
+
+</div>
+
+<div class="smlCardPromoRow">
+    <div class="image_column">
+
+        <img src="{{logo}}">
+
+
+    </div>
+
+    <div class="smlCardPromoTextColumn">
+
+        <h4 class="smlCardPromoTitle">{{subjectLine}}</h4>
+        <p class="smlCardPromoDescription">{{description}}</p>
+        <p class="smlCardPromoCode">Code {{discountCode}}</p>
+
+    </div>
+
+    <div class="smlCardPromoTabsRow">
+
+        {{#promotionCards}}
+        {{{.}}}
+        {{/promotionCards}}
+
+    </div>
+
+
+
+
+</div>
+    <div class="footer">
+        {{#potentialAction}}<button type="button" class="actionButton" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
+
+    </div>
+
+
+</div>
+
+<br>
+<div class ="imageErrorMessage" id = "{{errorId}}"></div>
+<br>
