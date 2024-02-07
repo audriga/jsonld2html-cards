@@ -53,7 +53,7 @@ Use jsonld2html anywhere you would like to visualize Schema.org data, e.g. conta
 You can get jsonld2html via [npm](http://npmjs.com).
 
 ```bash
-$ npm install audriga/jsonld2html-cards --save
+$ npm install jsonld2html-cards --save
 ```
 
 jsonld2html supports both web browsers and server-side environments:
