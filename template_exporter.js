@@ -16,7 +16,6 @@ if (typeof oof !== 'undefined') {
 }
 
 // Mapping schema type to dedicated template file
-// TODO fill with sensible key-values
 const dedicatedTemplateFiles = new Map();
 if (typeof oof !== 'undefined') {
     dedicatedTemplateFiles.set("OutOfOffice","oof");
@@ -28,7 +27,7 @@ export default function getTemplate(type) {
     // loading the HTML mustache template
     // Use dedicated template for certain types only
     if(dedicatedTemplateFiles.has(type)) {
-        template_name = dedicatedTemplateFiles.get(type);
+        let template_name = dedicatedTemplateFiles.get(type);
         return available_templates.get(template_name);
     }
     return available_templates.get("default_card");

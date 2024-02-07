@@ -23,8 +23,9 @@ const template = `
         <h1 class="card_title"> {{title}}
 
         </h1>
-        <p class="card_content">{{content}}
-        </p>
+        {{#content}}
+        <p class="card_content">{{.}}
+        </p>{{/content}}
 
         <div class="card_footnote">{{footer}}
         </div>
@@ -42,9 +43,5 @@ const template = `
 
 </div>
 
-<br>
-<div class ="imageErrorMessage" id = "{{errorId}}"></div>
-<br>
-`
-
+`;
 export default template;

@@ -7,7 +7,7 @@ import getTemplate from './template_exporter.js';
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
  */
-function Card(_type, _pictureURL, _iconName="image",_title, _content, _footer, _breadcrumbList){
+function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList){
     this.type = _type;
     this.pictureURL = _pictureURL;
     this.iconName = _iconName;
@@ -15,6 +15,7 @@ function Card(_type, _pictureURL, _iconName="image",_title, _content, _footer, _
     this.content = _content;
     this.footer = _footer;
     this.breadcrumbList = _breadcrumbList;
+    
 }
 
 var jsonld2html = {
@@ -29,6 +30,7 @@ typeToIconMap.set("Article","comment");
 typeToIconMap.set("MusicAlbum","compact-disc");
 typeToIconMap.set("MusicRecording","music");
 typeToIconMap.set("BusReservation","bus");
+typeToIconMap.set("Place","location-dot");
 
 /**
  * @param {object} entireObj - Object to search
@@ -78,38 +80,46 @@ function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
 }
 
 function renderFromTemplate(jsonLd, template) {
+
     let temp_card_obj = new Card();
     temp_card_obj.type = findValueFromKey(jsonLd,"@type");
 
     if(typeToIconMap.has(temp_card_obj.type)) {
         temp_card_obj.iconName = typeToIconMap.get(temp_card_obj.type);
     }
-
+    
+    // image 
     let logo_object = findNestedObj(jsonLd, "logo");
     if(logo_object != null) {
         temp_card_obj.pictureURL = logo_object.logo;
     }
-
     let image_object = findNestedObj(jsonLd,"image");
     if(image_object != null) {
         temp_card_obj.pictureURL = image_object.image;
     }
-
+    
+    // title
     let title_object = findNestedObj(jsonLd,"name");
     if(title_object != null){
         temp_card_obj.title = title_object.name;
     }
-
-    let description_object = findNestedObj(jsonLd, "description");
-    if(description_object != null){
-        temp_card_obj.content = description_object.description;
+    // main-content
+    let content_object = findNestedObj(jsonLd, "description");
+    if(content_object != null){
+        temp_card_obj.content = [content_object.description];
+    }
+    else if(findNestedObj(jsonLd, "articleBody") != null){
+        content_object = findNestedObj(jsonLd, "articleBody");
+        temp_card_obj.content = [content_object.articleBody];
+    }
+    else if(findNestedObj(jsonLd, "latitude") != null){
+        content_object = findNestedObj(jsonLd, "latitude");
+        temp_card_obj.content.push(String(content_object.longitude));
+        temp_card_obj.content.push(String(content_object.latitude));
     }
 
-    let article_body_object = findNestedObj(jsonLd, "articleBody");
-    if(description_object != null && article_body_object != null) {
-        temp_card_obj.content = article_body_object.articleBody;
-    }
 
+    // header
     // items can be nested or not! the template uses the nested items
     // finds objects inside a specific key/value object
     let breadcrumbList_object = findNestedObjWithValue(jsonLd,"@type","BreadcrumbList");
@@ -117,12 +127,14 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.breadcrumbList = breadcrumbList_object;
 
     }
-
+    // footer
     let action_object = findNestedObj(jsonLd,"potentialAction");
     if(action_object!= null){
         temp_card_obj.potentialAction = action_object.potentialAction;
     }
 
+
+    
     // render the template with data
     return mustache.render(template, temp_card_obj);
 }
