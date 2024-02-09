@@ -12,7 +12,14 @@ The following section provides more details about the customizable CSS elements.
 
 The layout is designed to be horizontally responsive and is built with rows and columns. No particular style is applied to the paragraphs so far.
 
+#### Icons
+
+Icons are used as fallback for images and as visual indication to recognize the schema-type.
+
+To display them, one needs to include [Fontawesome](https://fontawesome.com/).
+
 #### smlCard
+
 ![](screenshots/smlCard.png)
 
 ### Row structure of the card

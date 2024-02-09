@@ -61,6 +61,12 @@ jsonld2html supports both web browsers and server-side environments:
 * Most use cases will want to include it via `<script src="node_modules/jsonld2html-cards/jsonld2html-bundle.js"></script>` or Node.js's `require`.
 * If you require an ECMAScript module, a separate file is provided via `<script type="module" src="node_modules/jsonld2html-cards/jsonld2html-bundle.mjs">`. It is automatically used for `import` statements.
 
+
+### Dependencies
+[Fontawesome](https://fontawesome.com/) is required for displaying the icons.
+
+* There are multiple ways to include Fontawesome, the easiest, might be via a cdn.
+
 ## Usage
 Below is a quick example how to use LD2H:
 
