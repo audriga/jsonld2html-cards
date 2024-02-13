@@ -1,4 +1,4 @@
-const template = `<p class="card_content">
+const sub_template = `<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.address.streetAddress}}</span>
     <span>{{reservationFor.address.addressLocality}}</span>
@@ -11,4 +11,4 @@ const template = `<p class="card_content">
     <span>{{underName.name}}</span>
     <span>{{startTime}}</span>
 </p>`;
-export default template;
+export default sub_template;

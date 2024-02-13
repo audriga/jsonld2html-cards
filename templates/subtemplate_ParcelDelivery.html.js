@@ -1,4 +1,4 @@
-const template = `<p class="card_content">
+const sub_template = `<p class="card_content">
     <span>{{partOfOrder.@type}}</span>
     <span>{{partOfOrder.orderNumber}}</span>
     <span>{{itemShipped.description}}</span>
@@ -13,9 +13,8 @@ const template = `<p class="card_content">
     <span>{{deliveryAddress.addressCountry}}</span>
 </p>
 <p class="card_content">
-    <span>{{trackingNumber}}</span>
     <span>{{expectedArrivalFrom}} - </span>
     <span>{{expectedArrivalUntil}}</span>
 </p>`;
 
-export default template;
+export default sub_template;

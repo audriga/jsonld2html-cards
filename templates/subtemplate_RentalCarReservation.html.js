@@ -1,5 +1,4 @@
-const template = `<p class="card_content">
-    <span>{{@type}}</span>
+const sub_template = `<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.brand.name}}</span>
     <span>{{reservationFor.model}}</span>
@@ -14,14 +13,5 @@ const template = `<p class="card_content">
     <span>{{pickupLocation.address.addressRegion}}</span>
     <span>{{pickupLocation.address.postalCode}}</span>
     <span>{{pickupLocation.address.addressCountry}}</span>
-</p>
-<!-- <p class="card_content">
-    <span>{{dropoffTime}}</span>
-    <span>{{dropoffLocation.name}}</span>
-    <span>{{dropoffLocation.address.streetAddress}}</span>
-    <span>{{dropoffLocation.address.addressLocality}}</span>
-    <span>{{dropoffLocation.address.addressRegion}}</span>
-    <span>{{dropoffLocation.address.postalCode}}</span>
-    <span>{{dropoffLocation.address.addressCountry}}</span>
-</p> -->`;
-export default template;
+</p>`;
+export default sub_template;

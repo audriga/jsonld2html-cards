@@ -4,7 +4,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Jsonld2html = factory(global.Mustache));
 })(this, (function (mustache) { 'use strict';
 
-    const template$4 = `
+    const template$1 = `
 <div class="smlCard">
 <div class = "header">
     {{^breadcrumbList.itemListElement}} {{type}}   {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}}  {{/breadcrumbList.itemListElement}}
@@ -58,7 +58,7 @@
 
 `;
 
-    const template$3 = `
+    const template = `
 <table cellpadding="32">
     <tbody>
     <tr>
@@ -80,9 +80,9 @@
 
     // Filling map to avoid using global variables (aka window) or eval()
     const available_templates = new Map;
-    available_templates.set("default_card", template$4);
+    available_templates.set("default_card", template$1);
     {
-        available_templates.set("oof", template$3);
+        available_templates.set("oof", template);
     }
 
     // Mapping schema type to dedicated template file
@@ -103,8 +103,7 @@
         return available_templates.get("default_card");
     }
 
-    const template$2 = `<p class="card_content">
-    <span>{{@type}}</span>
+    const sub_template$2 = `<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.brand.name}}</span>
     <span>{{reservationFor.model}}</span>
@@ -119,18 +118,9 @@
     <span>{{pickupLocation.address.addressRegion}}</span>
     <span>{{pickupLocation.address.postalCode}}</span>
     <span>{{pickupLocation.address.addressCountry}}</span>
-</p>
-<!-- <p class="card_content">
-    <span>{{dropoffTime}}</span>
-    <span>{{dropoffLocation.name}}</span>
-    <span>{{dropoffLocation.address.streetAddress}}</span>
-    <span>{{dropoffLocation.address.addressLocality}}</span>
-    <span>{{dropoffLocation.address.addressRegion}}</span>
-    <span>{{dropoffLocation.address.postalCode}}</span>
-    <span>{{dropoffLocation.address.addressCountry}}</span>
-</p> -->`;
+</p>`;
 
-    const template$1 = `<p class="card_content">
+    const sub_template$1 = `<p class="card_content">
     <span>{{partOfOrder.@type}}</span>
     <span>{{partOfOrder.orderNumber}}</span>
     <span>{{itemShipped.description}}</span>
@@ -145,12 +135,11 @@
     <span>{{deliveryAddress.addressCountry}}</span>
 </p>
 <p class="card_content">
-    <span>{{trackingNumber}}</span>
     <span>{{expectedArrivalFrom}} - </span>
     <span>{{expectedArrivalUntil}}</span>
 </p>`;
 
-    const template = `<p class="card_content">
+    const sub_template = `<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.address.streetAddress}}</span>
     <span>{{reservationFor.address.addressLocality}}</span>
@@ -245,7 +234,7 @@
         return foundObj;
     }
 
-    function renderFromTemplate(jsonLd, template$3) {
+    function renderFromTemplate(jsonLd, template) {
 
         let temp_card_obj = new Card();
         temp_card_obj.type = findValueFromKey(jsonLd,"@type");
@@ -287,7 +276,7 @@
 
         if(temp_card_obj.type === "FoodEstablishmentReservation")
         {
-            let ded_template = template;
+            let ded_template = sub_template;
             let output = mustache.render(ded_template, jsonLd);
             temp_card_obj.dedicated_content = output;
 
@@ -295,7 +284,7 @@
 
         if(temp_card_obj.type === "RentalCarReservation")
         {   
-            let ded_template = template$2;
+            let ded_template = sub_template$2;
             let output = mustache.render(ded_template, jsonLd);
             temp_card_obj.dedicated_content = output;
         }
@@ -303,7 +292,7 @@
 
         if(temp_card_obj.type === "ParcelDelivery")
         {
-            let ded_template = template$1;
+            let ded_template = sub_template$1;
             let output = mustache.render(ded_template,jsonLd);
             temp_card_obj.dedicated_content = output;
             
@@ -326,7 +315,7 @@
 
         
         // render the template with data
-        return mustache.render(template$3, temp_card_obj);
+        return mustache.render(template, temp_card_obj);
     }
 
     jsonld2html.render = function render(jsonLd) {
