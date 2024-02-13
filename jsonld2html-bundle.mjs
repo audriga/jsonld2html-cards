@@ -1,6 +1,6 @@
 import mustache from 'mustache';
 
-const template$1 = `
+const template$4 = `
 <div class="smlCard">
 <div class = "header">
     {{^breadcrumbList.itemListElement}} {{type}}   {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}}  {{/breadcrumbList.itemListElement}}
@@ -25,9 +25,16 @@ const template$1 = `
         <h1 class="card_title"> {{title}}
 
         </h1>
-        {{#content}}
-        <p class="card_content">{{.}}
-        </p>{{/content}}
+
+        {{^dedicated_content}}
+            {{#content}}
+            <p class="card_content">{{.}}
+            </p>{{/content}}
+        {{/dedicated_content}}
+
+        {{#dedicated_content}}
+           {{{dedicated_content}}}
+        {{/dedicated_content}}
 
         <div class="card_footnote">{{footer}}
         </div>
@@ -47,7 +54,7 @@ const template$1 = `
 
 `;
 
-const template = `
+const template$3 = `
 <table cellpadding="32">
     <tbody>
     <tr>
@@ -69,9 +76,9 @@ const template = `
 
 // Filling map to avoid using global variables (aka window) or eval()
 const available_templates = new Map;
-available_templates.set("default_card", template$1);
+available_templates.set("default_card", template$4);
 {
-    available_templates.set("oof", template);
+    available_templates.set("oof", template$3);
 }
 
 // Mapping schema type to dedicated template file
@@ -92,19 +99,82 @@ function getTemplate(type) {
     return available_templates.get("default_card");
 }
 
+const template$2 = `<p class="card_content">
+    <span>{{@type}}</span>
+    <span>{{reservationFor.name}}</span>
+    <span>{{reservationFor.brand.name}}</span>
+    <span>{{reservationFor.model}}</span>
+    <span>{{reservationNumber}}</span>
+    <span>{{underName.name}}</span>
+</p>
+<p class="card_content">
+    <span>{{pickupTime}}</span>
+    <span>{{pickupLocation.name}}</span>
+    <span>{{pickupLocation.address.streetAddress}}</span>
+    <span>{{pickupLocation.address.addressLocality}}</span>
+    <span>{{pickupLocation.address.addressRegion}}</span>
+    <span>{{pickupLocation.address.postalCode}}</span>
+    <span>{{pickupLocation.address.addressCountry}}</span>
+</p>
+<!-- <p class="card_content">
+    <span>{{dropoffTime}}</span>
+    <span>{{dropoffLocation.name}}</span>
+    <span>{{dropoffLocation.address.streetAddress}}</span>
+    <span>{{dropoffLocation.address.addressLocality}}</span>
+    <span>{{dropoffLocation.address.addressRegion}}</span>
+    <span>{{dropoffLocation.address.postalCode}}</span>
+    <span>{{dropoffLocation.address.addressCountry}}</span>
+</p> -->`;
+
+const template$1 = `<p class="card_content">
+    <span>{{partOfOrder.@type}}</span>
+    <span>{{partOfOrder.orderNumber}}</span>
+    <span>{{itemShipped.description}}</span>
+</p>
+<p class="card_content">
+    <span>{{pickupTime}}</span>
+    <span>{{deliveryAddress.name}}</span>
+    <span>{{deliveryAddress.streetAddress}}</span>
+    <span>{{deliveryAddress.addressLocality}}</span>
+    <span>{{deliveryAddress.addressRegion}}</span>
+    <span>{{deliveryAddress.postalCode}}</span>
+    <span>{{deliveryAddress.addressCountry}}</span>
+</p>
+<p class="card_content">
+    <span>{{trackingNumber}}</span>
+    <span>{{expectedArrivalFrom}} - </span>
+    <span>{{expectedArrivalUntil}}</span>
+</p>`;
+
+const template = `<p class="card_content">
+    <span>{{reservationFor.name}}</span>
+    <span>{{reservationFor.address.streetAddress}}</span>
+    <span>{{reservationFor.address.addressLocality}}</span>
+    <span>{{reservationFor.address.addressRegion}}</span>
+    <span>{{reservationFor.address.postalCode}}</span>
+    <span>{{reservationFor.address.addressCountry}}</span>
+</p>
+<p class="card_content">
+    <span>{{reservationNumber}}</span>
+    <span>{{underName.name}}</span>
+    <span>{{startTime}}</span>
+</p>`;
+
 /*!
  * Renders JSON-LD as HTML
  */
 
+
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
  */
-function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList){
+function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList, _dedicated_content){
     this.type = _type;
     this.pictureURL = _pictureURL;
     this.iconName = _iconName;
     this.title = _title;
     this.content = _content;
+    this.dedicated_content = _dedicated_content;
     this.footer = _footer;
     this.breadcrumbList = _breadcrumbList;
     
@@ -171,7 +241,7 @@ function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
     return foundObj;
 }
 
-function renderFromTemplate(jsonLd, template) {
+function renderFromTemplate(jsonLd, template$3) {
 
     let temp_card_obj = new Card();
     temp_card_obj.type = findValueFromKey(jsonLd,"@type");
@@ -211,6 +281,30 @@ function renderFromTemplate(jsonLd, template) {
     }
 
 
+    if(temp_card_obj.type === "FoodEstablishmentReservation")
+    {
+        let ded_template = template;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_content = output;
+
+    }
+
+    if(temp_card_obj.type === "RentalCarReservation")
+    {   
+        let ded_template = template$2;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_content = output;
+    }
+
+
+    if(temp_card_obj.type === "ParcelDelivery")
+    {
+        let ded_template = template$1;
+        let output = mustache.render(ded_template,jsonLd);
+        temp_card_obj.dedicated_content = output;
+        
+    }
+
     // header
     // items can be nested or not! the template uses the nested items
     // finds objects inside a specific key/value object
@@ -228,7 +322,7 @@ function renderFromTemplate(jsonLd, template) {
 
     
     // render the template with data
-    return mustache.render(template, temp_card_obj);
+    return mustache.render(template$3, temp_card_obj);
 }
 
 jsonld2html.render = function render(jsonLd) {

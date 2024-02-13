@@ -23,9 +23,16 @@ const template = `
         <h1 class="card_title"> {{title}}
 
         </h1>
-        {{#content}}
-        <p class="card_content">{{.}}
-        </p>{{/content}}
+
+        {{^dedicated_content}}
+            {{#content}}
+            <p class="card_content">{{.}}
+            </p>{{/content}}
+        {{/dedicated_content}}
+
+        {{#dedicated_content}}
+           {{{dedicated_content}}}
+        {{/dedicated_content}}
 
         <div class="card_footnote">{{footer}}
         </div>

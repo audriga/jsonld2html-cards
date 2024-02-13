@@ -3,16 +3,21 @@
  */
 import mustache from 'mustache';
 import getTemplate from './template_exporter.js';
+import carRental from './templates/subtemplate_RentalCarReservation.html.js';
+import delivery from './templates/subtemplate_ParcelDelivery.html.js';
+import foodReservation from './templates/subtemplate_FoodEstablishmentReservation.html.js';
+
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
  */
-function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList){
+function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList, _dedicated_content){
     this.type = _type;
     this.pictureURL = _pictureURL;
     this.iconName = _iconName;
     this.title = _title;
     this.content = _content;
+    this.dedicated_content = _dedicated_content;
     this.footer = _footer;
     this.breadcrumbList = _breadcrumbList;
     
@@ -118,6 +123,30 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.content.push(String(content_object.latitude));
     }
 
+
+    if(temp_card_obj.type === "FoodEstablishmentReservation")
+    {
+        let ded_template = foodReservation;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_content = output;
+
+    }
+
+    if(temp_card_obj.type === "RentalCarReservation")
+    {   
+        let ded_template = carRental;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_content = output;
+    }
+
+
+    if(temp_card_obj.type === "ParcelDelivery")
+    {
+        let ded_template = delivery;
+        let output = mustache.render(ded_template,jsonLd);
+        temp_card_obj.dedicated_content = output;
+        
+    }
 
     // header
     // items can be nested or not! the template uses the nested items
