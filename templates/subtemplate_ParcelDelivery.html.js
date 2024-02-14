@@ -1,4 +1,4 @@
-const sub_template = `<p class="card_content">
+export const delivery = `<p class="card_content">
     <span>{{partOfOrder.@type}}</span>
     <span>{{partOfOrder.orderNumber}}</span>
     <span>{{itemShipped.description}}</span>
@@ -17,4 +17,3 @@ const sub_template = `<p class="card_content">
     <span>{{expectedArrivalUntil}}</span>
 </p>`;
 
-export default sub_template;

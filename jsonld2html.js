@@ -3,16 +3,16 @@
  */
 import mustache from 'mustache';
 import getTemplate from './template_exporter.js';
-import carRental from './templates/subtemplate_RentalCarReservation.html.js';
-import delivery from './templates/subtemplate_ParcelDelivery.html.js';
-import foodReservation from './templates/subtemplate_FoodEstablishmentReservation.html.js';
-
+import {car} from './templates/subtemplate_RentalCarReservation.html.js';
+import {delivery} from './templates/subtemplate_ParcelDelivery.html.js';
+import {food} from './templates/subtemplate_FoodEstablishmentReservation.html.js';
+import {iconMap} from './templates/iconMapExporter.js';
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
  */
 function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList, _dedicated_content){
-    this.type = _type;
+    //this.type = _type;
     this.pictureURL = _pictureURL;
     this.iconName = _iconName;
     this.title = _title;
@@ -29,13 +29,7 @@ var jsonld2html = {
 }
 
 // Mapping the fallback icon to schema type
-const typeToIconMap = new Map();
-typeToIconMap.set("NewsArticle","newspaper");
-typeToIconMap.set("Article","comment");
-typeToIconMap.set("MusicAlbum","compact-disc");
-typeToIconMap.set("MusicRecording","music");
-typeToIconMap.set("BusReservation","bus");
-typeToIconMap.set("Place","location-dot");
+const typeToIconMap = iconMap;
 
 /**
  * @param {object} entireObj - Object to search
@@ -126,7 +120,7 @@ function renderFromTemplate(jsonLd, template) {
 
     if(temp_card_obj.type === "FoodEstablishmentReservation")
     {
-        let ded_template = foodReservation;
+        let ded_template = food;
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_content = output;
 
@@ -134,7 +128,7 @@ function renderFromTemplate(jsonLd, template) {
 
     if(temp_card_obj.type === "RentalCarReservation")
     {   
-        let ded_template = carRental;
+        let ded_template = car;
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_content = output;
     }

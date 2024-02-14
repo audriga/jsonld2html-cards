@@ -103,7 +103,7 @@
         return available_templates.get("default_card");
     }
 
-    const sub_template$2 = `<p class="card_content">
+    const car = `<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.brand.name}}</span>
     <span>{{reservationFor.model}}</span>
@@ -120,7 +120,7 @@
     <span>{{pickupLocation.address.addressCountry}}</span>
 </p>`;
 
-    const sub_template$1 = `<p class="card_content">
+    const delivery = `<p class="card_content">
     <span>{{partOfOrder.@type}}</span>
     <span>{{partOfOrder.orderNumber}}</span>
     <span>{{itemShipped.description}}</span>
@@ -139,7 +139,7 @@
     <span>{{expectedArrivalUntil}}</span>
 </p>`;
 
-    const sub_template = `<p class="card_content">
+    const food = `<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.address.streetAddress}}</span>
     <span>{{reservationFor.address.addressLocality}}</span>
@@ -153,16 +153,40 @@
     <span>{{startTime}}</span>
 </p>`;
 
+    let csv = `NewsArticle,newspaper
+Article,comment
+MusicAlbum,compact-disc
+MusicRecording,music
+BusReservation,bus
+Place,location-dot`;
+
+
+    let typeToIconMap$1 = new Map();
+
+    var lines = csv.split('\n');
+
+
+    lines.forEach(line => {
+        typeToIconMap$1.set(line.split(",")[0],line.split(",")[1]);
+
+    });
+            
+
+
+
+
+
+    const iconMap = typeToIconMap$1;
+
     /*!
      * Renders JSON-LD as HTML
      */
-
 
     /**
      * Data Object used as transfer between data_object from jsonld file and the mustache template
      */
     function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList, _dedicated_content){
-        this.type = _type;
+        //this.type = _type;
         this.pictureURL = _pictureURL;
         this.iconName = _iconName;
         this.title = _title;
@@ -179,13 +203,7 @@
     };
 
     // Mapping the fallback icon to schema type
-    const typeToIconMap = new Map();
-    typeToIconMap.set("NewsArticle","newspaper");
-    typeToIconMap.set("Article","comment");
-    typeToIconMap.set("MusicAlbum","compact-disc");
-    typeToIconMap.set("MusicRecording","music");
-    typeToIconMap.set("BusReservation","bus");
-    typeToIconMap.set("Place","location-dot");
+    const typeToIconMap = iconMap;
 
     /**
      * @param {object} entireObj - Object to search
@@ -276,7 +294,7 @@
 
         if(temp_card_obj.type === "FoodEstablishmentReservation")
         {
-            let ded_template = sub_template;
+            let ded_template = food;
             let output = mustache.render(ded_template, jsonLd);
             temp_card_obj.dedicated_content = output;
 
@@ -284,7 +302,7 @@
 
         if(temp_card_obj.type === "RentalCarReservation")
         {   
-            let ded_template = sub_template$2;
+            let ded_template = car;
             let output = mustache.render(ded_template, jsonLd);
             temp_card_obj.dedicated_content = output;
         }
@@ -292,7 +310,7 @@
 
         if(temp_card_obj.type === "ParcelDelivery")
         {
-            let ded_template = sub_template$1;
+            let ded_template = delivery;
             let output = mustache.render(ded_template,jsonLd);
             temp_card_obj.dedicated_content = output;
             

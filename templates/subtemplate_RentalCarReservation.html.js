@@ -1,4 +1,4 @@
-const sub_template = `<p class="card_content">
+export const car = `<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.brand.name}}</span>
     <span>{{reservationFor.model}}</span>
@@ -14,4 +14,3 @@ const sub_template = `<p class="card_content">
     <span>{{pickupLocation.address.postalCode}}</span>
     <span>{{pickupLocation.address.addressCountry}}</span>
 </p>`;
-export default sub_template;
