@@ -157,28 +157,25 @@ const food = `
     <span>{{startTime}}</span>
 </p>`;
 
-let csv = `NewsArticle,newspaper
-Article,comment
-MusicAlbum,compact-disc
-MusicRecording,music
-BusReservation,bus
-Place,location-dot`;
+// This is a map to connect FontAwesome Icons with schema.org types
+// They are used as image fallback and as little visual indicator for the corresponding schema type
 
+let json = `{
+    "NewsArticle": "newspaper",
+    "Article": "comment",
+    "MusicAlbum": "compact-disc",
+    "MusicRecording": "music",
+    "BusReservation": "bus",
+    "Place": "location-dot"
+  }`;
 
 let typeToIconMap$1 = new Map();
 
-var lines = csv.split('\n');
+let obj = JSON.parse(json);
 
-
-lines.forEach(line => {
-    typeToIconMap$1.set(line.split(",")[0],line.split(",")[1]);
-
+Object.entries(obj).forEach(element => {
+    typeToIconMap$1.set(element[0],element[1]);
 });
-        
-
-
-
-
 
 const iconMap = typeToIconMap$1;
 

@@ -6,7 +6,7 @@ import getTemplate from './template_exporter.js';
 import {car} from './templates/subtemplate_RentalCarReservation.html.js';
 import {delivery} from './templates/subtemplate_ParcelDelivery.html.js';
 import {food} from './templates/subtemplate_FoodEstablishmentReservation.html.js';
-import {iconMap} from './templates/iconMapExporter.js';
+import {iconMap} from './templates/FontAwesomeIconMap.js';
 import {news} from './templates/subtemplate_NewsArticle.html.js';
 import {place} from './templates/subtemplate_Place.html.js';
 import {fallback} from './templates/subtemplate_Fallback.html.js';
