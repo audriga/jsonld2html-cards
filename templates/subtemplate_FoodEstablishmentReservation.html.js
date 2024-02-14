@@ -1,4 +1,6 @@
-export const food = `<p class="card_content">
+export const food = `
+<h1 class=card_title>{{reservationFor.name}}</h1>
+<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.address.streetAddress}}</span>
     <span>{{reservationFor.address.addressLocality}}</span>

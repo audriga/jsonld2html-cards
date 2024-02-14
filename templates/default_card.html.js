@@ -18,25 +18,25 @@ const template = `
 
     </div>
 
+
     <div class ="text_column">
 
-        <h1 class="card_title"> {{title}}
+        {{^dedicated_text_column}}
+            
+            <h1 class="card_title"> {{title}}</h1>
 
-        </h1>
-
-        {{^dedicated_content}}
             {{#content}}
-            <p class="card_content">{{.}}
-            </p>{{/content}}
-        {{/dedicated_content}}
+                <p class="card_content">{{.}}</p>
+            {{/content}}
+    
+            <div class="card_footnote">{{footer}}
+            </div>
 
-        {{#dedicated_content}}
-           {{{dedicated_content}}}
-        {{/dedicated_content}}
+        {{/dedicated_text_column}}
 
-        <div class="card_footnote">{{footer}}
-        </div>
-
+        {{#dedicated_text_column}}
+            {{{dedicated_text_column}}}
+        {{/dedicated_text_column}}
 
     </div>
 

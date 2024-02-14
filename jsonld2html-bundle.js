@@ -24,25 +24,25 @@
 
     </div>
 
+
     <div class ="text_column">
 
-        <h1 class="card_title"> {{title}}
+        {{^dedicated_text_column}}
+            
+            <h1 class="card_title"> {{title}}</h1>
 
-        </h1>
-
-        {{^dedicated_content}}
             {{#content}}
-            <p class="card_content">{{.}}
-            </p>{{/content}}
-        {{/dedicated_content}}
+                <p class="card_content">{{.}}</p>
+            {{/content}}
+    
+            <div class="card_footnote">{{footer}}
+            </div>
 
-        {{#dedicated_content}}
-           {{{dedicated_content}}}
-        {{/dedicated_content}}
+        {{/dedicated_text_column}}
 
-        <div class="card_footnote">{{footer}}
-        </div>
-
+        {{#dedicated_text_column}}
+            {{{dedicated_text_column}}}
+        {{/dedicated_text_column}}
 
     </div>
 
@@ -103,7 +103,10 @@
         return available_templates.get("default_card");
     }
 
-    const car = `<p class="card_content">
+    const car = `
+
+<h1 class=card_title>{{reservationFor.rentalCompany.name}}</h1>
+<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.brand.name}}</span>
     <span>{{reservationFor.model}}</span>
@@ -120,7 +123,10 @@
     <span>{{pickupLocation.address.addressCountry}}</span>
 </p>`;
 
-    const delivery = `<p class="card_content">
+    const delivery = `
+<h1 class=card_title>{{partOfOrder.merchant.name}}
+</h1>
+<p class="card_content">
     <span>{{partOfOrder.@type}}</span>
     <span>{{partOfOrder.orderNumber}}</span>
     <span>{{itemShipped.description}}</span>
@@ -139,7 +145,9 @@
     <span>{{expectedArrivalUntil}}</span>
 </p>`;
 
-    const food = `<p class="card_content">
+    const food = `
+<h1 class=card_title>{{reservationFor.name}}</h1>
+<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.address.streetAddress}}</span>
     <span>{{reservationFor.address.addressLocality}}</span>
@@ -178,6 +186,49 @@ Place,location-dot`;
 
     const iconMap = typeToIconMap$1;
 
+    const news = `
+<h1 class="card_title"> {{headline}}</h1>
+
+{{#articleBody}}
+    <p class="card_content">
+        {{articleBody}}
+    </p>
+{{/articleBody}}
+
+    
+{{^articleBody}}
+
+    <p class="card_content">
+        {{description}}
+    </p>
+
+{{/articleBody}}
+`;
+
+    const place = `
+<h1 class=card_title>{{name}}
+</h1>
+
+<p class="card_content">
+    {{address}}
+</p>
+<p class="card_content">
+    <span>{{geo.latitude}}</span>
+    <span>{{geo.longitude}}</span>
+</p>
+`;
+
+    const fallback = `
+
+<h1 class="card_title"> {{name}}</h1>
+
+<p class="card_content">
+
+    {{{description}}}
+
+</p>
+`;
+
     /*!
      * Renders JSON-LD as HTML
      */
@@ -185,13 +236,13 @@ Place,location-dot`;
     /**
      * Data Object used as transfer between data_object from jsonld file and the mustache template
      */
-    function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList, _dedicated_content){
+    function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList, _dedicated_text_column){
         //this.type = _type;
         this.pictureURL = _pictureURL;
         this.iconName = _iconName;
         this.title = _title;
         this.content = _content;
-        this.dedicated_content = _dedicated_content;
+        this.dedicated_text_column = _dedicated_text_column;
         this.footer = _footer;
         this.breadcrumbList = _breadcrumbList;
         
@@ -255,7 +306,9 @@ Place,location-dot`;
     function renderFromTemplate(jsonLd, template) {
 
         let temp_card_obj = new Card();
-        temp_card_obj.type = findValueFromKey(jsonLd,"@type");
+
+        temp_card_obj.type = jsonLd["@type"];
+        // temp_card_obj.type = findValueFromKey(jsonLd,"@type");
 
         if(typeToIconMap.has(temp_card_obj.type)) {
             temp_card_obj.iconName = typeToIconMap.get(temp_card_obj.type);
@@ -271,32 +324,18 @@ Place,location-dot`;
             temp_card_obj.pictureURL = image_object.image;
         }
         
-        // title
-        let title_object = findNestedObj(jsonLd,"name");
-        if(title_object != null){
-            temp_card_obj.title = title_object.name;
+        if(temp_card_obj.type === "NewsArticle" || temp_card_obj === "Article")
+        {
+            let ded_template = news;
+            let output = mustache.render(ded_template, jsonLd);
+            temp_card_obj.dedicated_text_column = output;
         }
-        // main-content
-        let content_object = findNestedObj(jsonLd, "description");
-        if(content_object != null){
-            temp_card_obj.content = [content_object.description];
-        }
-        else if(findNestedObj(jsonLd, "articleBody") != null){
-            content_object = findNestedObj(jsonLd, "articleBody");
-            temp_card_obj.content = [content_object.articleBody];
-        }
-        else if(findNestedObj(jsonLd, "latitude") != null){
-            content_object = findNestedObj(jsonLd, "latitude");
-            temp_card_obj.content.push(String(content_object.longitude));
-            temp_card_obj.content.push(String(content_object.latitude));
-        }
-
 
         if(temp_card_obj.type === "FoodEstablishmentReservation")
         {
             let ded_template = food;
             let output = mustache.render(ded_template, jsonLd);
-            temp_card_obj.dedicated_content = output;
+            temp_card_obj.dedicated_text_column = output;
 
         }
 
@@ -304,18 +343,31 @@ Place,location-dot`;
         {   
             let ded_template = car;
             let output = mustache.render(ded_template, jsonLd);
-            temp_card_obj.dedicated_content = output;
+            temp_card_obj.dedicated_text_column = output;
         }
-
 
         if(temp_card_obj.type === "ParcelDelivery")
         {
             let ded_template = delivery;
             let output = mustache.render(ded_template,jsonLd);
-            temp_card_obj.dedicated_content = output;
-            
+            temp_card_obj.dedicated_text_column = output;
         }
 
+        if(temp_card_obj.type == "Place")
+        {
+            let ded_template = place;
+            let output = mustache.render(ded_template, jsonLd);
+            temp_card_obj.dedicated_text_column = output;
+        }
+
+        if(temp_card_obj.type == "undefined" || temp_card_obj.dedicated_text_column == null)
+        {
+            let ded_template = fallback;
+            let output = mustache.render(ded_template, jsonLd);
+            temp_card_obj.dedicated_text_column = output;
+        }
+
+        
         // header
         // items can be nested or not! the template uses the nested items
         // finds objects inside a specific key/value object

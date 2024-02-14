@@ -1,4 +1,7 @@
-export const car = `<p class="card_content">
+export const car = `
+
+<h1 class=card_title>{{reservationFor.rentalCompany.name}}</h1>
+<p class="card_content">
     <span>{{reservationFor.name}}</span>
     <span>{{reservationFor.brand.name}}</span>
     <span>{{reservationFor.model}}</span>

@@ -1,4 +1,7 @@
-export const delivery = `<p class="card_content">
+export const delivery = `
+<h1 class=card_title>{{partOfOrder.merchant.name}}
+</h1>
+<p class="card_content">
     <span>{{partOfOrder.@type}}</span>
     <span>{{partOfOrder.orderNumber}}</span>
     <span>{{itemShipped.description}}</span>
