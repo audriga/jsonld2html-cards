@@ -171,6 +171,11 @@ let default_header = `<meta charSet="UTF-8">
         })
         
     </script>
+    <style>
+    code{
+        user-select: text;
+    }
+    </style>
     
 `
 ;
