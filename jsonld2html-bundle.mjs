@@ -124,6 +124,28 @@ typeToIconMap.set("MusicRecording","music");
 typeToIconMap.set("BusReservation","bus");
 typeToIconMap.set("Place","location-dot");
 
+function getMainEntity(json_object){
+    if(Array.isArray(json_object))
+    {   
+        let possible_main_entity = findNestedObj(json_object,"mainEntityOfPage");
+        if(possible_main_entity != null)
+        {
+            return possible_main_entity;
+        }
+        else return json_object[0];
+    }
+    else if(json_object["@graph"] !== "undefined" && Array.isArray(json_object["@graph"]))
+    {   
+        let possible_graph = json_object["@graph"];
+        let possible_main_entity = getMainEntity(possible_graph);
+        if(possible_main_entity != null)
+        {
+            return possible_main_entity;
+        }
+    }
+    else return json_object;
+}
+
 /**
  * @param {object} entireObj - Object to search
  * @þaram {string} keyToFind - the Key to search for a value
@@ -232,7 +254,7 @@ function renderFromTemplate(jsonLd, template) {
 }
 
 jsonld2html.render = function render(jsonLd) {
-    return renderFromTemplate(jsonLd, getTemplate(findValueFromKey(jsonLd,"@type")));
+    return renderFromTemplate(jsonLd, getTemplate(findValueFromKey(getMainEntity(jsonLd),"@type")));
 };
 
 jsonld2html.renderFromTemplate = renderFromTemplate;
