@@ -1,4 +1,4 @@
-const getMainEntity = require('../lib/MainEntity');
+const jsonld2html = require('../jsonld2html-bundle.js');
 
 const testCase1_input = JSON.parse(`{
     "@context": "https://schema.org",
@@ -348,17 +348,17 @@ let testCase1_output = JSON.parse(`{
 
 test("testCase1: If $json_input is a graph: unwrap and call getEntity() on result", ()=>
 {
-    expect(getMainEntity(testCase1_input)).toStrictEqual(testCase1_output);
+    expect(jsonld2html.getMainEntity(testCase1_input)).toStrictEqual(testCase1_output);
 });
 
 test("testCase2: If $json_input is array, return element with property 'mainEntityOfPage' set (if any)", ()=>
 {
-    expect(getMainEntity(testCase2_input)).toStrictEqual(testCase2_output);
+    expect(jsonld2html.getMainEntity(testCase2_input)).toStrictEqual(testCase2_output);
 });
 
 console.log(typeof testCase3_input);
 console.log(testCase3_input["@graph"]);
 test("testCase3: If $json_input is no array or graph: return $json_input", ()=>
 {
-    expect(getMainEntity(testCase3_input)).toStrictEqual(testCase3_output);
+    expect(jsonld2html.getMainEntity(testCase3_input)).toStrictEqual(testCase3_output);
 })

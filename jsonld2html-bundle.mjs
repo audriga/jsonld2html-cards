@@ -92,6 +92,40 @@ function getTemplate(type) {
     return available_templates.get("default_card");
 }
 
+function findNestedObj$1(entireObj, keyToFind) {
+    let foundObj;
+    JSON.stringify(entireObj, (_, nestedValue) => {
+        if (nestedValue && nestedValue[keyToFind]){
+            foundObj = nestedValue;
+        }
+        return nestedValue;
+    });
+    if(foundObj != undefined) {return foundObj;}
+    else return null;
+}
+
+function getMainEntity(json_object){
+    if(Array.isArray(json_object))
+    {   
+        let possible_main_entity = findNestedObj$1(json_object,"mainEntityOfPage");
+        if(possible_main_entity != null)
+        {
+            return possible_main_entity;
+        }
+        else return json_object[0];
+    }
+    else if(json_object["@graph"] !== "undefined" && Array.isArray(json_object["@graph"]))
+    {   
+        let possible_graph = json_object["@graph"];
+        let possible_main_entity = getMainEntity(possible_graph);
+        if(possible_main_entity != null)
+        {
+            return possible_main_entity;
+        }
+    }
+    else return json_object;
+}
+
 /*!
  * Renders JSON-LD as HTML
  */
@@ -124,27 +158,6 @@ typeToIconMap.set("MusicRecording","music");
 typeToIconMap.set("BusReservation","bus");
 typeToIconMap.set("Place","location-dot");
 
-function getMainEntity(json_object){
-    if(Array.isArray(json_object))
-    {   
-        let possible_main_entity = findNestedObj(json_object,"mainEntityOfPage");
-        if(possible_main_entity != null)
-        {
-            return possible_main_entity;
-        }
-        else return json_object[0];
-    }
-    else if(json_object["@graph"] !== "undefined" && Array.isArray(json_object["@graph"]))
-    {   
-        let possible_graph = json_object["@graph"];
-        let possible_main_entity = getMainEntity(possible_graph);
-        if(possible_main_entity != null)
-        {
-            return possible_main_entity;
-        }
-    }
-    else return json_object;
-}
 
 /**
  * @param {object} entireObj - Object to search
@@ -258,5 +271,7 @@ jsonld2html.render = function render(jsonLd) {
 };
 
 jsonld2html.renderFromTemplate = renderFromTemplate;
+
+jsonld2html.getMainEntity = getMainEntity;
 
 export { jsonld2html as default };
