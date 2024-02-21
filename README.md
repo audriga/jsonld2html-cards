@@ -63,9 +63,8 @@ jsonld2html supports both web browsers and server-side environments:
 
 
 ### Dependencies
-[Fontawesome](https://fontawesome.com/) is required for displaying the icons.
-
-* There are multiple ways to include Fontawesome, the easiest, might be via a cdn.
+* [Fontawesome](https://fontawesome.com/) is required for displaying the icons. There are multiple ways to include it, the easiest, might be via a CDN.
+* [mustache.js](https://github.com/janl/mustache.js) is an NPM dependency, not bundled in jsonld2html-bundle. If including jsonld2html-bundle manually via `<script>`, mustache needs to be included manually as well.
 
 ## Usage
 Below is a quick example how to use LD2H:
