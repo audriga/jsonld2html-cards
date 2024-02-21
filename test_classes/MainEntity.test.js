@@ -356,9 +356,7 @@ test("testCase2: If $json_input is array, return element with property 'mainEnti
     expect(jsonld2html.getMainEntity(testCase2_input)).toStrictEqual(testCase2_output);
 });
 
-console.log(typeof testCase3_input);
-console.log(testCase3_input["@graph"]);
 test("testCase3: If $json_input is no array or graph: return $json_input", ()=>
 {
     expect(jsonld2html.getMainEntity(testCase3_input)).toStrictEqual(testCase3_output);
-})
+});

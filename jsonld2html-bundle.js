@@ -96,6 +96,10 @@
         return available_templates.get("default_card");
     }
 
+    // This function serves as "preprocessor" for the structure of the input json-ld
+    //  At example, there can be arrays and graphs which will resolved with this function
+
+
     function findNestedObj$1(entireObj, keyToFind) {
         let foundObj;
         JSON.stringify(entireObj, (_, nestedValue) => {
@@ -118,7 +122,10 @@
             }
             else return json_object[0];
         }
-        else if(json_object["@graph"] !== "undefined" && Array.isArray(json_object["@graph"]))
+        else if(json_object["@graph"] !== null
+            && json_object["@graph"] !== undefined
+            && json_object["@graph"] !== 'undefined'
+            && Array.isArray(json_object["@graph"]))
         {   
             let possible_graph = json_object["@graph"];
             let possible_main_entity = getMainEntity(possible_graph);
@@ -128,6 +135,48 @@
             }
         }
         else return json_object;
+    }
+
+    function createPotentialViewAction(json_object){
+        if(json_object["@type"] !== undefined &&
+                json_object["potentialAction"] === undefined)
+        {
+            // TODO validate what happens if json_object["mainEntityOfPage"] is not set
+            let possibleMainEntityOfPage = json_object["mainEntityOfPage"];
+            if(possibleMainEntityOfPage !== undefined && possibleMainEntityOfPage !== null)
+            {    
+                let urlOfMainPage;
+                if(typeof possibleMainEntityOfPage === 'string')
+                {
+                    urlOfMainPage = possibleMainEntityOfPage;
+                }
+                if(possibleMainEntityOfPage["@id"] !== undefined &&
+                            typeof possibleMainEntityOfPage["@id"] === 'string')
+                {
+                    urlOfMainPage = possibleMainEntityOfPage["@id"];
+                }
+                if(typeof urlOfMainPage === 'string' &&
+                            urlOfMainPage !== undefined &&
+                            urlOfMainPage !== null)
+                {
+                    let viewActionObject = 
+                    {
+                        "@type": "ViewAction",
+                        "target": urlOfMainPage
+                    };
+                    json_object["potentialAction"] = viewActionObject;
+                }
+                return json_object
+            }
+            else
+            {
+                return json_object;     
+            }
+        }
+        else
+        {
+            return json_object;
+        }
     }
 
     /*!
@@ -212,6 +261,7 @@
 
     function renderFromTemplate(jsonLd, template) {
 
+
         let temp_card_obj = new Card();
         temp_card_obj.type = findValueFromKey(jsonLd,"@type");
 
@@ -271,12 +321,14 @@
     }
 
     jsonld2html.render = function render(jsonLd) {
-        return renderFromTemplate(jsonLd, getTemplate(findValueFromKey(getMainEntity(jsonLd),"@type")));
+        return renderFromTemplate(jsonLd, getTemplate(findValueFromKey(jsonLd,"@type")));
     };
 
     jsonld2html.renderFromTemplate = renderFromTemplate;
 
     jsonld2html.getMainEntity = getMainEntity;
+
+    jsonld2html.createPotentialViewAction = createPotentialViewAction;
 
     return jsonld2html;
 

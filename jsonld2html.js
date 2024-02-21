@@ -4,6 +4,7 @@
 import mustache from 'mustache';
 import getTemplate from './template_exporter.js';
 import { getMainEntity } from './lib/MainEntity.js';
+import  { createPotentialViewAction } from './lib/ViewAction.js'
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
@@ -83,6 +84,7 @@ function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
 
 function renderFromTemplate(jsonLd, template) {
 
+
     let temp_card_obj = new Card();
     temp_card_obj.type = findValueFromKey(jsonLd,"@type");
 
@@ -142,11 +144,13 @@ function renderFromTemplate(jsonLd, template) {
 }
 
 jsonld2html.render = function render(jsonLd) {
-    return renderFromTemplate(jsonLd, getTemplate(findValueFromKey(getMainEntity(jsonLd),"@type")));
+    return renderFromTemplate(jsonLd, getTemplate(findValueFromKey(jsonLd,"@type")));
 }
 
 jsonld2html.renderFromTemplate = renderFromTemplate;
 
 jsonld2html.getMainEntity = getMainEntity;
+
+jsonld2html.createPotentialViewAction = createPotentialViewAction;
 
 export default jsonld2html

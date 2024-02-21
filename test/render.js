@@ -31,7 +31,11 @@ async function buildTemplatesToString(_schemas_dir_path) {
             // Parsing to JSON
             data_object = JSON.parse(data_object);
 
-            let rendered_ld = await Jsonld2html.render(data_object)
+            // Preprocessing the JSON data here so we can observe the impact of it in the details expandable
+
+            let processed_data_object = Jsonld2html.createPotentialViewAction(Jsonld2html.getMainEntity(data_object));
+
+            let rendered_ld = await Jsonld2html.render(processed_data_object);
             let expandable_data_details = `
                         <br>
                         <br>
@@ -41,7 +45,7 @@ async function buildTemplatesToString(_schemas_dir_path) {
                                 <span class="icon">👇</span>
                             </summary>
                             <p><pre><code>
-                                ${JSON.stringify(data_object,null,4)}
+                                ${JSON.stringify(processed_data_object,null,4)}
                                 </code>
                                 </pre>
                             </p>
@@ -51,8 +55,6 @@ async function buildTemplatesToString(_schemas_dir_path) {
 
             anchored_list += ("<a href=#"+file+ ">" + file+ "</a><br>");
 
-            // TODO make the heading also to a ref link, like in the example in ticket
-            // TODO add a copy link icon
 
             // a heading used as divider and base for anchored links aswell as the copy link button
             let card_divider_heading = `<a href=#${file}><h3 id = ${file}> ${file} <button onclick=copyLinkFunction("${file}")><i class="fa-solid fa-link"></i> copy link </button></h3></a>`;
