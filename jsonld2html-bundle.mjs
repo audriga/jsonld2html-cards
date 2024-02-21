@@ -120,7 +120,6 @@ function getMainEntity(json_object){
     }
     else if(json_object["@graph"] !== null
         && json_object["@graph"] !== undefined
-        && json_object["@graph"] !== 'undefined'
         && Array.isArray(json_object["@graph"]))
     {   
         let possible_graph = json_object["@graph"];
