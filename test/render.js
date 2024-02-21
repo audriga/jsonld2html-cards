@@ -41,7 +41,19 @@ async function buildTemplatesToString(_schemas_dir_path) {
                         <br>
                          <details>
                             <summary>
-                                Show me the JSON
+                                Show me the original JSON
+                                <span class="icon">👇</span>
+                            </summary>
+                            <p><pre><code>
+                                ${JSON.stringify(data_object,null,4)}
+                                </code>
+                                </pre>
+                            </p>
+                        </details>
+                        <br>
+                         <details>
+                            <summary>
+                                Show me the preprocessed JSON
                                 <span class="icon">👇</span>
                             </summary>
                             <p><pre><code>
