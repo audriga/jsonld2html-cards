@@ -1,0 +1,19 @@
+export const car = `
+
+<h1 class=card_title>{{reservationFor.rentalCompany.name}}</h1>
+<p class="card_content">
+    <span>{{reservationFor.name}}</span>
+    <span>{{reservationFor.brand.name}}</span>
+    <span>{{reservationFor.model}}</span>
+    <span>{{reservationNumber}}</span>
+    <span>{{underName.name}}</span>
+</p>
+<p class="card_content">
+    <span>{{pickupTime}}</span>
+    <span>{{pickupLocation.name}}</span>
+    <span>{{pickupLocation.address.streetAddress}}</span>
+    <span>{{pickupLocation.address.addressLocality}}</span>
+    <span>{{pickupLocation.address.addressRegion}}</span>
+    <span>{{pickupLocation.address.postalCode}}</span>
+    <span>{{pickupLocation.address.addressCountry}}</span>
+</p>`;

@@ -3,16 +3,24 @@
  */
 import mustache from 'mustache';
 import getTemplate from './template_exporter.js';
+import {car} from './templates/subtemplate_RentalCarReservation.html.js';
+import {delivery} from './templates/subtemplate_ParcelDelivery.html.js';
+import {food} from './templates/subtemplate_FoodEstablishmentReservation.html.js';
+import {iconMap} from './templates/FontAwesomeIconMap.js';
+import {news} from './templates/subtemplate_NewsArticle.html.js';
+import {place} from './templates/subtemplate_Place.html.js';
+import {fallback} from './templates/subtemplate_Fallback.html.js';
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
  */
-function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList){
-    this.type = _type;
+function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList, _dedicated_text_column){
+    //this.type = _type;
     this.pictureURL = _pictureURL;
     this.iconName = _iconName;
     this.title = _title;
     this.content = _content;
+    this.dedicated_text_column = _dedicated_text_column;
     this.footer = _footer;
     this.breadcrumbList = _breadcrumbList;
     
@@ -24,13 +32,7 @@ var jsonld2html = {
 }
 
 // Mapping the fallback icon to schema type
-const typeToIconMap = new Map();
-typeToIconMap.set("NewsArticle","newspaper");
-typeToIconMap.set("Article","comment");
-typeToIconMap.set("MusicAlbum","compact-disc");
-typeToIconMap.set("MusicRecording","music");
-typeToIconMap.set("BusReservation","bus");
-typeToIconMap.set("Place","location-dot");
+const typeToIconMap = iconMap;
 
 /**
  * @param {object} entireObj - Object to search
@@ -82,7 +84,9 @@ function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
 function renderFromTemplate(jsonLd, template) {
 
     let temp_card_obj = new Card();
-    temp_card_obj.type = findValueFromKey(jsonLd,"@type");
+
+    temp_card_obj.type = jsonLd["@type"];
+    // temp_card_obj.type = findValueFromKey(jsonLd,"@type");
 
     if(typeToIconMap.has(temp_card_obj.type)) {
         temp_card_obj.iconName = typeToIconMap.get(temp_card_obj.type);
@@ -98,27 +102,50 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.pictureURL = image_object.image;
     }
     
-    // title
-    let title_object = findNestedObj(jsonLd,"name");
-    if(title_object != null){
-        temp_card_obj.title = title_object.name;
-    }
-    // main-content
-    let content_object = findNestedObj(jsonLd, "description");
-    if(content_object != null){
-        temp_card_obj.content = [content_object.description];
-    }
-    else if(findNestedObj(jsonLd, "articleBody") != null){
-        content_object = findNestedObj(jsonLd, "articleBody");
-        temp_card_obj.content = [content_object.articleBody];
-    }
-    else if(findNestedObj(jsonLd, "latitude") != null){
-        content_object = findNestedObj(jsonLd, "latitude");
-        temp_card_obj.content.push(String(content_object.longitude));
-        temp_card_obj.content.push(String(content_object.latitude));
+    if(temp_card_obj.type === "NewsArticle" || temp_card_obj === "Article")
+    {
+        let ded_template = news;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_text_column = output;
     }
 
+    if(temp_card_obj.type === "FoodEstablishmentReservation")
+    {
+        let ded_template = food;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_text_column = output;
 
+    }
+
+    if(temp_card_obj.type === "RentalCarReservation")
+    {   
+        let ded_template = car;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_text_column = output;
+    }
+
+    if(temp_card_obj.type === "ParcelDelivery")
+    {
+        let ded_template = delivery;
+        let output = mustache.render(ded_template,jsonLd);
+        temp_card_obj.dedicated_text_column = output;
+    }
+
+    if(temp_card_obj.type == "Place")
+    {
+        let ded_template = place;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_text_column = output;
+    }
+
+    if(temp_card_obj.type == "undefined" || temp_card_obj.dedicated_text_column == null)
+    {
+        let ded_template = fallback;
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_text_column = output;
+    }
+
+    
     // header
     // items can be nested or not! the template uses the nested items
     // finds objects inside a specific key/value object

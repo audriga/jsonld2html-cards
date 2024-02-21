@@ -1,0 +1,29 @@
+export const fallback = `
+
+{{#name}}
+    <h1 class="card_title"> {{name}}</h1>
+{{/name}}
+
+{{^name}}
+    {{#.}}
+
+        {{#name}}
+        <h1 class="card_title">{{name}}</h1>
+        {{/name}}
+    {{/.}}
+{{/name}}
+
+<p class="card_content">
+
+{{#description}}
+    {{{description}}}
+{{/description}}
+
+{{^description}}
+    {{#.}}
+        {{{description}}}
+    {{/.}}
+{{/description}}
+
+</p>
+`;

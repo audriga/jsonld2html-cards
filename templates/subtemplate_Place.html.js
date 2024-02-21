@@ -1,0 +1,13 @@
+export const place = `
+<h1 class=card_title>{{name}}
+</h1>
+
+<p class="card_content">
+    {{address}}
+</p>
+<p class="card_content">
+    <span>{{geo.latitude}}</span>
+    <span>{{geo.longitude}}</span>
+</p>
+`;
+
