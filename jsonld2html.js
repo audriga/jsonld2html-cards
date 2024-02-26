@@ -3,6 +3,8 @@
  */
 import mustache from 'mustache';
 import getTemplate from './template_exporter.js';
+import { getMainEntity } from './lib/MainEntity.js';
+import  { createPotentialViewAction } from './lib/ViewAction.js'
 import {car} from './templates/subtemplate_RentalCarReservation.html.js';
 import {delivery} from './templates/subtemplate_ParcelDelivery.html.js';
 import {food} from './templates/subtemplate_FoodEstablishmentReservation.html.js';
@@ -82,6 +84,7 @@ function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
 }
 
 function renderFromTemplate(jsonLd, template) {
+
 
     let temp_card_obj = new Card();
 
@@ -171,5 +174,9 @@ jsonld2html.render = function render(jsonLd) {
 }
 
 jsonld2html.renderFromTemplate = renderFromTemplate;
+
+jsonld2html.getMainEntity = getMainEntity;
+
+jsonld2html.createPotentialViewAction = createPotentialViewAction;
 
 export default jsonld2html
