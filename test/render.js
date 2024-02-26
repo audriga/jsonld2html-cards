@@ -22,20 +22,21 @@ async function buildTemplatesToString(_schemas_dir_path) {
 
     for (let file of schema_files) {
 
-        let data_object;
+        let raw_data_object;
         if(!(file.endsWith(".json"))) {break;}
 
         try {
             // Reading Schema.org Object (Json-ld Object) from schema_org
-            data_object = fs.readFileSync(_schemas_dir_path + file);
+            raw_data_object = fs.readFileSync(_schemas_dir_path + file);
             // Parsing to JSON
-            data_object = JSON.parse(data_object);
+            raw_data_object = JSON.parse(raw_data_object);
+            // render the json, json will be changed (call by reference)
+            let rendered_ld = await Jsonld2html.render(raw_data_object);
 
-            // Preprocessing the JSON data here so we can observe the impact of it in the details expandable
 
-            let processed_data_object = Jsonld2html.extractImage(Jsonld2html.createPotentialViewAction(Jsonld2html.getMainEntity(data_object)));
-
-            let rendered_ld = await Jsonld2html.render(data_object);
+            // Create a "raw" Json to observe the changes from the Jsonld2html preprocessing
+            let raw_unprocessed_data_object = JSON.parse(fs.readFileSync(_schemas_dir_path + file));
+            
             let expandable_data_details = `
                         <br>
                         <br>
@@ -45,7 +46,7 @@ async function buildTemplatesToString(_schemas_dir_path) {
                                 <span class="icon">👇</span>
                             </summary>
                             <p><pre><code>
-                                ${JSON.stringify(data_object,null,4)}
+                                ${JSON.stringify(raw_unprocessed_data_object,null,4)}
                                 </code>
                                 </pre>
                             </p>
@@ -57,7 +58,7 @@ async function buildTemplatesToString(_schemas_dir_path) {
                                 <span class="icon">👇</span>
                             </summary>
                             <p><pre><code>
-                                ${JSON.stringify(processed_data_object,null,4)}
+                                ${JSON.stringify(raw_data_object,null,4)}
                                 </code>
                                 </pre>
                             </p>
@@ -83,7 +84,7 @@ async function buildTemplatesToString(_schemas_dir_path) {
         }
 
 
-        data_object = null;
+        raw_data_object = null;
 
     }
     console.log("\n" + "error files : " + "\n" + error_files);
