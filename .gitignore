@@ -5,3 +5,6 @@
 /.project
 /old_templates/
 test/output/
+
+# bundled javascript files
+jsonld2html-bundle.*
