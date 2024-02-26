@@ -168,7 +168,9 @@ function renderFromTemplate(jsonLd, template) {
 }
 
 jsonld2html.render = function render(jsonLd) {
+    // Preprocessing
     let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
+    // TODO - replace "Find" function
     return renderFromTemplate(preprocessedJson, getTemplate(findValueFromKey(preprocessedJson,"@type")));
 }
 
