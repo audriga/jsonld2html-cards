@@ -33,9 +33,9 @@ async function buildTemplatesToString(_schemas_dir_path) {
 
             // Preprocessing the JSON data here so we can observe the impact of it in the details expandable
 
-            let processed_data_object = Jsonld2html.createPotentialViewAction(Jsonld2html.getMainEntity(data_object));
+            let processed_data_object = Jsonld2html.extractImage(Jsonld2html.createPotentialViewAction(Jsonld2html.getMainEntity(data_object)));
 
-            let rendered_ld = await Jsonld2html.render(processed_data_object);
+            let rendered_ld = await Jsonld2html.render(data_object);
             let expandable_data_details = `
                         <br>
                         <br>

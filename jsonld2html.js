@@ -12,6 +12,7 @@ import {iconMap} from './templates/FontAwesomeIconMap.js';
 import {news} from './templates/subtemplate_NewsArticle.html.js';
 import {place} from './templates/subtemplate_Place.html.js';
 import {fallback} from './templates/subtemplate_Fallback.html.js';
+import { extractImage } from './lib/ImageExtraction.js';
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
@@ -95,16 +96,14 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.iconName = typeToIconMap.get(temp_card_obj.type);
     }
     
-    // image 
-    let logo_object = findNestedObj(jsonLd, "logo");
-    if(logo_object != null) {
-        temp_card_obj.pictureURL = logo_object.logo;
+   // The extracted image is stored under the "thumbnailUrl" property
+   // still we gonna doublecheck if it is a valid string (Url)
+    if(jsonLd["thumbnailUrl"] !== undefined && typeof jsonLd["thumbnailUrl"] === 'string')
+    {
+        temp_card_obj.pictureURL = jsonLd["thumbnailUrl"];
     }
-    let image_object = findNestedObj(jsonLd,"image");
-    if(image_object != null) {
-        temp_card_obj.pictureURL = image_object.image;
-    }
-    
+
+    //===== Using of Subtemplates =====
     if(temp_card_obj.type === "NewsArticle" || temp_card_obj === "Article")
     {
         let ded_template = news;
@@ -164,13 +163,13 @@ function renderFromTemplate(jsonLd, template) {
     }
 
 
-    
     // render the template with data
     return mustache.render(template, temp_card_obj);
 }
 
 jsonld2html.render = function render(jsonLd) {
-    return renderFromTemplate(jsonLd, getTemplate(findValueFromKey(jsonLd,"@type")));
+    let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
+    return renderFromTemplate(preprocessedJson, getTemplate(findValueFromKey(preprocessedJson,"@type")));
 }
 
 jsonld2html.renderFromTemplate = renderFromTemplate;
@@ -178,5 +177,7 @@ jsonld2html.renderFromTemplate = renderFromTemplate;
 jsonld2html.getMainEntity = getMainEntity;
 
 jsonld2html.createPotentialViewAction = createPotentialViewAction;
+
+jsonld2html.extractImage = extractImage;
 
 export default jsonld2html
