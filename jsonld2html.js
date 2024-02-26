@@ -102,6 +102,11 @@ function renderFromTemplate(jsonLd, template) {
     {
         temp_card_obj.pictureURL = jsonLd["thumbnailUrl"];
     }
+    if(jsonLd["thumbnailUrl"] === undefined && jsonLd["thumbnail"] !== undefined &&
+    typeof jsonLd["thumbnail"] === 'string')
+    {
+        temp_card_obj.pictureURL = jsonLd["thumbnail"];
+    }
 
     //===== Using of Subtemplates =====
     if(temp_card_obj.type === "NewsArticle" || temp_card_obj === "Article")
