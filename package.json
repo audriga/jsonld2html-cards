@@ -14,7 +14,8 @@
         "./*": "./*"
     },
     "scripts": {
-        "build": "rollup -c rollup.config.mjs && rollup jsonld2html.js --file jsonld2html-bundle.mjs --format esm",
+        "build": "rollup -c rollup.config.mjs && rollup -c rollup.config.dev.mjs jsonld2html.js --file jsonld2html-bundle.mjs --format esm",
+        "buildFest": "rollup -c rollup.config.dev2.mjs",
         "test": "npm run test-lint && npm run test-unit",
         "test-lint": "eslint jsonld2html.js",
         "test-unit": "cd test/ && node render.js",
@@ -22,11 +23,10 @@
         "jesttest": "jest"
     },
     "devDependencies": {
+        "@rollup/plugin-json": "^6.1.0",
         "eslint": "^8.56.0",
+        "jest": "^29.7.0",
         "rollup": "^4.9.2",
-        "jest":"^29.7.0"
+        "rollup-plugin-html": "^0.2.1"
     }
-    
-    
-    
 }
