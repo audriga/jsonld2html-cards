@@ -15,7 +15,6 @@
     },
     "scripts": {
         "build": "rollup -c rollup.config.mjs && rollup -c rollup.config.dev.mjs jsonld2html.js --file jsonld2html-bundle.mjs --format esm",
-        "buildFest": "rollup -c rollup.config.dev2.mjs",
         "test": "npm run test-lint && npm run test-unit",
         "test-lint": "eslint jsonld2html.js",
         "test-unit": "cd test/ && node render.js",
