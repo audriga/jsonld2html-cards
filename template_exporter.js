@@ -2,7 +2,6 @@
  * Exports all available templates to be used for rendering
  */
 
-// TODO Maybe do that programmatically by using webpack with html-loader plugin or rollup with rollup-plugin-html / @web/rollup-plugin-html
 import default_card from './templates/default_card.html';
 import oof from './templates/oof.html.js';
 
@@ -13,6 +12,7 @@ import news from './templates/subtemplate_NewsArticle.html';
 import place from './templates/subtemplate_Place.html';
 import fallback from './templates/subtemplate_Fallback.html';
 
+//TODO Find a better way to import the templates, keyword: dynmaic imports
 // These are specific "subtemplates" for the default_card
 // with these one can specify the rendering of the default_card for different schema types
 const default_card_subtemplates_map = new Map();
