@@ -26,12 +26,16 @@ async function buildTemplatesToString(_schemas_dir_path) {
         if(!(file.endsWith(".json"))) {break;}
 
         try {
+
+            
             // Reading Schema.org Object (Json-ld Object) from schema_org
             raw_data_object = fs.readFileSync(_schemas_dir_path + file);
             // Parsing to JSON
             raw_data_object = JSON.parse(raw_data_object);
             // render the json, json will be changed (call by reference)
             let rendered_ld = await Jsonld2html.render(raw_data_object);
+            // FIXME Call by Reference messed up things here
+            raw_data_object = Jsonld2html.extractImage(Jsonld2html.createPotentialViewAction(Jsonld2html.getMainEntity(raw_data_object)))
 
 
             // Create a "raw" Json to observe the changes from the Jsonld2html preprocessing
