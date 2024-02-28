@@ -4,15 +4,10 @@
 import mustache from 'mustache';
 import getTemplate from './template_exporter.js';
 import { getMainEntity } from './lib/MainEntity.js';
-import  { createPotentialViewAction } from './lib/ViewAction.js'
-import {car} from './templates/subtemplate_RentalCarReservation.html.js';
-import {delivery} from './templates/subtemplate_ParcelDelivery.html.js';
-import {food} from './templates/subtemplate_FoodEstablishmentReservation.html.js';
-import {iconMap} from './templates/FontAwesomeIconMap.js';
-import {news} from './templates/subtemplate_NewsArticle.html.js';
-import {place} from './templates/subtemplate_Place.html.js';
-import {fallback} from './templates/subtemplate_Fallback.html.js';
 import { extractImage } from './lib/ImageExtraction.js';
+import  { createPotentialViewAction } from './lib/ViewAction.js'
+import icon_json from './config/FontAwesomeIconMap.json';
+import {getDefaultCardSubtemplate} from './template_exporter.js';
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
@@ -35,7 +30,11 @@ var jsonld2html = {
 }
 
 // Mapping the fallback icon to schema type
-const typeToIconMap = iconMap;
+const typeToIconMap = new Map();
+
+Object.entries(icon_json).forEach(element => {
+    typeToIconMap.set(element[0],element[1]);
+});
 
 /**
  * @param {object} entireObj - Object to search
@@ -111,14 +110,14 @@ function renderFromTemplate(jsonLd, template) {
     //===== Using of Subtemplates =====
     if(temp_card_obj.type === "NewsArticle" || temp_card_obj === "Article")
     {
-        let ded_template = news;
+        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_text_column = output;
     }
 
     if(temp_card_obj.type === "FoodEstablishmentReservation")
     {
-        let ded_template = food;
+        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_text_column = output;
 
@@ -126,32 +125,31 @@ function renderFromTemplate(jsonLd, template) {
 
     if(temp_card_obj.type === "RentalCarReservation")
     {   
-        let ded_template = car;
+        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_text_column = output;
     }
 
     if(temp_card_obj.type === "ParcelDelivery")
     {
-        let ded_template = delivery;
+        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
         let output = mustache.render(ded_template,jsonLd);
         temp_card_obj.dedicated_text_column = output;
     }
 
     if(temp_card_obj.type == "Place")
     {
-        let ded_template = place;
+        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_text_column = output;
     }
 
     if(temp_card_obj.type == "undefined" || temp_card_obj.dedicated_text_column == null)
     {
-        let ded_template = fallback;
+        let ded_template = getDefaultCardSubtemplate("Fallback");
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_text_column = output;
     }
-
     
     // header
     // items can be nested or not! the template uses the nested items

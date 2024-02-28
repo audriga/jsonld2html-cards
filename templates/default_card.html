@@ -1,4 +1,3 @@
-
 <div class="smlCard">
     <div class = "header">
         {{^breadcrumbList.itemListElement}} {{type}}   {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}}  {{/breadcrumbList.itemListElement}}
@@ -17,25 +16,23 @@
             {{^pictureURL}}<i class="fa-solid fa-{{iconName}} fa-6x" ></i>{{/pictureURL}}
     
         </div>
-    
         <div class ="text_column">
-    
-            <h1 class="card_title"> {{title}}
-    
-            </h1>
+        {{^dedicated_text_column}}
             
-            {{^dedicated_content}}
-            {{#content}}
-            <p class="card_content">{{.}}
-            </p>{{/content}}
-        {{/dedicated_content}}
+            <h1 class="card_title"> {{title}}</h1>
 
-        {{#dedicated_content}}
-           {{{dedicated_content}}}
-        {{/dedicated_content}}
-    
+            {{#content}}
+                <p class="card_content">{{.}}</p>
+            {{/content}}
+
             <div class="card_footnote">{{footer}}
             </div>
+
+    {{/dedicated_text_column}}
+
+    {{#dedicated_text_column}}
+        {{{dedicated_text_column}}}
+    {{/dedicated_text_column}}
     
     
         </div>

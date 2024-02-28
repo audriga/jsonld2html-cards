@@ -1,0 +1,8 @@
+{
+    "NewsArticle": "newspaper",
+    "Article": "comment",
+    "MusicAlbum": "compact-disc",
+    "MusicRecording": "music",
+    "BusReservation": "bus",
+    "Place": "location-dot"
+}
