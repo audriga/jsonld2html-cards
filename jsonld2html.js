@@ -107,7 +107,7 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.pictureURL = jsonLd["thumbnail"];
     }
 
-    //===== Using of Subtemplates =====
+    //===== Using of subtemplates =====
     if(temp_card_obj.type === "NewsArticle" || temp_card_obj === "Article")
     {
         let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
@@ -144,13 +144,6 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.dedicated_text_column = output;
     }
 
-    if(temp_card_obj.type == "undefined" || temp_card_obj.dedicated_text_column == null)
-    {
-        let ded_template = getDefaultCardSubtemplate("Fallback");
-        let output = mustache.render(ded_template, jsonLd);
-        temp_card_obj.dedicated_text_column = output;
-    }
-
     // TODO construct better structure for dealing with dedicated templates
     // Maybe create base + subtemplate structure
     if(temp_card_obj.type === "EmailMessage")
@@ -158,23 +151,41 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.content = jsonLd["expires"];
     }
     
-    // Fallback
-    let title_object = findNestedObj(jsonLd,"name");
-    if(title_object != null
-            && temp_card_obj.title === undefined
-            && temp_card_obj.dedicated_text_column === undefined){
+    //===== Using of fallback if no subtemplate is set =====
+    if(temp_card_obj.dedicated_text_column === undefined)
+    {
+        // Checking first in the "root" object for a value
+        if(jsonLd["name"] !== undefined && typeof jsonLd["name"] === 'string')
+        {
+            temp_card_obj.name = jsonLd["name"];
+        }
+        else
+        {
+            // If not in the "root" object search in the whole object to find nested values
+            let title_object = findNestedObj(jsonLd,"name");
+            if(title_object !== null && temp_card_obj.title === undefined)
+            {
 
-        temp_card_obj.title = title_object.name;
+                temp_card_obj.title = title_object.name;
+            }
+        }
+        // Checking first in the "root" object for a value
+        if(jsonLd["description"] !== undefined && typeof jsonLd["description"] === 'string')
+        {
+            temp_card_obj.description = jsonLd["description"];
+        }
+        else
+        {
+            // If not in the "root" object search in the whole object to find nested values
+            let description_object = findNestedObj(jsonLd, "description");
+            if(description_object !== null && temp_card_obj.content === undefined)
+            {
+
+                temp_card_obj.content = description_object.description;
+            }
+        }
     }
 
-    let description_object = findNestedObj(jsonLd, "description");
-    if(description_object != null
-            && temp_card_obj.content === undefined
-            && temp_card_obj.dedicated_text_column === undefined){
-
-        temp_card_obj.content = description_object.description;
-    }
-    
     // header
     // items can be nested or not! the template uses the nested items
     // finds objects inside a specific key/value object
