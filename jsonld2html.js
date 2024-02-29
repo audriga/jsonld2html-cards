@@ -151,6 +151,17 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.dedicated_text_column = output;
     }
     
+    // Fallback
+    let title_object = findNestedObj(jsonLd,"name");
+    if(title_object != null){
+        temp_card_obj.title = title_object.name;
+    }
+
+    let description_object = findNestedObj(jsonLd, "description");
+    if(description_object != null){
+        temp_card_obj.content = description_object.description;
+    }
+    
     // header
     // items can be nested or not! the template uses the nested items
     // finds objects inside a specific key/value object

@@ -15,7 +15,7 @@
     },
     "scripts": {
         "build": "rollup -c rollup.config.umd.mjs && rollup -c rollup.config.esm.mjs",
-        "test": "npm run test-lint && npm run test-unit",
+        "test": "npm run test-lint && npm run jesttest && npm run test-unit",
         "test-lint": "eslint jsonld2html.js",
         "test-unit": "cd test/ && node render.js",
         "prepublishOnly": "npm run build",
