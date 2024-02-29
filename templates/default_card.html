@@ -4,46 +4,31 @@
         <ul class="breadcrumb">
             {{#breadcrumbList.itemListElement}}<li><a href= {{item.id}} >{{item.name}}</a></li>{{/breadcrumbList.itemListElement}}
         </ul>
-    
-    
     </div>
     <div class="smlCardRow">
         <div class="image_column">
-    
             <!-- If Picture is empty render the i frame with the iconName-->
-            {{#pictureURL}}<img src="{{&pictureURL}}">{{/pictureURL}}
+            {{#pictureURL}}<img src="{{&pictureURL}}" alt="Picture showing {{type}}">{{/pictureURL}}
             <!-- If Picture is empty list, false or key doesnt exist render the i frame with the iconName -->
             {{^pictureURL}}<i class="fa-solid fa-{{iconName}} fa-6x" ></i>{{/pictureURL}}
-    
         </div>
         <div class ="text_column">
+            <!--Only render this part if we dont have a dedicated_text_column-->
         {{^dedicated_text_column}}
-            
             <h1 class="card_title"> {{title}}</h1>
-
             {{#content}}
                 <p class="card_content">{{.}}</p>
             {{/content}}
-
             <div class="card_footnote">{{footer}}
             </div>
-
-    {{/dedicated_text_column}}
-
-    {{#dedicated_text_column}}
-        {{{dedicated_text_column}}}
-    {{/dedicated_text_column}}
-    
-    
+        {{/dedicated_text_column}}
+        {{#dedicated_text_column}}
+            {{{dedicated_text_column}}}
+        {{/dedicated_text_column}}
         </div>
-    
     </div>
-    
         <div class="footer">
             {{#potentialAction}}<button type="button" class="actionButton" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
-    
         </div>
-    
-    
-    </div>
+</div>
     

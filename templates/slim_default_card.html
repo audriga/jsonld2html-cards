@@ -1,0 +1,25 @@
+<!--This template is supposed to serve in emails which providing confirmation codes,
+it places the copy button besides or underneath the confirmation code-->
+<div class="smlCard">
+    <div class="smlCardRow">
+        <div class ="slim_text_column">
+
+            <p class="card_content"><strong>Confirmation code:</strong> <span class="data_to_copy">{{potentialAction.description}}</span>
+
+            </p>
+            <p class="card_content"><strong>Expires:</strong> {{content}}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        {{#potentialAction}}<button type="button" class="actionButton" onclick="
+                                            let data =(this.parentElement.parentElement.getElementsByClassName('data_to_copy')[0].textContent);
+                                             console.log(this.parentElement.parentElement.getElementsByClassName('data_to_copy')[0]);
+                                            navigator.clipboard.writeText(data.trim());
+                                            ">CopyToClipboardAction</button>{{/potentialAction}}
+    </div>
+</div>

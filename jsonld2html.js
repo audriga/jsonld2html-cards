@@ -150,15 +150,28 @@ function renderFromTemplate(jsonLd, template) {
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_text_column = output;
     }
+
+    // TODO construct better structure for dealing with dedicated templates
+    // Maybe create base + subtemplate structure
+    if(temp_card_obj.type === "EmailMessage")
+    {
+        temp_card_obj.content = jsonLd["expires"];
+    }
     
     // Fallback
     let title_object = findNestedObj(jsonLd,"name");
-    if(title_object != null){
+    if(title_object != null
+            && temp_card_obj.title === undefined
+            && temp_card_obj.dedicated_text_column === undefined){
+
         temp_card_obj.title = title_object.name;
     }
 
     let description_object = findNestedObj(jsonLd, "description");
-    if(description_object != null){
+    if(description_object != null
+            && temp_card_obj.content === undefined
+            && temp_card_obj.dedicated_text_column === undefined){
+
         temp_card_obj.content = description_object.description;
     }
     
@@ -175,7 +188,6 @@ function renderFromTemplate(jsonLd, template) {
     if(action_object!= null){
         temp_card_obj.potentialAction = action_object.potentialAction;
     }
-
 
     // render the template with data
     return mustache.render(template, temp_card_obj);

@@ -127,7 +127,33 @@ ul.breadcrumb li a:hover {
     /* this property is needed to make the truncating working for the child elements*/
     min-width: 0;
 
+}
 
+.smlCardRow .slim_text_column {
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 90%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 0px;
+    max-height: 100px;
+
+    /* this property is needed to make the truncating working for the child elements*/
+    min-width: 0;
 
 }
 

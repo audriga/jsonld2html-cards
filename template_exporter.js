@@ -3,7 +3,7 @@
  */
 
 import default_card from './templates/default_card.html';
-import oof from './templates/oof.html.js';
+import confirmationCode from './templates/slim_default_card.html';
 
 import car from './templates/subtemplate_RentalCarReservation.html';
 import delivery from './templates/subtemplate_ParcelDelivery.html';
@@ -40,14 +40,14 @@ export function getDefaultCardSubtemplate(_type){
 // Filling map to avoid using global variables (aka window) or eval()
 const available_templates = new Map;
 available_templates.set("default_card", default_card);
-if (typeof oof !== 'undefined') {
-    available_templates.set("oof", oof);
+if (typeof confirmationCode !== 'undefined') {
+    available_templates.set("confirmationCode", confirmationCode);
 }
 
 // Mapping schema type to dedicated template file
 const dedicatedTemplateFiles = new Map();
-if (typeof oof !== 'undefined') {
-    dedicatedTemplateFiles.set("OutOfOffice","oof");
+if (typeof confirmationCode !== 'undefined') {
+    dedicatedTemplateFiles.set("EmailMessage","confirmationCode");
 }
 
 /* Edit above to in case you added your own templates. */
