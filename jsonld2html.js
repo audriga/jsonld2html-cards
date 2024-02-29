@@ -13,7 +13,8 @@ import {getDefaultCardSubtemplate} from './template_exporter.js';
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
  */
-function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _footer, _breadcrumbList, _dedicated_text_column){
+function Card(_type, _pictureURL, _iconName="image",_title, _content = [] ,
+     _footer, _breadcrumbList, _dedicated_text_column, _urlAction,_copyAction){
     //this.type = _type;
     this.pictureURL = _pictureURL;
     this.iconName = _iconName;
@@ -22,6 +23,8 @@ function Card(_type, _pictureURL, _iconName="image",_title, _content = [] , _foo
     this.dedicated_text_column = _dedicated_text_column;
     this.footer = _footer;
     this.breadcrumbList = _breadcrumbList;
+    this.urlAction = _urlAction;
+    this.copyAction = _copyAction;
     
 }
 
@@ -200,8 +203,16 @@ function renderFromTemplate(jsonLd, template) {
     }
     // footer
     let action_object = findNestedObj(jsonLd,"potentialAction");
-    if(action_object!= null){
-        temp_card_obj.potentialAction = action_object.potentialAction;
+    if(action_object !== null){
+        if(action_object.potentialAction["@type"] === "CopyToClipboardAction")
+        {   
+            console.log("copy action found")
+            temp_card_obj.copyAction = action_object.potentialAction;
+        }
+        else
+        {
+            temp_card_obj.urlAction = action_object.potentialAction;
+        }
     }
 
     // render the template with data

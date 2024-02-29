@@ -3,7 +3,7 @@
  */
 
 import default_card from './templates/default_card.html';
-import confirmationCode from './templates/slim_default_card.html';
+import confirmationCode from './templates/default_card_slim.html';
 
 import RentalCarReservation from './templates/subtemplate_RentalCarReservation.html';
 import ParcelDelivery from './templates/subtemplate_ParcelDelivery.html';
@@ -11,7 +11,7 @@ import FoodEstablishmentReservation from './templates/subtemplate_FoodEstablishm
 import NewsArticle from './templates/subtemplate_NewsArticle.html';
 import Place from './templates/subtemplate_Place.html';
 import Fallback from './templates/subtemplate_Fallback.html';
-import EmailMessage from './templates/subtemplate_EmailMessage(CopyClipboard).html';
+import EmailMessage from './templates/subtemplate_EmailMessage(ConfirmationCode).html';
 
 
 
@@ -24,6 +24,7 @@ default_card_subtemplates_map.set("FoodEstablishmentReservation",FoodEstablishme
 default_card_subtemplates_map.set("NewsArticle",NewsArticle);
 default_card_subtemplates_map.set("Place",Place);
 default_card_subtemplates_map.set("Fallback",Fallback);
+
 // this is a subtemplate for the default_card_slim
 default_card_subtemplates_map.set("EmailMessage",EmailMessage);
 

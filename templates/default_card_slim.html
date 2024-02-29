@@ -20,11 +20,11 @@ it places the copy button besides or underneath the confirmation code-->
         </div>
     </div>
     <div class="footer">
-        <!-- TODO Source this "special action" out -->
-        {{#potentialAction}}<button type="button" class="actionButton" onclick="
+        <!-- NOTE The data to be copied need to have a html class called: "data_to_copy" -->
+        {{#copyAction}}<button type="button" class="actionButton" onclick="
                                             let data =(this.parentElement.parentElement.getElementsByClassName('data_to_copy')[0].textContent);
                                              console.log(this.parentElement.parentElement.getElementsByClassName('data_to_copy')[0]);
                                             navigator.clipboard.writeText(data.trim());
-                                            ">CopyToClipboardAction</button>{{/potentialAction}}
+                                            ">CopyToClipboardAction</button>{{/copyAction}}
     </div>
 </div>
