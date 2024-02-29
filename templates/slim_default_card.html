@@ -3,19 +3,24 @@ it places the copy button besides or underneath the confirmation code-->
 <div class="smlCard">
     <div class="smlCardRow">
         <div class ="slim_text_column">
+                <!--Only render this part if we dont have a dedicated_text_column-->
+            {{^dedicated_text_column}}
+                <h1 class="card_title"> {{title}}</h1>
+                {{#content}}
+                    <p class="card_content">{{.}}</p>
+                {{/content}}
+            <div class="card_footnote">{{footer}}
+            </div>
+            {{/dedicated_text_column}}
 
-            <p class="card_content"><strong>Confirmation code:</strong> <span class="data_to_copy">{{potentialAction.description}}</span>
-
-            </p>
-            <p class="card_content"><strong>Expires:</strong> {{content}}
-
-            </p>
-
+            <!-- If there is a dedicated text column, take that -->
+            {{#dedicated_text_column}}
+                {{{dedicated_text_column}}}
+            {{/dedicated_text_column}}
         </div>
-
     </div>
-
     <div class="footer">
+        <!-- TODO Source this "special action" out -->
         {{#potentialAction}}<button type="button" class="actionButton" onclick="
                                             let data =(this.parentElement.parentElement.getElementsByClassName('data_to_copy')[0].textContent);
                                              console.log(this.parentElement.parentElement.getElementsByClassName('data_to_copy')[0]);

@@ -5,24 +5,27 @@
 import default_card from './templates/default_card.html';
 import confirmationCode from './templates/slim_default_card.html';
 
-import car from './templates/subtemplate_RentalCarReservation.html';
-import delivery from './templates/subtemplate_ParcelDelivery.html';
-import food from './templates/subtemplate_FoodEstablishmentReservation.html';
-import news from './templates/subtemplate_NewsArticle.html';
-import place from './templates/subtemplate_Place.html';
-import fallback from './templates/subtemplate_Fallback.html';
+import RentalCarReservation from './templates/subtemplate_RentalCarReservation.html';
+import ParcelDelivery from './templates/subtemplate_ParcelDelivery.html';
+import FoodEstablishmentReservation from './templates/subtemplate_FoodEstablishmentReservation.html';
+import NewsArticle from './templates/subtemplate_NewsArticle.html';
+import Place from './templates/subtemplate_Place.html';
+import Fallback from './templates/subtemplate_Fallback.html';
+import EmailMessage from './templates/subtemplate_EmailMessage(CopyClipboard).html';
 
-//TODO Find a better way to import the templates, keyword: dynmaic imports
+
+
 // These are specific "subtemplates" for the default_card
 // with these one can specify the rendering of the default_card for different schema types
 const default_card_subtemplates_map = new Map();
-default_card_subtemplates_map.set("RentalCarReservation",car);
-default_card_subtemplates_map.set("ParcelDelivery",delivery);
-default_card_subtemplates_map.set("FoodEstablishmentReservation",food);
-default_card_subtemplates_map.set("NewsArticle",news);
-default_card_subtemplates_map.set("Place",place);
-default_card_subtemplates_map.set("Fallback",fallback);
-
+default_card_subtemplates_map.set("RentalCarReservation",RentalCarReservation);
+default_card_subtemplates_map.set("ParcelDelivery",ParcelDelivery);
+default_card_subtemplates_map.set("FoodEstablishmentReservation",FoodEstablishmentReservation);
+default_card_subtemplates_map.set("NewsArticle",NewsArticle);
+default_card_subtemplates_map.set("Place",Place);
+default_card_subtemplates_map.set("Fallback",Fallback);
+// this is a subtemplate for the default_card_slim
+default_card_subtemplates_map.set("EmailMessage",EmailMessage);
 
 export function getDefaultCardSubtemplate(_type){
     if(default_card_subtemplates_map.has(_type)){

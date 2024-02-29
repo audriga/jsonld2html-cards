@@ -8,6 +8,7 @@ import { extractImage } from './lib/ImageExtraction.js';
 import  { createPotentialViewAction } from './lib/ViewAction.js'
 import icon_json from './config/FontAwesomeIconMap.json';
 import {getDefaultCardSubtemplate} from './template_exporter.js';
+//import json from '@rollup/plugin-json';
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
@@ -108,9 +109,12 @@ function renderFromTemplate(jsonLd, template) {
     }
 
     //===== Using of subtemplates =====
-    if(temp_card_obj.type === "NewsArticle" || temp_card_obj === "Article")
-    {
-        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
+    // TODO replace the type check if subtemplateMap.has(temp_card_obj.type)
+    if(temp_card_obj.type === "NewsArticle" || temp_card_obj.type === "Article")
+    {   
+        // The templates for NewsArticle and Article are the same but only found under "NewsArticle" in the map
+        let typeIdentifier = "NewsArticle";
+        let ded_template = getDefaultCardSubtemplate(typeIdentifier);
         let output = mustache.render(ded_template, jsonLd);
         temp_card_obj.dedicated_text_column = output;
     }
@@ -144,11 +148,11 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.dedicated_text_column = output;
     }
 
-    // TODO construct better structure for dealing with dedicated templates
-    // Maybe create base + subtemplate structure
     if(temp_card_obj.type === "EmailMessage")
-    {
-        temp_card_obj.content = jsonLd["expires"];
+    {   
+        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
+        let output = mustache.render(ded_template,jsonLd);
+        temp_card_obj.dedicated_text_column = output;
     }
     
     //===== Using of fallback if no subtemplate is set =====
@@ -157,7 +161,7 @@ function renderFromTemplate(jsonLd, template) {
         // Checking first in the "root" object for a value
         if(jsonLd["name"] !== undefined && typeof jsonLd["name"] === 'string')
         {
-            temp_card_obj.name = jsonLd["name"];
+            temp_card_obj.title= jsonLd["name"];
         }
         else
         {
@@ -172,7 +176,7 @@ function renderFromTemplate(jsonLd, template) {
         // Checking first in the "root" object for a value
         if(jsonLd["description"] !== undefined && typeof jsonLd["description"] === 'string')
         {
-            temp_card_obj.description = jsonLd["description"];
+            temp_card_obj.content = jsonLd["description"];
         }
         else
         {
