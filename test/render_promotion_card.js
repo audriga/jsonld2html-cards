@@ -11,13 +11,13 @@ const fs = require('fs');
 const promotion_card_template_file_path = "../templates/component_email_promotion.html";
 // location of the default_card_template
 const card_container_path = "../templates/promotion_card.html";
-const schemas_dir_path = "schema_org/";
+const schemas_dir_path = "../test/schema_org/";
 const file = schemas_dir_path + "promotionCard_google.com.json";
 
 // ===== OUTPUT =====
 
-var outputFileNameComponent = 'output/rendered_component_email_promotion.html';
-var outputFileNameFinishedCard = 'output/rendered_promotion_card.html';
+var outputFileNameComponent = 'output/rendered_component_email_promotion2.html';
+var outputFileNameFinishedCard = 'output/rendered_promotion_card2.html';
 
 
 // ===== File Reading =====
@@ -55,7 +55,6 @@ function getCurrencyChar(_symbol){
         return "$";
     }
     else {return _symbol;}
-
 }
 
 function findNestedObjWithVal(entireObj, keyToFind, valToFind) {

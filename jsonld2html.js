@@ -8,7 +8,7 @@ import { extractImage } from './lib/ImageExtraction.js';
 import  { createPotentialViewAction } from './lib/ViewAction.js'
 import icon_json from './config/FontAwesomeIconMap.json';
 import {getDefaultCardSubtemplate} from './template_exporter.js';
-//import json from '@rollup/plugin-json';
+import {hasDefaultCardSubtemplate} from './template_exporter.js';
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
@@ -73,7 +73,7 @@ function findNestedObj(entireObj, keyToFind) {
 }
 
 /**
- * this function is used to find objects inside a specific
+ * this function is used to find objects regardless of their location in the object
  * it returns the object in which to key and val matching
  */
 function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
@@ -87,7 +87,7 @@ function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
     return foundObj;
 }
 
-function renderFromTemplate(jsonLd, template) {
+function renderFromTemplate(jsonLd, template, type=jsonLd["@type"]) {
 
 
     let temp_card_obj = new Card();
@@ -111,7 +111,7 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.pictureURL = jsonLd["thumbnail"];
     }
 
-    //===== Using of subtemplates =====
+    // ===== Using of subtemplates =====
     // TODO replace the type check if subtemplateMap.has(temp_card_obj.type)
     if(temp_card_obj.type === "NewsArticle" || temp_card_obj.type === "Article")
     {   
@@ -158,7 +158,72 @@ function renderFromTemplate(jsonLd, template) {
         temp_card_obj.dedicated_text_column = output;
     }
     
-    //===== Using of fallback if no subtemplate is set =====
+    // ===== Special case "PromotionCards" =====
+
+    // if(hasDefaultCardSubtemplate(type))
+    if(type === "PromotionCards")
+    {
+        function findNestedObjectsWithVal(entireObj, keyToFind, valToFind) {
+            let foundObj= [];
+            JSON.stringify(entireObj, (_, nestedValue) => {
+                if (nestedValue && nestedValue[keyToFind] === valToFind)  {
+                    foundObj.push(nestedValue);
+                }
+                return nestedValue;
+            });
+            if(foundObj.length >= 1){
+                return foundObj;
+            }
+            else return null;
+        }
+
+        function findNestedObjWithKey(entireObj, keyToFind) {
+            let foundObj;
+            JSON.stringify(entireObj, (_, nestedValue) => {
+                if (nestedValue && nestedValue[keyToFind]){
+                    foundObj = (nestedValue[keyToFind]);
+                }
+                return nestedValue;
+            });
+            return foundObj;
+        }
+
+        function getCurrencyChar(_symbol){
+            if(_symbol === "USD"){
+                return "$";
+            }
+            else {return _symbol;}
+        }
+
+        let mustacheDataObj = new Object();
+        mustacheDataObj["promotionCards"] = [];
+        mustacheDataObj["logo"] = findNestedObjWithKey(jsonLd,"logo");
+        mustacheDataObj["subjectLine"] = findNestedObjWithKey(jsonLd,"subjectLine");
+        mustacheDataObj["description"] = findNestedObjWithKey(jsonLd,"description");
+        mustacheDataObj["discountCode"] = findNestedObjWithKey(jsonLd,"discountCode");
+
+        let foundObjects= findNestedObjectsWithVal(jsonLd,"@type","PromotionCard");
+
+        for (const obj of foundObjects){
+
+            let promoCardTest = {
+                image: obj["image"],
+                headline: obj["headline"],
+                discountValue: obj["discountValue"],
+                newPrice: getCurrencyChar(obj["priceCurrency"]) + String(obj["price"] - obj["discountValue"]),
+                oldPrice: getCurrencyChar(obj["priceCurrency"]) + String(obj["price"]),
+                priceCurrency: obj["priceCurrency"]
+            }
+            mustacheDataObj["promotionCards"].push(mustache.render(getDefaultCardSubtemplate(type),promoCardTest))
+
+        }
+        
+        let finalCard = mustache.render(template, mustacheDataObj);
+        return finalCard;
+
+    }
+
+    // ===== Using of fallback if no subtemplate is set =====
     if(temp_card_obj.dedicated_text_column === undefined)
     {
         // Checking first in the "root" object for a value
@@ -216,10 +281,32 @@ function renderFromTemplate(jsonLd, template) {
     }
 
     // render the template with data
+    // Used for the final rendering of the default card and its subtemplates
+    // Used for "fallback" rendering
     return mustache.render(template, temp_card_obj);
 }
 
 jsonld2html.render = function render(jsonLd) {
+    
+    // Detect special json-lds which cannot be determined after getMainEntity
+    
+    // Special case: "PromotionCard"
+    if(Array.isArray(jsonLd))
+    {   
+        let promoCardCounter = 0;
+        for (const iterator of jsonLd) {
+            // The most noticeable attribute of a "PromotionCard" is: containing three of them
+            if(iterator["@type"] === "PromotionCard"){
+                promoCardCounter +=1;
+            }
+        }
+        if(promoCardCounter === 3){
+            let artificialType = "PromotionCards";
+            return renderFromTemplate(jsonLd,getTemplate(artificialType),artificialType);
+        }
+    }
+
+
     // Preprocessing
     let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
     // TODO - replace "Find" function
