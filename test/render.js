@@ -125,8 +125,9 @@ console.log('Storing to file path:', outFilePath);
 let default_header = `<meta charSet="UTF-8"> 
         <title>default_cards</title> 
         <link rel="stylesheet" href="../../style/default_card.css">
-        <link rel="stylesheet" href="../../style/component_tab_bar.css"> 
-        
+        <link rel="stylesheet" href="../../style/reservation_flight_card.css"> 
+        <link rel="stylesheet" href="../../style/promotion_card.css"> 
+
         <script src="https://kit.fontawesome.com/4f20261f74.js" crossorigin="anonymous">
          
         </script>

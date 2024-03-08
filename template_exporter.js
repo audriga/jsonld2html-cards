@@ -3,6 +3,7 @@
  */
 
 import default_card from './templates/default_card.html';
+import backgroundImage_default_card from './templates/background_image_card.html'
 import confirmationCode from './templates/default_card_slim.html';
 import FlightReservationArray from './templates/reservation_flight_card.html';
 
@@ -64,6 +65,11 @@ if(typeof PromotionCards !== 'undefined'){
 if (typeof FlightReservationArray !== 'undefined') {
     available_templates.set("FlightReservationArray", FlightReservationArray);
 }
+if (typeof backgroundImage_default_card !== 'undefined') {
+    available_templates.set("backgroundImage_default_card", backgroundImage_default_card);
+}
+
+
 
 // Mapping schema type to dedicated template file
 const dedicatedTemplateFiles = new Map();
@@ -76,7 +82,9 @@ if(typeof PromotionCards !== 'undefined'){
 if (typeof FlightReservationArray !== 'undefined') {
     dedicatedTemplateFiles.set("FlightReservationArray","FlightReservationArray");
 }
-
+if (typeof backgroundImage_default_card !== 'undefined') {
+    dedicatedTemplateFiles.set("NewsArticle","backgroundImage_default_card");
+}
 
 
 /* Edit above to in case you added your own templates. */

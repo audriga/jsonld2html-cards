@@ -5,7 +5,7 @@
     <div class = "header">
         <!-- Tab links -->
         <div class="tab">
-            {{#cardListElement}}<button class="tablinks {{tab_bar}}" onclick='
+            {{#cardListElement}}<button type="button" class="tablinks {{tab_bar}}" onclick='
             function openCard(evt,contentID, _tab_bar)
             {
                 var i, tabcontent, tablinks;
@@ -30,8 +30,8 @@
                 evt.currentTarget.classList.add("active");
             }
             openCard(event,"{{tab_id}}", "{{tab_bar}}");
-            '
-            >{{reservationNumber}} {{underName.name}}</button>{{/cardListElement}}
+            ' 
+            autofocus>{{reservationNumber}} {{underName.name}}</button>{{/cardListElement}}
 
         </div>
     </div>
