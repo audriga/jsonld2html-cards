@@ -8,7 +8,7 @@ import { extractImage } from './lib/ImageExtraction.js';
 import  { createPotentialViewAction } from './lib/ViewAction.js'
 import icon_json from './config/FontAwesomeIconMap.json';
 import {getDefaultCardSubtemplate} from './template_exporter.js';
-import json from '@rollup/plugin-json';
+
 import {hasDefaultCardSubtemplate} from './template_exporter.js';
 
 /**
@@ -112,6 +112,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
         temp_card_obj.pictureURL = jsonLd["thumbnail"];
     }
 
+    // ===== Special case "FlightReservationArray" =====
     if(dedicatedType === "FlightReservationArray"){
 
         let obj = new Object();
@@ -182,7 +183,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
     // ===== Special case "PromotionCards" =====
 
     // if(hasDefaultCardSubtemplate(type))
-    if(type === "PromotionCards")
+    if(dedicatedType === "PromotionCards")
     {
         function findNestedObjectsWithVal(entireObj, keyToFind, valToFind) {
             let foundObj= [];
@@ -235,7 +236,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
                 oldPrice: getCurrencyChar(obj["priceCurrency"]) + String(obj["price"]),
                 priceCurrency: obj["priceCurrency"]
             }
-            mustacheDataObj["promotionCards"].push(mustache.render(getDefaultCardSubtemplate(type),promoCardTest))
+            mustacheDataObj["promotionCards"].push(mustache.render(getDefaultCardSubtemplate(dedicatedType),promoCardTest))
 
         }
         

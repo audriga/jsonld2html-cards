@@ -8,9 +8,6 @@
             {{#cardListElement}}<button class="tablinks" onclick='
             function openCard(evt,contentID, barClass)
             {
-                // let contentID = "{{tab_id}}";
-                // let barClass = "{{bar_class}}";
-                // Declare all variables
                 var i, tabcontent, tablinks;
     
                 // Get all elements with class="tabcontent" and hide them
@@ -18,16 +15,9 @@
                 for (i = 0; i < tabcontent.length; i++) {
                     tabcontent[i].style.display = "none";
                 }
-    
-                // Get all elements with class="tablinks" and remove the class "active"
-                // tablinks = document.getElementsByClassName("." + barClass + " .tablinks");
-                tablinks = document.querySelectorAll(".tablinks");
 
-                tablinks2 = document.querySelectorAll(".tablinks" + "."+barClass );
-                tablinks3 = document.querySelectorAll("."+barClass);
-                
-                console.log(tablinks2);
-                console.log(tablinks3);
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.querySelectorAll(".tablinks");
                 for (i = 0; i < tablinks.length; i++) {
                     tablinks[i].classList.remove("active");
                 }

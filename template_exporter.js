@@ -4,7 +4,7 @@
 
 import default_card from './templates/default_card.html';
 import confirmationCode from './templates/default_card_slim.html';
-import FlightReservationArray from './templates/component_tab_bar.html';
+import FlightReservationArray from './templates/reservation_flight_card.html';
 
 import RentalCarReservation from './templates/subtemplate_RentalCarReservation.html';
 import ParcelDelivery from './templates/subtemplate_ParcelDelivery.html';
