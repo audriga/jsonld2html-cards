@@ -118,13 +118,13 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
         let obj = new Object();
         obj["cardListElement"] = [];
 
-        let barClass = "bar" + Math.floor(Math.random() * 100);
+        let tab_bar_id = "bar" + Math.floor(Math.random() * 100);
 
-        // adding an id to the instances
-        let i = Math.floor(Math.random() * 100);
+        // adding an synthetic ID to the instances
+        let i = Math.floor(Math.random() * 1000000000000001);
         for (let ObjectElement of jsonLd) {
             ObjectElement["tab_id"] = ObjectElement["@type"] + i;
-            ObjectElement["bar_class"] = barClass;
+            ObjectElement["tab_bar"] = tab_bar_id;
             obj.cardListElement.push(ObjectElement);
                 i++;
         }
@@ -133,28 +133,8 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
 
     }
 
-    // ===== Using of subtemplates =====
-    if(temp_card_obj.type === "NewsArticle" || temp_card_obj.type === "Article")
-    {   
-        //TODO Find a better way to do the same rendering for NewsArticle and Article
-        // The templates for NewsArticle and Article are the same but only found under "NewsArticle" in the map
-        let typeIdentifier = "NewsArticle";
-        let ded_template = getDefaultCardSubtemplate(typeIdentifier);
-        let output = mustache.render(ded_template, jsonLd);
-        temp_card_obj.dedicated_text_column = output;
-    }
-
-
-    if(hasDefaultCardSubtemplate(temp_card_obj.type)){
-
-        let output =  mustache.render(getDefaultCardSubtemplate(temp_card_obj.type), jsonLd);
-        temp_card_obj.dedicated_text_column = output;
-    }
-
     
     // ===== Special case "PromotionCards" =====
-
-    // if(hasDefaultCardSubtemplate(type))
     if(dedicatedType === "PromotionCards")
     {
         function findNestedObjectsWithVal(entireObj, keyToFind, valToFind) {
@@ -170,7 +150,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
             }
             else return null;
         }
-
+        
         function findNestedObjWithKey(entireObj, keyToFind) {
             let foundObj;
             JSON.stringify(entireObj, (_, nestedValue) => {
@@ -181,25 +161,25 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
             });
             return foundObj;
         }
-
+        
         function getCurrencyChar(_symbol){
             if(_symbol === "USD"){
                 return "$";
             }
             else {return _symbol;}
         }
-
+        
         let mustacheDataObj = new Object();
         mustacheDataObj["promotionCards"] = [];
         mustacheDataObj["logo"] = findNestedObjWithKey(jsonLd,"logo");
         mustacheDataObj["subjectLine"] = findNestedObjWithKey(jsonLd,"subjectLine");
         mustacheDataObj["description"] = findNestedObjWithKey(jsonLd,"description");
         mustacheDataObj["discountCode"] = findNestedObjWithKey(jsonLd,"discountCode");
-
+        
         let foundObjects= findNestedObjectsWithVal(jsonLd,"@type","PromotionCard");
-
+        
         for (const obj of foundObjects){
-
+            
             let promoCardTest = {
                 image: obj["image"],
                 headline: obj["headline"],
@@ -209,13 +189,32 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
                 priceCurrency: obj["priceCurrency"]
             }
             mustacheDataObj["promotionCards"].push(mustache.render(getDefaultCardSubtemplate(dedicatedType),promoCardTest))
-
+            
         }
         
         let finalCard = mustache.render(template, mustacheDataObj);
         return finalCard;
-
+        
     }
+    
+    // ===== general using of sub templates 
+    if(hasDefaultCardSubtemplate(temp_card_obj.type)){
+        
+        let output =  mustache.render(getDefaultCardSubtemplate(temp_card_obj.type), jsonLd);
+        temp_card_obj.dedicated_text_column = output;
+    }
+    
+    // ===== special case of sub templates =====
+    if(temp_card_obj.type === "NewsArticle" || temp_card_obj.type === "Article")
+    {   
+        //TODO Find a better way to do the same rendering for NewsArticle and Article
+        // The templates for NewsArticle and Article are the same but only found under "NewsArticle" in the map
+        let typeIdentifier = "NewsArticle";
+        let ded_template = getDefaultCardSubtemplate(typeIdentifier);
+        let output = mustache.render(ded_template, jsonLd);
+        temp_card_obj.dedicated_text_column = output;
+    }
+
 
     // ===== Using of fallback if no subtemplate is set =====
     if(temp_card_obj.dedicated_text_column === undefined)
