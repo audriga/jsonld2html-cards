@@ -5,19 +5,22 @@
     <div class = "header">
         <!-- Tab links -->
         <div class="tab barClass">
-            {{#cardListElement}}<button class="tablinks" onclick='
+            {{#cardListElement}}<button class="tablinks {{bar_class}}" onclick='
             function openCard(evt,contentID, barClass)
             {
                 var i, tabcontent, tablinks;
     
-                // Get all elements with class="tabcontent" and hide them
-                tabcontent = document.querySelectorAll("." + barClass);
+                // Get all elements with class="tabcontent" and "barClass" and hide them
+                tabcontents = document.querySelectorAll("." + barClass);
+                tabcontent = document.getElementsByClassName("tabcontent " + barClass);
                 for (i = 0; i < tabcontent.length; i++) {
                     tabcontent[i].style.display = "none";
                 }
 
-                // Get all elements with class="tablinks" and remove the class "active"
-                tablinks = document.querySelectorAll(".tablinks");
+                // Get all elements with class="tablinks and "barClass" and remove the class "active"
+        
+                tablinks = document.getElementsByClassName("tablinks " + barClass);
+                
                 for (i = 0; i < tablinks.length; i++) {
                     tablinks[i].classList.remove("active");
                 }

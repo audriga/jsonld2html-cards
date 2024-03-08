@@ -134,9 +134,9 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
     }
 
     // ===== Using of subtemplates =====
-    // TODO replace the type check if subtemplateMap.has(temp_card_obj.type)
     if(temp_card_obj.type === "NewsArticle" || temp_card_obj.type === "Article")
     {   
+        //TODO Find a better way to do the same rendering for NewsArticle and Article
         // The templates for NewsArticle and Article are the same but only found under "NewsArticle" in the map
         let typeIdentifier = "NewsArticle";
         let ded_template = getDefaultCardSubtemplate(typeIdentifier);
@@ -144,41 +144,13 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
         temp_card_obj.dedicated_text_column = output;
     }
 
-    if(temp_card_obj.type === "FoodEstablishmentReservation")
-    {
-        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
-        let output = mustache.render(ded_template, jsonLd);
-        temp_card_obj.dedicated_text_column = output;
 
-    }
+    if(hasDefaultCardSubtemplate(temp_card_obj.type)){
 
-    if(temp_card_obj.type === "RentalCarReservation")
-    {   
-        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
-        let output = mustache.render(ded_template, jsonLd);
+        let output =  mustache.render(getDefaultCardSubtemplate(temp_card_obj.type), jsonLd);
         temp_card_obj.dedicated_text_column = output;
     }
 
-    if(temp_card_obj.type === "ParcelDelivery")
-    {
-        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
-        let output = mustache.render(ded_template,jsonLd);
-        temp_card_obj.dedicated_text_column = output;
-    }
-
-    if(temp_card_obj.type == "Place")
-    {
-        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
-        let output = mustache.render(ded_template, jsonLd);
-        temp_card_obj.dedicated_text_column = output;
-    }
-
-    if(temp_card_obj.type === "EmailMessage")
-    {   
-        let ded_template = getDefaultCardSubtemplate(temp_card_obj.type);
-        let output = mustache.render(ded_template,jsonLd);
-        temp_card_obj.dedicated_text_column = output;
-    }
     
     // ===== Special case "PromotionCards" =====
 
