@@ -8,6 +8,7 @@ import { extractImage } from './lib/ImageExtraction.js';
 import  { createPotentialViewAction } from './lib/ViewAction.js'
 import icon_json from './config/FontAwesomeIconMap.json';
 import {getDefaultCardSubtemplate} from './template_exporter.js';
+import json from '@rollup/plugin-json';
 //import json from '@rollup/plugin-json';
 
 /**
@@ -87,7 +88,7 @@ function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
     return foundObj;
 }
 
-function renderFromTemplate(jsonLd, template) {
+function renderFromTemplate(jsonLd, template, dedicatedType = "") {
 
 
     let temp_card_obj = new Card();
@@ -109,6 +110,26 @@ function renderFromTemplate(jsonLd, template) {
     typeof jsonLd["thumbnail"] === 'string')
     {
         temp_card_obj.pictureURL = jsonLd["thumbnail"];
+    }
+
+    if(dedicatedType === "FlightReservationArray"){
+
+        let obj = new Object();
+        obj["cardListElement"] = [];
+
+        let barClass = "bar" + Math.floor(Math.random() * 100);
+
+        // adding an id to the instances
+        let i = Math.floor(Math.random() * 100);
+        for (let ObjectElement of jsonLd) {
+            ObjectElement["tab_id"] = ObjectElement["@type"] + i;
+            ObjectElement["bar_class"] = barClass;
+            obj.cardListElement.push(ObjectElement);
+                i++;
+        }
+
+        return mustache.render(template,obj);
+
     }
 
     //===== Using of subtemplates =====
@@ -206,7 +227,6 @@ function renderFromTemplate(jsonLd, template) {
     if(action_object !== null){
         if(action_object.potentialAction["@type"] === "CopyToClipboardAction")
         {   
-            console.log("copy action found")
             temp_card_obj.copyAction = action_object.potentialAction;
         }
         else
@@ -220,6 +240,25 @@ function renderFromTemplate(jsonLd, template) {
 }
 
 jsonld2html.render = function render(jsonLd) {
+    // Bypass getMainEntity in special case
+    if(Array.isArray(jsonLd)){
+        let isFlightReservationArray = true;
+        // Check if all Elements are FlightReservations
+        for (const iterator of jsonLd) {
+            if(iterator["@type"] === undefined
+                    || iterator["@type"] !== "FlightReservation"){
+                isFlightReservationArray = false;
+            }
+        }
+
+        if(isFlightReservationArray)
+        {  
+            let artificialType = "FlightReservationArray";
+            
+            return renderFromTemplate(jsonLd, getTemplate(artificialType), artificialType);
+        }
+    }
+
     // Preprocessing
     let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
     // TODO - replace "Find" function

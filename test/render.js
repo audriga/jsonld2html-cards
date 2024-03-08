@@ -124,7 +124,9 @@ console.log('Storing to file path:', outFilePath);
 // Header for building the HTML file
 let default_header = `<meta charSet="UTF-8"> 
         <title>default_cards</title> 
-        <link rel="stylesheet" href="../../style/default_card.css"> 
+        <link rel="stylesheet" href="../../style/default_card.css">
+        <link rel="stylesheet" href="../../style/component_tab_bar.css"> 
+        
         <script src="https://kit.fontawesome.com/4f20261f74.js" crossorigin="anonymous">
          
         </script>
@@ -159,6 +161,7 @@ let default_header = `<meta charSet="UTF-8">
 
             }
         }
+
         
         function testImage(url) {
             // Define the promise

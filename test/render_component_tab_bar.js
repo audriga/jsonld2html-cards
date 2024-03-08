@@ -4,25 +4,21 @@ for each schema found, it will render the data with mustache
 into the the default_card.html file and saving the HTML file in the ouptput folder
  */
 
-//Requirements
 const Mustache = require('mustache');
 const fs = require('fs');
-const mustache = require("mustache");
 
 
 
 
 // Location of the Template and Location of Schema json-ld sample data
 const template_file_path = "../templates/component_tab_bar.html";
-const schemas_dir_path = "schema_org/";
+const schemas_dir_path = "../test/schema_org/";
 
 // loading the HTML mustache template
 let template = fs.readFileSync(template_file_path).toString();
 
 // Reading Schema.org Object (Json-ld Object) from schema_org
 let data_object = fs.readFileSync(schemas_dir_path + "flight_multi_passenger.json");
-
-
 
 
 
@@ -114,7 +110,7 @@ for (let ObjectElement of data_object) {
 
 //arrayObject["cardListElement"] = [data_object[0],data_object[1]];
 
-html_content = mustache.render(template,obj);
+html_content = Mustache.render(template,obj);
 
 
 
@@ -129,7 +125,7 @@ console.log(data_object);
 
 let outputHTML = buildHtml(default_header, html_content);
 
-var fileName = 'output/rendered_tab_bar.html';
+var fileName = '../test/output/rendered_tab_bar.html';
 
 saveFile(fileName,outputHTML);
 
@@ -141,4 +137,3 @@ function saveFile(_fileName,_dataString) {
         stream.end(html);
     })
 }
-
