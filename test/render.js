@@ -23,68 +23,69 @@ async function buildTemplatesToString(_schemas_dir_path) {
     for (let file of schema_files) {
 
         let raw_data_object;
-        if(!(file.endsWith(".json"))) {break;}
+        if((file.endsWith(".json"))) {
 
-        try {
+            try {
 
-            
-            // Reading Schema.org Object (Json-ld Object) from schema_org
-            raw_data_object = fs.readFileSync(_schemas_dir_path + file);
-            // Parsing to JSON
-            raw_data_object = JSON.parse(raw_data_object);
-            // render the json, json will be changed (call by reference)
-            let rendered_ld = await Jsonld2html.render(raw_data_object);
-            // FIXME Call by Reference messed up things here
-            raw_data_object = Jsonld2html.extractImage(Jsonld2html.createPotentialViewAction(Jsonld2html.getMainEntity(raw_data_object)))
-
-
-            // Create a "raw" Json to observe the changes from the Jsonld2html preprocessing
-            let raw_unprocessed_data_object = JSON.parse(fs.readFileSync(_schemas_dir_path + file));
-            
-            let expandable_data_details = `
-                        <br>
-                        <br>
-                         <details>
-                            <summary>
-                                Show me the original JSON
-                                <span class="icon">👇</span>
-                            </summary>
-                            <p><pre><code>
-                                ${JSON.stringify(raw_unprocessed_data_object,null,4)}
-                                </code>
-                                </pre>
-                            </p>
-                        </details>
-                        <br>
-                         <details>
-                            <summary>
-                                Show me the preprocessed JSON
-                                <span class="icon">👇</span>
-                            </summary>
-                            <p><pre><code>
-                                ${JSON.stringify(raw_data_object,null,4)}
-                                </code>
-                                </pre>
-                            </p>
-                        </details>`
+                // Reading Schema.org Object (Json-ld Object) from schema_org
+                raw_data_object = fs.readFileSync(_schemas_dir_path + file);
+                // Parsing to JSON
+                raw_data_object = JSON.parse(raw_data_object);
+                // render the json, json will be changed (call by reference)
+                let rendered_ld = await Jsonld2html.render(raw_data_object);
+                // FIXME Call by Reference messed up things here
+                raw_data_object = Jsonld2html.extractImage(Jsonld2html.createPotentialViewAction(Jsonld2html.getMainEntity(raw_data_object)))
 
 
+                // Create a "raw" Json to observe the changes from the Jsonld2html preprocessing
+                let raw_unprocessed_data_object = JSON.parse(fs.readFileSync(_schemas_dir_path + file));
+                
+                let expandable_data_details = `
+                            <br>
+                            <br>
+                            <details>
+                                <summary>
+                                    Show me the original JSON
+                                    <span class="icon">👇</span>
+                                </summary>
+                                <p><pre><code>
+                                    ${JSON.stringify(raw_unprocessed_data_object,null,4)}
+                                    </code>
+                                    </pre>
+                                </p>
+                            </details>
+                            <br>
+                            <details>
+                                <summary>
+                                    Show me the preprocessed JSON
+                                    <span class="icon">👇</span>
+                                </summary>
+                                <p><pre><code>
+                                    ${JSON.stringify(raw_data_object,null,4)}
+                                    </code>
+                                    </pre>
+                                </p>
+                            </details>`
 
-            anchored_list += ("<a href=#"+file+ ">" + file+ "</a><br>");
 
 
-            // a heading used as divider and base for anchored links aswell as the copy link button
-            let card_divider_heading = `<a href=#${file}><h3 id = ${file}> ${file} <button onclick=copyLinkFunction("${file}")><i class="fa-solid fa-link"></i> copy link </button></h3></a>`;
+                anchored_list += ("<a href=#"+file+ ">" + file+ "</a><br>");
 
-            // render the template with data
-            html_content = html_content + card_divider_heading + (rendered_ld + expandable_data_details);
 
-        }
-        catch (error){
-            console.error(error.name);
+                // a heading used as divider and base for anchored links aswell as the copy link button
+                let card_divider_heading = `<a href=#${file}><h3 id = ${file}> ${file} <button onclick=copyLinkFunction("${file}")><i class="fa-solid fa-link"></i> copy link </button></h3></a>`;
 
-            console.error(error.message);
-            error_files.push(file);
+                // render the template with data
+                html_content = html_content + card_divider_heading + (rendered_ld + expandable_data_details);
+
+            }
+            catch (error){
+                console.error(error.name);
+
+                console.error(error.message);
+                error_files.push(file);
+            }
+
         }
 
 

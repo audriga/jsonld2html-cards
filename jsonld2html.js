@@ -2,14 +2,13 @@
  * Renders JSON-LD as HTML
  */
 import mustache from 'mustache';
-import getTemplate from './template_exporter.js';
-import { getMainEntity } from './lib/MainEntity.js';
-import { extractImage } from './lib/ImageExtraction.js';
-import  { createPotentialViewAction } from './lib/ViewAction.js'
-import icon_json from './config/FontAwesomeIconMap.json';
-import {getDefaultCardSubtemplate} from './template_exporter.js';
+import getTemplate from './lib/template_exporter.js';
+import getMainEntity from './lib/main_entity.js';
+import extractImage from './lib/image_extraction.js';
+import createPotentialViewAction from './lib/view_action.js'
+import typeToIconMap from './lib/type_to_icon_map.js';
+import {getDefaultCardSubtemplate, hasDefaultCardSubtemplate} from './lib/template_exporter.js';
 
-import {hasDefaultCardSubtemplate} from './template_exporter.js';
 
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
@@ -34,12 +33,6 @@ var jsonld2html = {
     version: '0.0.1'
 }
 
-// Mapping the fallback icon to schema type
-const typeToIconMap = new Map();
-
-Object.entries(icon_json).forEach(element => {
-    typeToIconMap.set(element[0],element[1]);
-});
 
 /**
  * @param {object} entireObj - Object to search
