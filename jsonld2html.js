@@ -13,14 +13,13 @@ import {getDefaultCardSubtemplate, hasDefaultCardSubtemplate} from './lib/templa
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
  */
-function Card(_type, _pictureURL, _iconName="image",_title, _content = [] ,
-     _footer, _breadcrumbList, _dedicated_text_column, _urlAction,_copyAction){
-    //this.type = _type;
+function Card(_pictureURL, _iconName="image",_title, _content = [] ,
+     _footer, _breadcrumbList, _dedicatedTextColumn, _urlAction,_copyAction){
     this.pictureURL = _pictureURL;
     this.iconName = _iconName;
     this.title = _title;
     this.content = _content;
-    this.dedicated_text_column = _dedicated_text_column;
+    this.dedicatedTextColumn = _dedicatedTextColumn;
     this.footer = _footer;
     this.breadcrumbList = _breadcrumbList;
     this.urlAction = _urlAction;
@@ -194,7 +193,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
     if(hasDefaultCardSubtemplate(temp_card_obj.type)){
         
         let output =  mustache.render(getDefaultCardSubtemplate(temp_card_obj.type), jsonLd);
-        temp_card_obj.dedicated_text_column = output;
+        temp_card_obj.dedicatedTextColumn = output;
     }
     
     // ===== special case of sub templates =====
@@ -205,12 +204,12 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
         let typeIdentifier = "NewsArticle";
         let ded_template = getDefaultCardSubtemplate(typeIdentifier);
         let output = mustache.render(ded_template, jsonLd);
-        temp_card_obj.dedicated_text_column = output;
+        temp_card_obj.dedicatedTextColumn = output;
     }
 
 
     // ===== Using of fallback if no subtemplate is set =====
-    if(temp_card_obj.dedicated_text_column === undefined)
+    if(temp_card_obj.dedicatedTextColumn === undefined)
     {
         // Checking first in the "root" object for a value
         if(jsonLd["name"] !== undefined && typeof jsonLd["name"] === 'string')
