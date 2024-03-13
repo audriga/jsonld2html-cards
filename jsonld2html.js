@@ -196,18 +196,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
         temp_card_obj.dedicatedTextColumn = output;
     }
     
-    // ===== special case of sub templates =====
-    if(temp_card_obj.type === "NewsArticle" || temp_card_obj.type === "Article")
-    {   
-        //TODO Find a better way to do the same rendering for NewsArticle and Article
-        // The templates for NewsArticle and Article are the same but only found under "NewsArticle" in the map
-        let typeIdentifier = "NewsArticle";
-        let ded_template = getDefaultCardSubtemplate(typeIdentifier);
-        let output = mustache.render(ded_template, jsonLd);
-        temp_card_obj.dedicatedTextColumn = output;
-    }
-
-
+    
     // ===== Using of fallback if no subtemplate is set =====
     if(temp_card_obj.dedicatedTextColumn === undefined)
     {
