@@ -4,5 +4,6 @@
     "MusicAlbum": "compact-disc",
     "MusicRecording": "music",
     "BusReservation": "bus",
-    "Place": "location-dot"
+    "Place": "location-dot",
+    "Movie": "video"
 }

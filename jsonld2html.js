@@ -10,6 +10,7 @@ import typeToIconMap from './lib/type_to_icon_map.js';
 import {getDefaultCardSubtemplate, hasDefaultCardSubtemplate} from './lib/template_exporter.js';
 
 
+
 /**
  * Data Object used as transfer between data_object from jsonld file and the mustache template
  */
@@ -83,48 +84,32 @@ function findNestedObjWithValue(entireObj, keyToFind, valToFind) {
 function renderFromTemplate(jsonLd, template, dedicatedType = "") {
 
 
-    let temp_card_obj = new Card();
 
-    temp_card_obj.type = jsonLd["@type"];
-    // temp_card_obj.type = findValueFromKey(jsonLd,"@type");
-
-    if(typeToIconMap.has(temp_card_obj.type)) {
-        temp_card_obj.iconName = typeToIconMap.get(temp_card_obj.type);
+    if(typeToIconMap.has(jsonLd["@type"])) {
+        jsonLd["iconName"] = typeToIconMap.get(jsonLd["@type"]);
     }
+    // in case we dont have a type specific icon we use a default icon
+    else { jsonLd["iconName"] = "image";}
     
-   // The extracted image is stored under the "thumbnailUrl" property
-   // still we gonna doublecheck if it is a valid string (Url)
-    if(jsonLd["thumbnailUrl"] !== undefined && typeof jsonLd["thumbnailUrl"] === 'string')
-    {
-        temp_card_obj.pictureURL = jsonLd["thumbnailUrl"];
-    }
-    if(jsonLd["thumbnailUrl"] === undefined && jsonLd["thumbnail"] !== undefined &&
-    typeof jsonLd["thumbnail"] === 'string')
-    {
-        temp_card_obj.pictureURL = jsonLd["thumbnail"];
-    }
 
     // ===== Special case "FlightReservationArray" =====
     if(dedicatedType === "FlightReservationArray"){
 
-        let obj = new Object();
-        obj["cardListElement"] = [];
-
+        // Creating ID for the bar to wire it with its tabs
         let tab_bar_id = "bar" + Math.floor(Math.random() * 100);
-
         // adding an synthetic ID to the instances
         let i = Math.floor(Math.random() * 1000000000000001);
-        for (let ObjectElement of jsonLd) {
-            ObjectElement["tab_id"] = ObjectElement["@type"] + i;
-            ObjectElement["tab_bar"] = tab_bar_id;
-            obj.cardListElement.push(ObjectElement);
+
+        // wire the IDs to each FlightReservation
+        for (const iterator of jsonLd) {
+            if(iterator["@type"] === "FlightReservation"){
+                iterator["tab_id"] = iterator["@type"] + i;
+                iterator["tab_bar"] = tab_bar_id;
                 i++;
+            }
         }
-
-        return mustache.render(template,obj);
-
+        return mustache.render(template,jsonLd);
     }
-
     
     // ===== Special case "PromotionCards" =====
     if(dedicatedType === "PromotionCards")
@@ -190,73 +175,21 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
     }
     
     // ===== general using of sub templates 
-    if(hasDefaultCardSubtemplate(temp_card_obj.type)){
+    if(hasDefaultCardSubtemplate(jsonLd["@type"])){
         
-        let output =  mustache.render(getDefaultCardSubtemplate(temp_card_obj.type), jsonLd);
-        temp_card_obj.dedicatedTextColumn = output;
+        let output =  mustache.render(getDefaultCardSubtemplate(jsonLd["@type"]), jsonLd);
+        jsonLd["dedicatedTextColumn"] = output;
     }
-    
-    
+
     // ===== Using of fallback if no subtemplate is set =====
-    if(temp_card_obj.dedicatedTextColumn === undefined)
+    if(jsonLd["dedicatedTextColumn"] === undefined
+        && hasDefaultCardSubtemplate("Fallback"))
     {
-        // Checking first in the "root" object for a value
-        if(jsonLd["name"] !== undefined && typeof jsonLd["name"] === 'string')
-        {
-            temp_card_obj.title= jsonLd["name"];
-        }
-        else
-        {
-            // If not in the "root" object search in the whole object to find nested values
-            let title_object = findNestedObj(jsonLd,"name");
-            if(title_object !== null && temp_card_obj.title === undefined)
-            {
-
-                temp_card_obj.title = title_object.name;
-            }
-        }
-        // Checking first in the "root" object for a value
-        if(jsonLd["description"] !== undefined && typeof jsonLd["description"] === 'string')
-        {
-            temp_card_obj.content = jsonLd["description"];
-        }
-        else
-        {
-            // If not in the "root" object search in the whole object to find nested values
-            let description_object = findNestedObj(jsonLd, "description");
-            if(description_object !== null && temp_card_obj.content === undefined)
-            {
-
-                temp_card_obj.content = description_object.description;
-            }
-        }
+        let output =  mustache.render(getDefaultCardSubtemplate("Fallback"), jsonLd);
+        jsonLd["dedicatedTextColumn"] = output;
     }
 
-    // header
-    // items can be nested or not! the template uses the nested items
-    // finds objects inside a specific key/value object
-    let breadcrumbList_object = findNestedObjWithValue(jsonLd,"@type","BreadcrumbList");
-    if(breadcrumbList_object != null){
-        temp_card_obj.breadcrumbList = breadcrumbList_object;
-
-    }
-    // footer
-    let action_object = findNestedObj(jsonLd,"potentialAction");
-    if(action_object !== null){
-        if(action_object.potentialAction["@type"] === "CopyToClipboardAction")
-        {   
-            temp_card_obj.copyAction = action_object.potentialAction;
-        }
-        else
-        {
-            temp_card_obj.urlAction = action_object.potentialAction;
-        }
-    }
-
-    // render the template with data
-    // Used for the final rendering of the default card and its subtemplates
-    // Used for "fallback" rendering
-    return mustache.render(template, temp_card_obj);
+    return mustache.render(template, jsonLd);
 }
 
 jsonld2html.render = function render(jsonLd) {

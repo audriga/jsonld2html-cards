@@ -1,7 +1,7 @@
 
 <div class="smlCard">
 <div class = "header">
-    {{^breadcrumbList.itemListElement}} {{type}}   {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}}  {{/breadcrumbList.itemListElement}}
+    {{^breadcrumbList.itemListElement}} {{@type}}   {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}}  {{/breadcrumbList.itemListElement}}
     <ul class="breadcrumb">
         {{#breadcrumbList.itemListElement}}<li><a href= {{item.id}} >{{item.name}}</a></li>{{/breadcrumbList.itemListElement}}
     </ul>

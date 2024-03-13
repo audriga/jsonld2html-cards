@@ -5,7 +5,7 @@
     <div class = "header">
         <!-- Tab links -->
         <div class="tab">
-            {{#cardListElement}}<button type="button" class="tablinks {{tab_bar}}" onclick='
+            {{#.}}<button type="button" class="tablinks {{tab_bar}}" onclick='
             function openCard(evt,contentID, _tab_bar)
             {
                 var i, tabcontent, tablinks;
@@ -31,7 +31,7 @@
             }
             openCard(event,"{{tab_id}}", "{{tab_bar}}");
             ' 
-            autofocus>{{reservationNumber}} {{underName.name}}</button>{{/cardListElement}}
+            autofocus>{{reservationNumber}} {{underName.name}}</button>{{/.}}
 
         </div>
     </div>
@@ -47,7 +47,7 @@
 
         <div class ="smlCardFlightReservationTextColumn">
             <!-- Tab content -->
-            {{#cardListElement}}<div id="{{tab_id}}" class="tabcontent {{tab_bar}}">
+            {{#.}}<div id="{{tab_id}}" class="tabcontent {{tab_bar}}">
 
                 <div class="flightReservationFirstColumn">
                     <p style="margin: 0;font-weight: bold; margin-bottom: 5px;">Departure :</p>
@@ -68,7 +68,7 @@
                     <p style="margin: 0;">{{reservationFor.arrivalTime}}</p>
                 </div>
 
-            </div>{{/cardListElement}}
+            </div>{{/.}}
         </div>
 
     </div>

@@ -1,28 +1,23 @@
-<div class="smlCard--backgroundImage" style="background-image:url({{pictureURL}});">
+<div class="smlCard--backgroundImage" style="background-image:url({{thumbnailUrl}});">
     <div class = "header">
-        {{^breadcrumbList.itemListElement}} {{type}}   {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}}  {{/breadcrumbList.itemListElement}}
-        <ul class="breadcrumb">
-            {{#breadcrumbList.itemListElement}}<li><a href= {{item.id}} >{{item.name}}</a></li>{{/breadcrumbList.itemListElement}}
+        {{^ itemListElement}} {{@type}} {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}} {{/ itemListElement}}
+
+        <ul class="breadcrumb"> {{# itemListElement}} <li><a href= {{item}} >{{name}}</a></li> {{/ itemListElement}}
         </ul>
+
     </div>
     <div class="smlCardRow">
         <div class ="text_column--backgroundImage">
             <!--Only render this part if we dont have a dedicatedTextColumn-->
-        {{^dedicatedTextColumn}}
-            <h1 class="card_title"> {{title}}</h1>
-            {{#content}}
-                <p class="card_content">{{.}}</p>
-            {{/content}}
-            <div class="card_footnote">{{footer}}
-            </div>
-        {{/dedicatedTextColumn}}
+
+       
         {{#dedicatedTextColumn}}
             {{{dedicatedTextColumn}}}
         {{/dedicatedTextColumn}}
         </div>
     </div>
         <div class="footer">
-            {{#urlAction}}<button type="button" class="actionButton" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/urlAction}}
+            {{#potentialAction}}<button type="button" class="actionButton" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
         </div>
 </div>
     
