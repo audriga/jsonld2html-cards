@@ -13,7 +13,7 @@
     "SoftwareApplication": "code",
     "City": "city",
     "TVSeries": "tv",
-    "EmailMessage": "@",
+    "EmailMessage": "at",
     "FlightReservation": "plane-circle-check",
     "RentalCarReservation": "car-side",
     "TrainReservation": "train",
