@@ -30,8 +30,16 @@ function findValueInArray(object,key){
         }
     }
 }
-// TODO Create docstring
-function renderFromTemplate(jsonLd, template, dedicatedType = "") {
+
+
+/**
+ * @param object jsonLd: as a parsed object
+ * @param string template: The mustache template as a string
+ * @param string artificialType: Optional type if the provided jsonLd dont have one. This is needed if arrays of Objects need to be rendered
+ * 
+ * @return [string] Returns the html of the rendered schema card
+ */
+function renderFromTemplate(jsonLd, template, artificialType = "") {
 
     if(typeToIconMap.has(jsonLd["@type"])) {
         jsonLd["iconName"] = typeToIconMap.get(jsonLd["@type"]);
@@ -41,7 +49,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
     else { jsonLd["iconName"] = "image";}
     
     // ===== Special case "FlightReservationArray" =====
-    if(dedicatedType === "artificial_FlightReservationArray"){
+    if(artificialType === "artificial_FlightReservationArray"){
         // Creating ID for the bar to wire it with its tabs
         let tab_bar_id = "bar" + Math.floor(Math.random() * 100);
 
@@ -60,7 +68,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
     }
     
     // ===== Special case "PromotionCards" =====
-    if( dedicatedType === "artificial_PromotionCards" &&
+    if( artificialType === "artificial_PromotionCards" &&
         hasDedicatedSubtemplate("artificial_PromotionCards"))
     {
     
@@ -96,7 +104,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
                 oldPrice: String(obj["price"]),
                 priceCurrency: obj["priceCurrency"]
             }
-            mustacheDataObj["promotionCards"].push(mustache.render(getDedicatedSubtemplate(dedicatedType),promoCard))
+            mustacheDataObj["promotionCards"].push(mustache.render(getDedicatedSubtemplate(artificialType),promoCard))
         }
         
         let finalCard = mustache.render(template, mustacheDataObj);
