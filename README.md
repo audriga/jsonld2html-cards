@@ -70,7 +70,7 @@ jsonld2html supports both web browsers and server-side environments:
 Below is a quick example how to use LD2H:
 
 ```js
-import Jsonld2html from 'jsonld2html';
+import Jsonld2html from 'jsonld2html-cards';
 
 const ld_input = JSON.parse('{
   "@context": "https://schema.org",

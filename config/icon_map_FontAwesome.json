@@ -1,9 +1,25 @@
 {
     "NewsArticle": "newspaper",
     "Article": "comment",
-    "MusicAlbum": "compact-disc",
+    "MusicAlbum": "music",
+    "AudioObject": "music",
     "MusicRecording": "music",
+    "MusicGroup": "music",
     "BusReservation": "bus",
     "Place": "location-dot",
-    "Movie": "video"
+    "Movie": "video",
+    "Book": "book",
+    "Recipe":"utensils",
+    "SoftwareApplication": "code",
+    "City": "city",
+    "TVSeries": "tv",
+    "EmailMessage": "@",
+    "FlightReservation": "plane-circle-check",
+    "RentalCarReservation": "car-side",
+    "TrainReservation": "train",
+    "BusinessEvent": "business-time",
+    "ParcelDelivery": "truck",
+    "PodcastSeries": "podcast"
+  
+
 }
