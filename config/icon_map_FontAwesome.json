@@ -20,7 +20,8 @@
     "BusinessEvent": "business-time",
     "ParcelDelivery": "truck",
     "PodcastSeries": "podcast",
-    "FoodEstablishmentReservation":"utensils"
+    "FoodEstablishmentReservation":"utensils",
+    "CreativeWork": "paintbrush"
   
 
 }
