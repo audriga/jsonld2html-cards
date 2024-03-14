@@ -13,7 +13,7 @@
             <!-- Then try the thumbnail property which stores base64 pictures-->
             {{#thumbnail}}<img src="{{&thumbnail}}" alt="Picture showing {{@type}}">{{/thumbnail}}
             <!-- If both of them dont exist, render the i frame with the iconName -->
-            {{^thumbnailUrl}} {{^thumbnail}} <i class="fa-solid fa-{{iconName}} fa-6x" ></i>{{/thumbnail}}{{/thumbnailUrl}}
+            {{^thumbnailUrl}} {{^thumbnail}} <i class="fa-solid fa-{{iconName}} fa-5x" ></i>{{/thumbnail}}{{/thumbnailUrl}}
         </div>
         <div class ="text_column">
             <!--This part is filled with subtemplates-->

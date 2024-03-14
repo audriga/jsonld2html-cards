@@ -9,7 +9,7 @@
     "Place": "location-dot",
     "Movie": "video",
     "Book": "book",
-    "Recipe":"utensils",
+    "Recipe":"kitchen-set",
     "SoftwareApplication": "code",
     "City": "city",
     "TVSeries": "tv",
@@ -19,7 +19,8 @@
     "TrainReservation": "train",
     "BusinessEvent": "business-time",
     "ParcelDelivery": "truck",
-    "PodcastSeries": "podcast"
+    "PodcastSeries": "podcast",
+    "FoodEstablishmentReservation":"utensils"
   
 
 }
