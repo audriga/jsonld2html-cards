@@ -41,7 +41,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
     else { jsonLd["iconName"] = "image";}
     
     // ===== Special case "FlightReservationArray" =====
-    if(dedicatedType === "FlightReservationArray"){
+    if(dedicatedType === "artificial_FlightReservationArray"){
         // Creating ID for the bar to wire it with its tabs
         let tab_bar_id = "bar" + Math.floor(Math.random() * 100);
 
@@ -60,8 +60,8 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
     }
     
     // ===== Special case "PromotionCards" =====
-    if( dedicatedType === "PromotionCards" &&
-        hasDedicatedSubtemplate("PromotionCards"))
+    if( dedicatedType === "artificial_PromotionCards" &&
+        hasDedicatedSubtemplate("artificial_PromotionCards"))
     {
     
         function getCurrencyChar(_symbol){
@@ -88,7 +88,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
         
         for (const obj of foundObjects){
             
-            let promoCardTest = {
+            let promoCard = {
                 image: obj["image"],
                 headline: obj["headline"],
                 discountValue: obj["discountValue"],
@@ -96,7 +96,7 @@ function renderFromTemplate(jsonLd, template, dedicatedType = "") {
                 oldPrice: String(obj["price"]),
                 priceCurrency: obj["priceCurrency"]
             }
-            mustacheDataObj["promotionCards"].push(mustache.render(getDedicatedSubtemplate(dedicatedType),promoCardTest))
+            mustacheDataObj["promotionCards"].push(mustache.render(getDedicatedSubtemplate(dedicatedType),promoCard))
         }
         
         let finalCard = mustache.render(template, mustacheDataObj);
@@ -137,7 +137,7 @@ jsonld2html.render = function render(jsonLd) {
             }
         }
         if(promoCardCounter === 3){
-            let artificialType = "PromotionCards";
+            let artificialType = "artificial_PromotionCards";
             return renderFromTemplate(jsonLd,getTemplate(artificialType),artificialType);
         }
     }
@@ -156,7 +156,7 @@ jsonld2html.render = function render(jsonLd) {
 
         if(isFlightReservationArray)
         {  
-            let artificialType = "FlightReservationArray";
+            let artificialType = "artificial_FlightReservationArray";
             
             return renderFromTemplate(jsonLd, getTemplate(artificialType), artificialType);
         }
