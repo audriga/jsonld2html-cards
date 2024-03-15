@@ -72,13 +72,6 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
         hasDedicatedSubtemplate("artificial_PromotionCards"))
     {
     
-        function getCurrencyChar(_symbol){
-            if(_symbol === "USD"){
-                return "$";
-            }
-            else {return _symbol;}
-        }
-
         let mustacheDataObj = new Object();
         mustacheDataObj["promotionCards"] = [];
         mustacheDataObj["logo"] = findValueInArray(jsonLd,"logo");
@@ -149,7 +142,6 @@ jsonld2html.render = function render(jsonLd) {
             return renderFromTemplate(jsonLd,getTemplate(artificialType),artificialType);
         }
     }
-
 
     // Bypass getMainEntity in special case
     if(Array.isArray(jsonLd)){
