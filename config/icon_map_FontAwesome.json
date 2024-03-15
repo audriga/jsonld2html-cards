@@ -9,7 +9,7 @@
     "Place": "location-dot",
     "Movie": "video",
     "Book": "book",
-    "Recipe":"kitchen-set",
+    "Recipe":"utensils",
     "SoftwareApplication": "code",
     "City": "city",
     "TVSeries": "tv",
@@ -23,5 +23,4 @@
     "FoodEstablishmentReservation":"utensils",
     "CreativeWork": "paintbrush"
   
-
 }
