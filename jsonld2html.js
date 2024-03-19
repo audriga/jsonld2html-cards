@@ -52,10 +52,8 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     if(artificialType === "artificial_FlightReservationArray"){
         // Creating ID for the bar to wire it with its tabs
         let tab_bar_id = "bar" + Math.floor(Math.random() * 100);
-
         // adding an synthetic ID to the instances
         let i = Math.floor(Math.random() * 1000000000000001);
-
         // wire the IDs to each FlightReservation
         for (const iterator of jsonLd) {
             if(iterator["@type"] === "FlightReservation"){
@@ -69,26 +67,21 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     
     // ===== Special case "PromotionCards" =====
     if( artificialType === "artificial_PromotionCards" &&
-        hasDedicatedSubtemplate("artificial_PromotionCards"))
-    {
-    
+        hasDedicatedSubtemplate("artificial_PromotionCards")){
+
         let mustacheDataObj = new Object();
         mustacheDataObj["promotionCards"] = [];
         mustacheDataObj["logo"] = findValueInArray(jsonLd,"logo");
         mustacheDataObj["subjectLine"] = findValueInArray(jsonLd,"subjectLine");
         mustacheDataObj["description"] = findValueInArray(jsonLd,"description");
-        mustacheDataObj["discountCode"] = findValueInArray(jsonLd,"discountCode");
-        
+        mustacheDataObj["discountCode"] = findValueInArray(jsonLd,"discountCode");   
         let foundObjects = [];
-
         for (const iterator of jsonLd) {
             if(iterator["@type"] === "PromotionCard"){
                 foundObjects.push(iterator);
             }
         }
-        
-        for (const obj of foundObjects){
-            
+        for (const obj of foundObjects){   
             let promoCard = {
                 image: obj["image"],
                 headline: obj["headline"],
@@ -99,25 +92,30 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
             }
             mustacheDataObj["promotionCards"].push(mustache.render(getDedicatedSubtemplate(artificialType),promoCard))
         }
-        
         let finalCard = mustache.render(template, mustacheDataObj);
         return finalCard;
-        
     }
     
     // ===== general using of sub templates 
     if(hasDefaultCardSubtemplate(jsonLd["@type"])){
-        
         let output =  mustache.render(getDefaultCardSubtemplate(jsonLd["@type"]), jsonLd);
         jsonLd["dedicatedTextColumn"] = output;
     }
 
     // ===== Using of fallback if no subtemplate is set =====
     if(jsonLd["dedicatedTextColumn"] === undefined
-        && hasDefaultCardSubtemplate("Fallback"))
-    {
+        && hasDefaultCardSubtemplate("Fallback")){
+        
         let output =  mustache.render(getDefaultCardSubtemplate("Fallback"), jsonLd);
         jsonLd["dedicatedTextColumn"] = output;
+
+        // Log unmatched fields
+        if(jsonLd["name"] === undefined || jsonLd["name"] === ""){
+            console.log(`in ${jsonLd["@type"]}[name] property not found`)
+        }
+        if(jsonLd["description"] === undefined || jsonLd["description"] === ""){
+            console.log(`in ${jsonLd["@type"]}[description] property not found`)
+        }
     }
 
     return mustache.render(template, jsonLd);
