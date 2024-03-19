@@ -46,7 +46,7 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     }
    
     // in case we dont have a schema type specific icon we use a default icon
-    else { jsonLd["iconName"] = "question";}
+    else { jsonLd["iconName"] = "file-image";}
     
     // ===== Special case "FlightReservationArray" =====
     if(artificialType === "artificial_FlightReservationArray"){
