@@ -1,4 +1,4 @@
-const jsonld2html = require('../jsonld2html-bundle.js');
+const jsonld2html = require('../../jsonld2html-bundle.js');
 
 const testCase1_input = JSON.parse(`{
     "@context": "https://schema.org",

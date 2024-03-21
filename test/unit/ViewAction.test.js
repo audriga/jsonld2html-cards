@@ -1,4 +1,4 @@
-const jsonld2html = require('../jsonld2html-bundle.js');
+const jsonld2html = require('../../jsonld2html-bundle.js');
 
 test("Create View Action - testCase1: No potentialAction in the json, and value of mainEntityOfPage is a string", ()=>
 {
