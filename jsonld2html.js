@@ -6,14 +6,14 @@ import getMainEntity from './lib/main_entity.js';
 import extractImage from './lib/image_extraction.js';
 import createPotentialViewAction from './lib/view_action.js'
 import {typeToIconMap,defaultIcon,headerIconTemplate,imageIconTemplate} from './lib/type_to_icon_map.js';
-import {getTemplate, getSubtemplate, hasDedicatedSubtemplate} from './lib/template_exporter.js';
+import * as tmpExp from './lib/template_exporter.js';
 
 var jsonld2html = {
     name: 'jsonld2html.js',
     version: '0.0.1'
 }
 
-        /** 
+/**
 * Find values for a specified key in an array of json objects
 * @param object object - the object to be searched
 * @return object Returns the value matching to the provided key
@@ -85,7 +85,7 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     
     // ===== Special case "PromotionCards" =====
     if(artificialType === "https://ld2h/PromotionCards" &&
-        hasDedicatedSubtemplate("https://ld2h/PromotionCards")){
+        tmpExp.getSubtemplateOfType("https://ld2h/PromotionCards") == tmpExp.allSubtemplates.subPromotionCards){
 
         let mustacheDataObj = new Object();
         mustacheDataObj["promotionCards"] = [];
@@ -108,13 +108,13 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
                 oldPrice: String(obj["price"]),
                 priceCurrency: obj["priceCurrency"]
             }
-            mustacheDataObj["promotionCards"].push(mustache.render(getSubtemplate(artificialType),promoCard))
+            mustacheDataObj["promotionCards"].push(mustache.render(tmpExp.getSubtemplateOfType(artificialType),promoCard))
         }
-        let finalCard = mustache.render(template, mustacheDataObj);
+        let finalCard = mustache.render(template, mustacheDataObj, partials);
         return finalCard;
     }
 
-    let output =  mustache.render(getSubtemplate(jsonLd["@type"]), jsonLd);
+    let output =  mustache.render(tmpExp.getSubtemplateOfType(jsonLd["@type"]), jsonLd);
     jsonLd["subTemplateContent"] = output;
 
     // Log unmatched fields
@@ -144,7 +144,7 @@ jsonld2html.render = function render(jsonLd) {
         }
         if(promoCardCounter === 3){
             let artificialType = "https://ld2h/PromotionCards";
-            return renderFromTemplate(jsonLd,getTemplate(artificialType),artificialType);
+            return renderFromTemplate(jsonLd,tmpExp.getTemplateOfType(artificialType),artificialType);
         }
     }
 
@@ -163,13 +163,12 @@ jsonld2html.render = function render(jsonLd) {
         {  
             let artificialType = "https://ld2h/FlightReservations";
             
-            return renderFromTemplate(jsonLd, getTemplate(artificialType), artificialType);
+            return renderFromTemplate(jsonLd, tmpExp.getTemplateOfType(artificialType), artificialType);
         }
     }
 
     let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
-
-    return renderFromTemplate(preprocessedJson, getTemplate(preprocessedJson["@type"]));
+    return renderFromTemplate(preprocessedJson, tmpExp.getTemplateOfType(preprocessedJson["@type"]));
 }
 
 jsonld2html.renderFromTemplate = renderFromTemplate;
@@ -179,5 +178,13 @@ jsonld2html.getMainEntity = getMainEntity;
 jsonld2html.createPotentialViewAction = createPotentialViewAction;
 
 jsonld2html.extractImage = extractImage;
+
+jsonld2html.allTemplates = tmpExp.allTemplates;
+
+jsonld2html.allSubtemplates = tmpExp.allSubtemplates;
+
+jsonld2html.setTemplateOfType = tmpExp.setTemplateOfType;
+
+jsonld2html.setSubtemplateOfType = tmpExp.setSubtemplateOfType;
 
 export default jsonld2html
