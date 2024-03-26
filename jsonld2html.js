@@ -33,11 +33,10 @@ function findValueInArray(object,key){
 
 
 /**
- * @param object jsonLd: as a parsed object
- * @param string template: The mustache template as a string
- * @param string artificialType: Optional type if the provided jsonLd dont have one. This is needed if arrays of Objects need to be rendered
- * 
- * @return [string] Returns the html of the rendered schema card
+ * @param {object} jsonLd - As a parsed object
+ * @param {string} template - The mustache template as a string
+ * @param {string} artificialType - Optional type if the provided jsonLd dont have one. For example if arrays of Objects need to be rendered
+ * @returns {string} Returns rendered card template
  */
 function renderFromTemplate(jsonLd, template, artificialType = "") {
 
