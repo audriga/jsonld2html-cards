@@ -314,19 +314,20 @@ summary::-webkit-details-marker {
 
     border-style: groove;
     border-width: 2px;
-    background-position:center center;
+    background-position:top center;
     background-size:cover;
 }
 
 .smlCardRow .text_column--backgroundImage{
     /*
     Actually these two are the only two additional attributes compared to normal text_column
-               ============================  */
+    BEGIN   ============================ BEGIN */
 
     background: rgba(0, 0, 0, 0.5);
     color: #f1f1f1;
     
-    /* END ================================== END */
+    /*  
+    END     ============================ END */
 
 
 
