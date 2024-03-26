@@ -159,7 +159,6 @@ jsonld2html.render = function render(jsonLd) {
         }
     }
 
-    // Preprocessing
     let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
 
     return renderFromTemplate(preprocessedJson, getTemplate(preprocessedJson["@type"]));
