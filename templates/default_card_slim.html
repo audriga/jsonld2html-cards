@@ -3,20 +3,20 @@ it places the copy button besides or underneath the confirmation code-->
 <div class="smlCard">
     <div class="smlCardRow">
         <div class ="slim_text_column">
-                <!--Only render this part if we dont have a dedicatedTextColumn-->
-            {{^dedicatedTextColumn}}
+                <!--Only render this part if we dont have a subTemplateContent-->
+            {{^subTemplateContent}}
                 <h1 class="card_title"> {{title}}</h1>
                 {{#content}}
                     <p class="card_content">{{.}}</p>
                 {{/content}}
             <div class="card_footnote">{{footer}}
             </div>
-            {{/dedicatedTextColumn}}
+            {{/subTemplateContent}}
 
             <!-- If there is a dedicated text column, take that -->
-            {{#dedicatedTextColumn}}
-                {{{dedicatedTextColumn}}}
-            {{/dedicatedTextColumn}}
+            {{#subTemplateContent}}
+                {{{subTemplateContent}}}
+            {{/subTemplateContent}}
         </div>
     </div>
     <div class="footer">

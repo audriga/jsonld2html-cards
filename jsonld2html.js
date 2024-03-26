@@ -99,15 +99,15 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     // ===== general using of sub templates 
     if(hasDefaultCardSubtemplate(jsonLd["@type"])){
         let output =  mustache.render(getDefaultCardSubtemplate(jsonLd["@type"]), jsonLd);
-        jsonLd["dedicatedTextColumn"] = output;
+        jsonLd["subTemplateContent"] = output;
     }
 
-    // ===== Using of fallback if no subtemplate is set =====
-    if(jsonLd["dedicatedTextColumn"] === undefined
+    // ===== Using of fallback if no subtemplateContent is set =====
+    if(jsonLd["subTemplateContent"] === undefined
         && hasDefaultCardSubtemplate("Fallback")){
         
         let output =  mustache.render(getDefaultCardSubtemplate("Fallback"), jsonLd);
-        jsonLd["dedicatedTextColumn"] = output;
+        jsonLd["subTemplateContent"] = output;
 
         // Log unmatched fields
         if(jsonLd["name"] === undefined || jsonLd["name"] === ""){
@@ -162,7 +162,7 @@ jsonld2html.render = function render(jsonLd) {
 
     // Preprocessing
     let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
-    // TODO - replace "Find" function
+
     return renderFromTemplate(preprocessedJson, getTemplate(preprocessedJson["@type"]));
 }
 

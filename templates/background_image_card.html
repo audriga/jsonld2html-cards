@@ -11,10 +11,10 @@
             <i class="fa-solid fa-{{iconName}} fa-5x" ></i>
         </div>
         <div class ="text_column--backgroundImage">
-            <!--Only render this part if we dont have a dedicatedTextColumn-->
-        {{#dedicatedTextColumn}}
-            {{{dedicatedTextColumn}}}
-        {{/dedicatedTextColumn}}
+            <!--Only render this part if we dont have a subTemplateContent-->
+        {{#subTemplateContent}}
+            {{{subTemplateContent}}}
+        {{/subTemplateContent}}
         </div>
     </div>
         <div class="footer">
