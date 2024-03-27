@@ -5,7 +5,7 @@ import mustache from 'mustache';
 import getMainEntity from './lib/main_entity.js';
 import extractImage from './lib/image_extraction.js';
 import createPotentialViewAction from './lib/view_action.js'
-import {typeToIconMap,defaultIcon,headerIconTemplate,imageIconTemplate} from './lib/type_to_icon_map.js';
+import {typeToIconMap,headerIconTemplate,imageIconTemplate} from './lib/type_to_icon_map.js';
 import * as tmpExp from './lib/template_exporter.js';
 
 var jsonld2html = {
@@ -38,32 +38,18 @@ function findValueInArray(object,key){
  */
 function renderFromTemplate(jsonLd, template, artificialType = "") {
 
-
     let partials = {headerIconTemplate, imageIconTemplate};
 
-    
-    if(jsonLd["@type"] !== undefined && typeToIconMap.has(jsonLd["@type"])) {
+    // Determine icon based on schema type
+    // Prefer artificialType over actual @type, fallback to https://ld2h/Default
+    if(artificialType !== ""){
+        jsonLd["iconName"] = typeToIconMap.get(artificialType);
+    } else if(jsonLd["@type"] !== undefined && typeToIconMap.has(jsonLd["@type"])) {
         jsonLd["iconName"] = typeToIconMap.get(jsonLd["@type"]);
+    } else {
+        jsonLd["iconName"] = typeToIconMap.get("https://ld2h/Default");
     }
-    // render the icon Template directly, due the lack of an global iconName property in artificial types
-    else if(artificialType !== ""){
 
-        let cleanedType = artificialType.replace("artificial_","");
-        let iconNameObj;
-
-        if(typeToIconMap.has(cleanedType)){
-            iconNameObj = {"iconName":typeToIconMap.get(cleanedType)}
-        }
-        else{iconNameObj = defaultIcon;}
-
-        let renderedImageIconTemplate = mustache.render(imageIconTemplate,iconNameObj);
-        let renderedHeaderIconTemplate = mustache.render(headerIconTemplate,iconNameObj);
-        partials["imageIconTemplate"] = renderedImageIconTemplate;
-        partials["headerIconTemplate"] = renderedHeaderIconTemplate;
-    }
-    // in case we dont have a schema type at all specific icon we use a default icon
-    else { jsonLd["iconName"] = defaultIcon;}
-    
     // ===== Special case "FlightReservations" =====
     if(artificialType === "https://ld2h/FlightReservations"){
         // Creating ID for the bar to wire it with its tabs
