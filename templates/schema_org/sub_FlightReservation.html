@@ -1,7 +1,10 @@
 
   
-        <!-- Tab content -->
-        {{#isArray}}<div id="{{tabId}}" class="tabcontent {{tabBarId}}" style="display: {{#isFirst}}flex{{/isFirst}}{{^isFirst}}none{{/isFirst}};">{{/isArray}}
+        <!-- the part underneath enables "tabs" in case of multiple instances -->
+        {{#isArray}}
+            <div id="{{tabId}}" class="tabcontent {{tabBarId}}" style="display: {{#isFirst}}flex{{/isFirst}}{{^isFirst}}none{{/isFirst}};">
+        {{/isArray}}
+
             <div class="flightReservationFirstColumn">
                 <p style="margin: 0;font-weight: bold; margin-bottom: 5px;">Departure :</p>
                 <p style="margin: 0;">{{reservationFor.departureAirport.name}}</p>
