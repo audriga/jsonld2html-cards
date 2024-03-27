@@ -346,17 +346,168 @@ let testCase1_output = JSON.parse(`{
   }
   `);
 
+
+const testCase6_input = JSON.parse(`[
+  {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": "https://www.wetter.de/",
+        "name": "Home"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": "https://www.wetter.de/welt/wetter-karte-welt-k0.html",
+        "name": "Welt"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": "https://www.wetter.de/welt/wetter-karte-europa-k6.html",
+        "name": "Europa"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": "https://www.wetter.de/wetter/r/51477",
+        "name": "Deutschland"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "item": "https://www.wetter.de/wetter/r/62611",
+        "name": "Baden-Württemberg"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "item": "https://www.wetter.de/wetter/r/62518",
+        "name": "Karlsruhe, Baden-Württemberg"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "https://www.wetter.de/wetter/r/62518",
+    "name": "Wetter Karlsruhe - Wettervorhersage für Karlsruhe, Baden-Württemberg | wetter.de",
+    "description": "Aktuelles Wetter Karlsruhe ✔ Aktuelle Wettervorhersage stundengenau für heute & die nächsten 3 Tage ✔ Regenradar, Unwettervorhersage & Wetterbericht Karlsruhe, Baden-Württemberg ☀",
+    "inLanguage": "German",
+    "isFamilyFriendly": "true",
+    "isAccessibleForFree": "true",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Wetter.de",
+      "url": "https://www.wetter.de",
+      "logo": "https://www.wetter.de/css/images/logos/logo.png",
+      "sameAs": [
+        "https://de-de.facebook.com/wetter.de/",
+        "https://de.wikipedia.org/wiki/Wetter.de"
+      ]
+    },
+    "dateModified": "2023-09-16T13:30:22.514Z",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [
+        ".location-seotext-section > h2",
+        ".weather-daybox-base__longSummary > span"
+      ]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Place",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 49.0068705,
+      "longitude": 8.4034195
+    },
+    "name": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Karlsruhe, Baden-Württemberg, Deutschland",
+      "addressRegion": "Baden-Württemberg",
+      "addressCountry": "DE"
+    }
+  }
+]
+`);
+  
+const testCase6_output = JSON.parse(`{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": "https://www.wetter.de/",
+      "name": "Home"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": "https://www.wetter.de/welt/wetter-karte-welt-k0.html",
+      "name": "Welt"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": "https://www.wetter.de/welt/wetter-karte-europa-k6.html",
+      "name": "Europa"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": "https://www.wetter.de/wetter/r/51477",
+      "name": "Deutschland"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": "https://www.wetter.de/wetter/r/62611",
+      "name": "Baden-Württemberg"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": "https://www.wetter.de/wetter/r/62518",
+      "name": "Karlsruhe, Baden-Württemberg"
+    }
+  ]
+}`);
+
 test("testCase1: If $json_input is a graph: unwrap and call getEntity() on result", ()=>
 {
     expect(jsonld2html.getMainEntity(testCase1_input)).toStrictEqual(testCase1_output);
 });
 
 test("testCase2: If $json_input is array, return element with property 'mainEntityOfPage' set (if any)", ()=>
-{
+{   
     expect(jsonld2html.getMainEntity(testCase2_input)).toStrictEqual(testCase2_output);
 });
 
 test("testCase3: If $json_input is no array or graph: return $json_input", ()=>
 {
     expect(jsonld2html.getMainEntity(testCase3_input)).toStrictEqual(testCase3_output);
+});
+
+test("testCase4: Testing to access the type after data tranformation", ()=>
+{
+  let resolvedJsonLd = jsonld2html.getMainEntity(testCase2_input);
+    expect(resolvedJsonLd["@type"]).toBe("NewsArticle");
+});
+
+test("testCase5: Testing to access the type after data tranformation, but with a graph", ()=>
+{
+  let resolvedJsonLd = jsonld2html.getMainEntity(testCase1_input);
+    expect(resolvedJsonLd["@type"]).toBe("Article");
+});
+
+test("testCase6: If $json_input is no array but doesnt have a mainEntityOfPage indication, return the first element", ()=>
+{
+    expect(jsonld2html.getMainEntity(testCase6_input)).toStrictEqual(testCase6_output);
 });
