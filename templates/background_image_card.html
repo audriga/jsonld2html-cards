@@ -1,10 +1,14 @@
 <div class="smlCard--backgroundImage" style="background-image:url({{thumbnailUrl}});">
     <div class = "header">
-        {{^ itemListElement}} {{@type}} {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}} {{/ itemListElement}}
+         <!--  Experimental breadcrumblist support:   -->
+        
+        <!-- {{^ itemListElement}} {{@type}} {{> headerIconTemplate}} {{/ itemListElement}} -->
+        <!-- <ul class="breadcrumb"> {{# itemListElement}} <li><a href= {{item}} >{{name}}</a></li> {{/ itemListElement}}
+        </ul> -->
 
-        <ul class="breadcrumb"> {{# itemListElement}} <li><a href= {{item}} >{{name}}</a></li> {{/ itemListElement}}
-        </ul>
-
+        <!-- No breadcrumblist:  -->
+        {{@type}} {{> headerIconTemplate}}
+        
     </div>
     <div class="smlCardRow">
         <div class="image_column">

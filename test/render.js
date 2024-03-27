@@ -128,6 +128,8 @@ let default_header = `<meta charSet="UTF-8">
         <link rel="stylesheet" href="../../style/default_card.css">
         <link rel="stylesheet" href="../../style/reservation_flight_card.css"> 
         <link rel="stylesheet" href="../../style/promotion_card.css"> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
 
         <script src="https://kit.fontawesome.com/4f20261f74.js" crossorigin="anonymous">
          

@@ -1,0 +1,17 @@
+{
+    "headerIconTemplate": "<span style='vertical-align: sub;font-size: 20px;' class='material-icons'>{{iconName}}</span>",
+    "imageIconTemplate": "<span style='vertical-align: middle;font-size: 100px;' class='material-icons'>{{iconName}}</span>",
+    "defaultIcon":"add_photo_alternate",
+    "iconMap": 
+        {
+            "NewsArticle": "newspaper",
+            "Article": "news",
+            "Movie": "videocam",
+            "TVSeries":"live_tv",
+            "EmailMessage": "mail",
+            "MusicRecording": "music_note",
+            "FoodEstablishmentReservation": "restaurant",
+            "BusReservation": "directions_bus",
+            "FlightReservation": "flight"
+        }
+}

@@ -6,9 +6,11 @@ import getTemplate from './lib/template_exporter.js';
 import getMainEntity from './lib/main_entity.js';
 import extractImage from './lib/image_extraction.js';
 import createPotentialViewAction from './lib/view_action.js'
-import typeToIconMap from './lib/type_to_icon_map.js';
+import {typeToIconMap,defaultIcon,headerIconTemplate,imageIconTemplate} from './lib/type_to_icon_map.js';
 import {getDefaultCardSubtemplate, hasDefaultCardSubtemplate} from './lib/template_exporter.js';
 import {hasDedicatedSubtemplate, getDedicatedSubtemplate} from './lib/template_exporter.js';
+
+
 
 var jsonld2html = {
     name: 'jsonld2html.js',
@@ -40,19 +42,41 @@ function findValueInArray(object,key){
  */
 function renderFromTemplate(jsonLd, template, artificialType = "") {
 
-    if(typeToIconMap.has(jsonLd["@type"])) {
+
+    let partials = {headerIconTemplate, imageIconTemplate};
+
+    
+    if(jsonLd["@type"] !== undefined && typeToIconMap.has(jsonLd["@type"])) {
         jsonLd["iconName"] = typeToIconMap.get(jsonLd["@type"]);
     }
-   
-    // in case we dont have a schema type specific icon we use a default icon
-    else { jsonLd["iconName"] = "file-image";}
+    // render the icon Template directly, due the lack of an global iconName property in artificial types
+    else if(artificialType !== ""){
+
+        let cleanedType = artificialType.replace("artificial_","");
+        let iconNameObj;
+
+        if(typeToIconMap.has(cleanedType)){
+            iconNameObj = {"iconName":typeToIconMap.get(cleanedType)}
+        }
+        else{iconNameObj = defaultIcon;}
+
+        let renderedImageIconTemplate = mustache.render(imageIconTemplate,iconNameObj);
+        let renderedHeaderIconTemplate = mustache.render(headerIconTemplate,iconNameObj);
+        partials["imageIconTemplate"] = renderedImageIconTemplate;
+        partials["headerIconTemplate"] = renderedHeaderIconTemplate;
+    }
+    // in case we dont have a schema type at all specific icon we use a default icon
+    else { jsonLd["iconName"] = defaultIcon;}
     
-    // ===== Special case "FlightReservationArray" =====
-    if(artificialType === "artificial_FlightReservationArray"){
+
+    // ===== Special case "FlightReservation" array=====
+    if(artificialType === "artificial_FlightReservation"){
         // Creating ID for the bar to wire it with its tabs
         let tab_bar_id = "bar" + Math.floor(Math.random() * 100);
+
         // adding an synthetic ID to the instances
         let i = Math.floor(Math.random() * 1000000000000001);
+
         // wire the IDs to each FlightReservation
         for (const iterator of jsonLd) {
             if(iterator["@type"] === "FlightReservation"){
@@ -61,9 +85,10 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
                 i++;
             }
         }
-        return mustache.render(template,jsonLd);
+        return mustache.render(template,jsonLd, partials);
     }
     
+
     // ===== Special case "PromotionCards" =====
     if( artificialType === "artificial_PromotionCards" &&
         hasDedicatedSubtemplate("artificial_PromotionCards")){
@@ -91,7 +116,7 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
             }
             mustacheDataObj["promotionCards"].push(mustache.render(getDedicatedSubtemplate(artificialType),promoCard))
         }
-        let finalCard = mustache.render(template, mustacheDataObj);
+        let finalCard = mustache.render(template, mustacheDataObj,partials);
         return finalCard;
     }
     
@@ -117,7 +142,7 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
         }
     }
 
-    return mustache.render(template, jsonLd);
+    return mustache.render(template, jsonLd,partials);
 }
 
 jsonld2html.render = function render(jsonLd) {
@@ -153,7 +178,7 @@ jsonld2html.render = function render(jsonLd) {
 
         if(isFlightReservationArray)
         {  
-            let artificialType = "artificial_FlightReservationArray";
+            let artificialType = "artificial_FlightReservation";
             
             return renderFromTemplate(jsonLd, getTemplate(artificialType), artificialType);
         }
