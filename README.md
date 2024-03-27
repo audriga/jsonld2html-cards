@@ -99,35 +99,45 @@ Try our demo at https://jsonld2html.github.io/demo/ to learn more.
 ## Templates
 Templates are under the `templates/` folder.
 
-`default_card.html` is the default template that has a simple card layout suitable for most schema.org types.
+`templates/Default.html` is the default template that has a simple card layout suitable for most schema.org types.
 
-![](docs/screenshots/defaultCard.png "Default Card Template")
+![](docs/screenshots/defaultCard.png "Default Card Template and default subtemplate")
 
-Other templates exist for certain types like FlightReservation and PromotionCards.
+Card templates are actually composed out of interchangeable subtemplates that control how the inner part of a card is visualized. Subtemplates are automatically selected based on the value of `@type` in a JSON-LD.
 
-![](docs/screenshots/promotionCard.png "tab template for some specific types like PromotionCards")
+![](docs/screenshots/defaultCardsubBla.png "Default Card Template and BLA subtemplate")
+
+There are also Card templates other than the default for certain types like FlightReservation and PromotionCard.
+
+![](docs/screenshots/promotionCard.png "tab template for some specific types like PromotionCard")
 
 Current Limitations:
 
 * Proper support for Base64-encoded inline images only. May not load external images.
 
-For each template:
-
-* There is an HTML file containing the mustache template.
-* There is a JavaScript version of it (same filename but ending in .js)
-
 `template_exporter.js` controls which templates can be used by the library:
 
-### Excluding templates
+### Configuring template rendering
+Two methods are provided to control which template is chosen for which JSON-LD type:
+
+* `Jsonld2html.setTemplateOfType()` for template configuration
+* `Jsonld2html.setSubtemplateOfType()` for subtemplate configuration
+
+The following example shows how to configure JSON-LDs with `@type` of NewsArticle to use the default subtemplate. By default jsonld2html would chose a dedicated template instead:
+```
+Jsonld2html.setSubtemplateOfType("NewsArticle", Jsonld2html.allSubtemplates.subDefault);
+```
+
+### Excluding templates in bundle
 In some scenarios, including all templates might be undesirable (e.g. using too many resources).
 
 * Running `npm run build` will create a JavaScript file that bundles all available templates called `jsonld2html-bundle`.
-* Removing lines at the beginning of the `template_exporter.js` file will exclude templates from said bundled file.
+* Removing lines at the beginning of the `template_exporter.js` file will exclude templates from said bundled file. See the file for more info.
 
 ### Adding your own template
-* Create a new HTML file for your new template and a file ending in `.js`
-* Import the JavaScript file in `template_exporter.js`
-* Make sure to fill both maps in `templates_exporter.js` as necessary
+* Create a new HTML file for your new template. Their naming convention is `[sub_]JsonLdAtType_special_variant.html`, for example `Place_with_more_glitter.html`
+* It must be imported and exported in `lib/template_exporter.js`
+* A mapping from `@type` to template needs to be defined in `lib/template_exporter.js`
 
 ## Usage Examples
 ### Roundcube Plugin

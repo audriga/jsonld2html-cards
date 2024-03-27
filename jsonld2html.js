@@ -2,22 +2,18 @@
  * Renders JSON-LD as HTML
  */
 import mustache from 'mustache';
-import getTemplate from './lib/template_exporter.js';
 import getMainEntity from './lib/main_entity.js';
 import extractImage from './lib/image_extraction.js';
 import createPotentialViewAction from './lib/view_action.js'
-import {typeToIconMap,defaultIcon,headerIconTemplate,imageIconTemplate} from './lib/type_to_icon_map.js';
-import {getDefaultCardSubtemplate, hasDefaultCardSubtemplate} from './lib/template_exporter.js';
-import {hasDedicatedSubtemplate, getDedicatedSubtemplate} from './lib/template_exporter.js';
-
-
+import {typeToIconMap,headerIconTemplate,imageIconTemplate} from './lib/type_to_icon_map.js';
+import * as tmpExp from './lib/template_exporter.js';
 
 var jsonld2html = {
     name: 'jsonld2html.js',
     version: '0.0.1'
 }
 
-        /** 
+/**
 * Find values for a specified key in an array of json objects
 * @param object object - the object to be searched
 * @return object Returns the value matching to the provided key
@@ -42,56 +38,45 @@ function findValueInArray(object,key){
  */
 function renderFromTemplate(jsonLd, template, artificialType = "") {
 
-
     let partials = {headerIconTemplate, imageIconTemplate};
 
-    
-    if(jsonLd["@type"] !== undefined && typeToIconMap.has(jsonLd["@type"])) {
+    // Determine icon based on schema type
+    // Prefer artificialType over actual @type, fallback to https://ld2h/Default
+    if(artificialType !== ""){
+        jsonLd["iconName"] = typeToIconMap.get(artificialType);
+    } else if(jsonLd["@type"] !== undefined && typeToIconMap.has(jsonLd["@type"])) {
         jsonLd["iconName"] = typeToIconMap.get(jsonLd["@type"]);
+    } else {
+        jsonLd["iconName"] = typeToIconMap.get("https://ld2h/Default");
     }
-    // render the icon Template directly, due the lack of an global iconName property in artificial types
-    else if(artificialType !== ""){
 
-        let cleanedType = artificialType.replace("artificial_","");
-        let iconNameObj;
-
-        if(typeToIconMap.has(cleanedType)){
-            iconNameObj = {"iconName":typeToIconMap.get(cleanedType)}
-        }
-        else{iconNameObj = defaultIcon;}
-
-        let renderedImageIconTemplate = mustache.render(imageIconTemplate,iconNameObj);
-        let renderedHeaderIconTemplate = mustache.render(headerIconTemplate,iconNameObj);
-        partials["imageIconTemplate"] = renderedImageIconTemplate;
-        partials["headerIconTemplate"] = renderedHeaderIconTemplate;
-    }
-    // in case we dont have a schema type at all specific icon we use a default icon
-    else { jsonLd["iconName"] = defaultIcon;}
-    
-
-    // ===== Special case "FlightReservation" array=====
-    if(artificialType === "artificial_FlightReservation"){
+    // ===== Special case "FlightReservations" =====
+    if(artificialType === "https://ld2h/FlightReservations"){
         // Creating ID for the bar to wire it with its tabs
-        let tab_bar_id = "bar" + Math.floor(Math.random() * 100);
+        let tabBarId = "bar" + Math.floor(Math.random() * 100);
 
         // adding an synthetic ID to the instances
         let i = Math.floor(Math.random() * 1000000000000001);
+        let first = true;
 
         // wire the IDs to each FlightReservation
         for (const iterator of jsonLd) {
             if(iterator["@type"] === "FlightReservation"){
-                iterator["tab_id"] = iterator["@type"] + i;
-                iterator["tab_bar"] = tab_bar_id;
+                if (first) {
+                    iterator["isFirst"] = true;
+                    first = false;
+                }
+                iterator["tabId"] = iterator["@type"] + i;
+                iterator["tabBarId"] = tabBarId;
                 i++;
             }
         }
-        return mustache.render(template,jsonLd, partials);
+        return mustache.render(template, jsonLd, partials);
     }
     
-
     // ===== Special case "PromotionCards" =====
-    if( artificialType === "artificial_PromotionCards" &&
-        hasDedicatedSubtemplate("artificial_PromotionCards")){
+    if(artificialType === "https://ld2h/PromotionCards" &&
+        tmpExp.getSubtemplateOfType("https://ld2h/PromotionCards") == tmpExp.allSubtemplates.subPromotionCards){
 
         let mustacheDataObj = new Object();
         mustacheDataObj["promotionCards"] = [];
@@ -114,32 +99,21 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
                 oldPrice: String(obj["price"]),
                 priceCurrency: obj["priceCurrency"]
             }
-            mustacheDataObj["promotionCards"].push(mustache.render(getDedicatedSubtemplate(artificialType),promoCard))
+            mustacheDataObj["promotionCards"].push(mustache.render(tmpExp.getSubtemplateOfType(artificialType),promoCard))
         }
-        let finalCard = mustache.render(template, mustacheDataObj,partials);
+        let finalCard = mustache.render(template, mustacheDataObj, partials);
         return finalCard;
     }
-    
-    // ===== general using of sub templates 
-    if(hasDefaultCardSubtemplate(jsonLd["@type"])){
-        let output =  mustache.render(getDefaultCardSubtemplate(jsonLd["@type"]), jsonLd);
-        jsonLd["subTemplateContent"] = output;
+
+    let output =  mustache.render(tmpExp.getSubtemplateOfType(jsonLd["@type"]), jsonLd);
+    jsonLd["subTemplateContent"] = output;
+
+    // Log unmatched fields
+    if(jsonLd["name"] === undefined || jsonLd["name"] === ""){
+        console.log(`in ${jsonLd["@type"]}[name] property not found`)
     }
-
-    // ===== Using of fallback if no subtemplateContent is set =====
-    if(jsonLd["subTemplateContent"] === undefined
-        && hasDefaultCardSubtemplate("Fallback")){
-        
-        let output =  mustache.render(getDefaultCardSubtemplate("Fallback"), jsonLd);
-        jsonLd["subTemplateContent"] = output;
-
-        // Log unmatched fields
-        if(jsonLd["name"] === undefined || jsonLd["name"] === ""){
-            console.log(`in ${jsonLd["@type"]}[name] property not found`)
-        }
-        if(jsonLd["description"] === undefined || jsonLd["description"] === ""){
-            console.log(`in ${jsonLd["@type"]}[description] property not found`)
-        }
+    if(jsonLd["description"] === undefined || jsonLd["description"] === ""){
+        console.log(`in ${jsonLd["@type"]}[description] property not found`)
     }
 
     return mustache.render(template, jsonLd,partials);
@@ -160,8 +134,8 @@ jsonld2html.render = function render(jsonLd) {
             }
         }
         if(promoCardCounter === 3){
-            let artificialType = "artificial_PromotionCards";
-            return renderFromTemplate(jsonLd,getTemplate(artificialType),artificialType);
+            let artificialType = "https://ld2h/PromotionCards";
+            return renderFromTemplate(jsonLd,tmpExp.getTemplateOfType(artificialType),artificialType);
         }
     }
 
@@ -178,15 +152,14 @@ jsonld2html.render = function render(jsonLd) {
 
         if(isFlightReservationArray)
         {  
-            let artificialType = "artificial_FlightReservation";
+            let artificialType = "https://ld2h/FlightReservations";
             
-            return renderFromTemplate(jsonLd, getTemplate(artificialType), artificialType);
+            return renderFromTemplate(jsonLd, tmpExp.getTemplateOfType(artificialType), artificialType);
         }
     }
 
     let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
-
-    return renderFromTemplate(preprocessedJson, getTemplate(preprocessedJson["@type"]));
+    return renderFromTemplate(preprocessedJson, tmpExp.getTemplateOfType(preprocessedJson["@type"]));
 }
 
 jsonld2html.renderFromTemplate = renderFromTemplate;
@@ -196,5 +169,13 @@ jsonld2html.getMainEntity = getMainEntity;
 jsonld2html.createPotentialViewAction = createPotentialViewAction;
 
 jsonld2html.extractImage = extractImage;
+
+jsonld2html.allTemplates = tmpExp.allTemplates;
+
+jsonld2html.allSubtemplates = tmpExp.allSubtemplates;
+
+jsonld2html.setTemplateOfType = tmpExp.setTemplateOfType;
+
+jsonld2html.setSubtemplateOfType = tmpExp.setSubtemplateOfType;
 
 export default jsonld2html
