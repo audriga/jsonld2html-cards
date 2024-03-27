@@ -49,30 +49,7 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     } else {
         jsonLd["iconName"] = typeToIconMap.get("https://ld2h/Default");
     }
-
-    // ===== Special case "FlightReservations" =====
-    if(artificialType === "https://ld2h/FlightReservations"){
-        // Creating ID for the bar to wire it with its tabs
-        let tabBarId = "bar" + Math.floor(Math.random() * 100);
-
-        // adding an synthetic ID to the instances
-        let i = Math.floor(Math.random() * 1000000000000001);
-        let first = true;
-
-        // wire the IDs to each FlightReservation
-        for (const iterator of jsonLd) {
-            if(iterator["@type"] === "FlightReservation"){
-                if (first) {
-                    iterator["isFirst"] = true;
-                    first = false;
-                }
-                iterator["tabId"] = iterator["@type"] + i;
-                iterator["tabBarId"] = tabBarId;
-                i++;
-            }
-        }
-        return mustache.render(template, jsonLd, partials);
-    }
+    
     
     // ===== Special case "PromotionCards" =====
     if(artificialType === "https://ld2h/PromotionCards" &&
@@ -104,6 +81,52 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
         let finalCard = mustache.render(template, mustacheDataObj, partials);
         return finalCard;
     }
+    
+    // ===== Custom base template with custom subtemplate
+    if(
+        tmpExp.hasTemplateOfType(artificialType) 
+        && tmpExp.hasSubtemplateOfType(artificialType))
+    {
+       
+       
+
+        // Creating ID for the bar to wire it with its tabs
+        partials["tabBarId"] = "bar" + Math.floor(Math.random() * 100);
+
+        // adding an synthetic ID to the instances
+        let i = Math.floor(Math.random() * 1000000000000001);
+        let first = true;
+        let output = "";
+
+        // wire the IDs to each Reservation item
+        for (const iterator of jsonLd) {
+
+                // Creating tab specific values
+                let tabValues;
+                iterator["tabBarId"] = partials["tabBarId"] 
+                
+                if (first) {
+                    iterator["isFirst"] = true;
+                    first = false;
+                    iterator["isArray"] = false;
+                }
+                // TODO move this flag assignment to "preprocessing", we check there anyway,
+                iterator["isArray"] = true;
+                iterator["tabId"] = iterator["@type"] + i;
+                iterator["tabValues"] = tabValues;
+
+                output += mustache.render(tmpExp.getSubtemplateOfType(artificialType), iterator);
+              
+                i++;
+
+            }
+        
+
+        partials["tabContent"] = output;
+        
+
+        return mustache.render(tmpExp.getTemplateOfType(artificialType), jsonLd, partials);
+    }
 
     let output =  mustache.render(tmpExp.getSubtemplateOfType(jsonLd["@type"]), jsonLd);
     jsonLd["subTemplateContent"] = output;
@@ -123,6 +146,27 @@ jsonld2html.render = function render(jsonLd) {
     
     // Detect special json-lds which cannot be determined after getMainEntity
     
+
+    // Bypass getMainEntity in special case
+    if(Array.isArray(jsonLd)){
+        let isReservationArray = false;
+        // Check if all Elements are Reservations
+        for (const iterator of jsonLd) {
+            if(iterator["@type"] !== undefined
+                    && iterator["@type"].includes("Reservation")){
+                isReservationArray = true;
+            }
+        }
+        console.log(" =========== array detection")
+        let Type = `https://ld2h/${jsonLd[0]["@type"]}`;
+        console.log(Type)
+        console.log(isReservationArray)
+        if(isReservationArray && tmpExp.hasSubtemplateOfType(Type) && tmpExp.hasTemplateOfType(Type))
+        {  
+            return renderFromTemplate(jsonLd, tmpExp.getTemplateOfType(Type), Type);
+        }
+    }
+
     // Special case: "PromotionCard"
     if(Array.isArray(jsonLd))
     {   
@@ -139,24 +183,7 @@ jsonld2html.render = function render(jsonLd) {
         }
     }
 
-    // Bypass getMainEntity in special case
-    if(Array.isArray(jsonLd)){
-        let isFlightReservationArray = true;
-        // Check if all Elements are FlightReservations
-        for (const iterator of jsonLd) {
-            if(iterator["@type"] === undefined
-                    || iterator["@type"] !== "FlightReservation"){
-                isFlightReservationArray = false;
-            }
-        }
-
-        if(isFlightReservationArray)
-        {  
-            let artificialType = "https://ld2h/FlightReservations";
-            
-            return renderFromTemplate(jsonLd, tmpExp.getTemplateOfType(artificialType), artificialType);
-        }
-    }
+    
 
     let preprocessedJson = extractImage(createPotentialViewAction(getMainEntity(jsonLd)));
     return renderFromTemplate(preprocessedJson, tmpExp.getTemplateOfType(preprocessedJson["@type"]));

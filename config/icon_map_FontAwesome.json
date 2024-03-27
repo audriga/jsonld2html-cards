@@ -11,6 +11,7 @@
         "CreativeWork": "paintbrush",
         "EmailMessage": "envelope",
         "FoodEstablishmentReservation":"utensils",
+        "FlightReservation" : "plane",
         "Invoice": "file-invoice-dollar",
         "Movie": "video",
         "MusicAlbum": "music",
@@ -33,6 +34,6 @@
         "WebSite": "globe",
         "Webpage": "globe",
         "https://ld2h/Default": "image",
-        "https://ld2h/FlightReservations": "plane"
+        "https://ld2h/FlightReservation": "plane"
     }
 }

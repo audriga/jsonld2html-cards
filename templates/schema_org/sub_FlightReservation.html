@@ -1,0 +1,25 @@
+
+  
+        <!-- Tab content -->
+        {{#isArray}}<div id="{{tabId}}" class="tabcontent {{tabBarId}}" style="display: {{#isFirst}}flex{{/isFirst}}{{^isFirst}}none{{/isFirst}};">{{/isArray}}
+            <div class="flightReservationFirstColumn">
+                <p style="margin: 0;font-weight: bold; margin-bottom: 5px;">Departure :</p>
+                <p style="margin: 0;">{{reservationFor.departureAirport.name}}</p>
+                <p style="margin: 0;">{{reservationFor.departureTime}}</p>
+            </div>
+
+            <div class = "flightReservationMidColumn">
+                <h4></h4>
+
+                <p style="margin: 0;">Flight Number : {{reservationFor.flightNumber}}</p>
+                <p style="margin: 0;">Airline : {{reservationFor.airline.name}}</p>
+            </div>
+
+            <div class="flightReservationLastColumn">
+                <p style="margin: 0;font-weight: bold;margin-bottom: 5px;">Arrival :</p>
+                <p style="margin: 0;">{{reservationFor.arrivalAirport.name}}</p>
+                <p style="margin: 0;">{{reservationFor.arrivalTime}}</p>
+            </div>
+
+        </div>
+

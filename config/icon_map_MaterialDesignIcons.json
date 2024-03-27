@@ -6,11 +6,12 @@
         "BusReservation": "directions_bus",
         "EmailMessage": "mail",
         "FoodEstablishmentReservation": "restaurant",
+        "FlightReservation" : "flight",
         "Movie": "videocam",
         "MusicRecording": "music_note",
         "NewsArticle": "newspaper",
         "TVSeries":"live_tv",
         "https://ld2h/Default": "add_photo_alternate",
-        "https://ld2h/FlightReservations": "flight"
+        "https://ld2h/FlightReservation": "flight"
     }
 }

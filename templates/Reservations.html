@@ -1,0 +1,53 @@
+<div class="smlCard">
+    <div class = "header">
+        <script>
+            function openCard(evt, tabId, tabBarId) {
+                var i, tabcontent, tablinks;
+
+                // Get all elements with class="tabcontent" and "barClass" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent " + tabBarId);
+                console.log(tabcontent);
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                // Get all elements with class="tablinks and "barClass" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks " + tabBarId);
+                console.log(tablinks);
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].classList.remove("active");
+                }
+
+                // Show the current tab, and add an "active" class to the button that opened the tab
+                document.getElementById(tabId).style.display = "flex";
+                evt.currentTarget.classList.add("active");
+            }
+        </script>
+        <!-- Tab links -->
+        <div class="tab">
+            {{#.}}{{#isArray}}<button type="button" class="tablinks {{tabBarId}} {{#isFirst}}active{{/isFirst}}{{^isFirst}}{{/isFirst}}" onclick='openCard(event, "{{tabId}}", "{{tabBarId}}");'>{{reservationNumber}} {{underName.name}}</button>{{/isArray}}{{/.}}
+        </div>
+    </div>
+
+
+    <div class="smlCardRow">
+
+        <div class="image_column">
+
+            <!-- If Picture is empty list, false or key doesnt exist render the i frame with the iconName -->
+            {{> imageIconTemplate}}
+        </div>
+
+        <div class ="smlCardFlightReservationTextColumn">
+            {{^subTemplateContent}}
+                {{> tabContent}}
+            {{/subTemplateContent}}
+
+            {{#subTemplateContent}}
+                {{{subTemplateContent}}}
+            {{/subTemplateContent}}
+        
+    </div>
+
+</div>
+
