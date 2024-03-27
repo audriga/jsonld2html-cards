@@ -53,20 +53,25 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     // ===== Special case "FlightReservations" =====
     if(artificialType === "https://ld2h/FlightReservations"){
         // Creating ID for the bar to wire it with its tabs
-        let tab_bar_id = "bar" + Math.floor(Math.random() * 100);
+        let tabBarId = "bar" + Math.floor(Math.random() * 100);
 
         // adding an synthetic ID to the instances
         let i = Math.floor(Math.random() * 1000000000000001);
+        let first = true;
 
         // wire the IDs to each FlightReservation
         for (const iterator of jsonLd) {
             if(iterator["@type"] === "FlightReservation"){
-                iterator["tab_id"] = iterator["@type"] + i;
-                iterator["tab_bar"] = tab_bar_id;
+                if (first) {
+                    iterator["isFirst"] = true;
+                    first = false;
+                }
+                iterator["tabId"] = iterator["@type"] + i;
+                iterator["tabBarId"] = tabBarId;
                 i++;
             }
         }
-        return mustache.render(template,jsonLd, partials);
+        return mustache.render(template, jsonLd, partials);
     }
     
     // ===== Special case "PromotionCards" =====
