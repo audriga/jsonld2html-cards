@@ -1,6 +1,6 @@
 {
     "name": "jsonld2html-cards",
-    "version": "1.0.0-beta",
+    "version": "1.0.0",
     "license": "MIT",
     "dependencies": {
         "mustache": "^4.2.0"
