@@ -1,4 +1,4 @@
-.promoCard {
+.ld-card__promotion-card {
 
     /* round corners*/
     border-radius: 0.75rem;
@@ -51,7 +51,7 @@
     */
     max-height: 200px;
 }
-.promoCard .promoCard_image_row{
+.ld-card__promotion-card .image-row{
     /* declaring the card class to a flex-contatiner */
     display: flex;
     border-radius: 0.75rem;
@@ -73,7 +73,7 @@
     overflow: hidden;
 }
 
-.promoCard_image_row img{
+.ld-card__promotion-card .image-row img{
 
     padding: 2px;
     display: block;
@@ -85,7 +85,7 @@
     border-radius: 0.75rem;
 }
 
-.promoCard_text_row {
+.ld-card__text-row--promotion-cards {
 
     width: 100%;
     /* declaring the card class to a flex-contatiner */
@@ -107,13 +107,14 @@
     position: relative;
 }
 
-.promoCard_headline{
+.ld-card__headline--promotion-cards{
     margin: 0;
     margin-bottom: 5%;
     margin-top: 5%;
     margin-left: 10%;
 }
-.promoCard_price_footer{
+
+.ld-card__footer-price--promotion-cards {
     /* declaring the card class to a flex-contatiner */
     display: flex;
 
@@ -124,12 +125,9 @@
     position: relative;
 }
 
-.promoCard_price_footer .promoCard_text_row_price {
+.ld-card__footer-price--promotion-cards .price {
     text-decoration:line-through;
     margin-right: 10%;
-    margin-left: 10%;
-}
-.promoCard_price_footer .promoCard_text_row_discount {
     margin-left: 10%;
 }
 
@@ -138,15 +136,18 @@ p.price {
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+.ld-card__footer-price--promotion-cards .discount {
+    margin-left: 10%;
+}
+
 p.discountedPrice {
     font-size: 15px;
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-.smlCardPromoRow {
-
-
+.ld-card__row--promotion-cards {
     /*Layout Settings*/
 
     /* declaring the card class to a flex-contatiner */
@@ -176,7 +177,7 @@ p.discountedPrice {
 }
 
 /* Defines the alternative horizontal row container which is used for the promotion tabs/cards */
-.smlCardPromoRow .smlCardPromoTabsRow{
+.ld-card__row--promotion-cards .tabs-row {
     /*Layout Settings*/
 
     /* declaring the card class to a flex-contatiner */
@@ -204,9 +205,7 @@ p.discountedPrice {
     max-height: 150px;
 }
 
-.smlCardPromoTextColumn{
-
-
+.ld-card__text-column--promotion-cards {
     max-width: 150px;
     min-height: 150px;
 
@@ -231,22 +230,22 @@ p.discountedPrice {
 
 }
 
-.smlCardPromoTitle{
+.ld-card__title--promotion-cards {
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-.smlCardPromoDescription{
+.ld-card__description--promotion-cards {
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-.smlCardPromoCode{
+.ld-card__promotion-code--promotion-cards {
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-.smlCardPromoRow .image_column {
+.ld-card__row--promotion-cards .image-column {
 
     /* declaring the card class to a flex-contatiner */
     display: flex;

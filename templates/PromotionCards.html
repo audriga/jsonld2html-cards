@@ -9,7 +9,7 @@
 
 </div>
 
-<div class="smlCardPromoRow">
+<div class="ld-card__row--promotion-cards">
     <div class="image-column">
 
         <img src="{{logo}}">
@@ -17,15 +17,15 @@
 
     </div>
 
-    <div class="smlCardPromoTextColumn">
+    <div class="ld-card__text-column--promotion-cards">
 
-        <h4 class="smlCardPromoTitle">{{subjectLine}}</h4>
-        <p class="smlCardPromoDescription">{{description}}</p>
-        <p class="smlCardPromoCode">Code {{discountCode}}</p>
+        <h4 class="ld-card__title--promotion-cards">{{subjectLine}}</h4>
+        <p class="ld-card__description--promotion-cards">{{description}}</p>
+        <p class="ld-card__promotion-code--promotion-cards">Code {{discountCode}}</p>
 
     </div>
 
-    <div class="smlCardPromoTabsRow">
+    <div class="tabs-row">
 
         {{#promotionCards}}
         {{{.}}}
