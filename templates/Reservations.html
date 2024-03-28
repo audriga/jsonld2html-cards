@@ -25,7 +25,7 @@
         </script>
         <!-- Tab links -->
         <div class="tab">
-            {{#.}}{{#isArray}}<button type="button" class="tablinks {{tabBarId}} {{#isFirst}}active{{/isFirst}}{{^isFirst}}{{/isFirst}}" onclick='openCard(event, "{{tabId}}", "{{tabBarId}}");'>{{reservationNumber}} {{underName.name}}</button>{{/isArray}}{{/.}}
+            {{#.}}{{#isArray}}<button type="button" class="tablinks {{tabBarId}} {{#isFirst}}active{{/isFirst}}{{^isFirst}}{{/isFirst}}" onclick='openCard(event, "{{tabId}}", "{{tabBarId}}");'>{{underName.name}} {{reservationFor.departureAirport.iataCode}}-{{reservationFor.arrivalAirport.iataCode}}</button>{{/isArray}}{{/.}}
         </div>
     </div>
 
