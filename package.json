@@ -15,11 +15,11 @@
     },
     "scripts": {
         "build": "rollup -c rollup.config.umd.mjs && rollup -c rollup.config.esm.mjs",
-        "test": "npm run test-lint && npm run jesttest && npm run test-unit",
-        "test-lint": "eslint jsonld2html.js",
-        "test-unit": "cd test/ && node render.js",
-        "prepublishOnly": "npm run build",
-        "jesttest": "jest"
+        "test": "npm run test-lint && npm run test-unit && npm run test-output",
+        "test-lint": "eslint --ignore-pattern 'test' --ignore-pattern '*-bundle.js' .",
+        "test-unit": "jest",
+        "test-output": "cd test/ && node render.js",
+        "prepublishOnly": "npm run build"
     },
     "devDependencies": {
         "@rollup/plugin-json": "^6.1.0",
