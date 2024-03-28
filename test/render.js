@@ -126,6 +126,7 @@ console.log('Storing to file path:', outFilePath);
 let default_header = `<meta charSet="UTF-8"> 
         <title>default_cards</title> 
         <link rel="stylesheet" href="../../style/default_card.css">
+        <link rel="stylesheet" href="../../test/style/test.css"> 
         <link rel="stylesheet" href="../../style/reservation_flight_card.css"> 
         <link rel="stylesheet" href="../../style/promotion_card.css"> 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

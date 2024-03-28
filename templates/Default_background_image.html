@@ -1,28 +1,28 @@
-<div class="smlCard--backgroundImage" style="background-image:url({{thumbnailUrl}});">
-    <div class = "header">
+<div class="ld-card--background-image" style="background-image:url({{thumbnailUrl}});">
+    <div class = "ld-card__header">
          <!--  Experimental breadcrumblist support:   -->
         
         <!-- {{^ itemListElement}} {{@type}} {{> headerIconTemplate}} {{/ itemListElement}} -->
-        <!-- <ul class="breadcrumb"> {{# itemListElement}} <li><a href= {{item}} >{{name}}</a></li> {{/ itemListElement}}
+        <!-- <ul class="ld-card__breadcrumb"> {{# itemListElement}} <li><a href= {{item}} >{{name}}</a></li> {{/ itemListElement}}
         </ul> -->
 
         <!-- No breadcrumblist:  -->
         {{> headerIconTemplate}}
         
     </div>
-    <div class="smlCardRow">
-        <div class="image_column">
+    <div class="ld-card__row">
+        <div class="image-column">
             <i class="fa-solid fa-{{iconName}} fa-5x" ></i>
         </div>
-        <div class ="text_column--backgroundImage">
+        <div class ="text-column--background-image">
             <!--Only render this part if we dont have a subTemplateContent-->
         {{#subTemplateContent}}
             {{{subTemplateContent}}}
         {{/subTemplateContent}}
         </div>
     </div>
-        <div class="footer">
-            {{#potentialAction}}<button type="button" class="actionButton" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
+        <div class="ld-card__footer">
+            {{#potentialAction}}<button type="button" class="ld-card__action-button" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
         </div>
 </div>
     

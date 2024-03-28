@@ -1,17 +1,17 @@
-<div class="smlCard">
-    <div class = "header">
+<div class="ld-card">
+    <div class = "ld-card__header">
         <!--  Experimental breadcrumblist support:   -->
         
         <!-- {{^ itemListElement}} {{@type}} {{> headerIconTemplate}} {{/ itemListElement}} -->
-        <!-- <ul class="breadcrumb"> {{# itemListElement}} <li><a href= {{item}} >{{name}}</a></li> {{/ itemListElement}}
+        <!-- <ul class="ld-card__breadcrumb"> {{# itemListElement}} <li><a href= {{item}} >{{name}}</a></li> {{/ itemListElement}}
         </ul> -->
 
         <!-- No breadcrumblist:  -->
         {{> headerIconTemplate}}
         
     </div>
-    <div class="smlCardRow">
-        <div class="image_column">
+    <div class="ld-card__row">
+        <div class="image-column">
             <!-- First try the thumbnailUrl property which stores urls-->
             {{#thumbnailUrl}}<img src="{{&thumbnailUrl}}" alt="Picture showing {{@type}}">{{/thumbnailUrl}}
             <!-- Then try the thumbnail property which stores base64 pictures-->
@@ -19,15 +19,15 @@
             <!-- If both of them dont exist, render the i frame with the iconName -->
             {{^thumbnailUrl}} {{^thumbnail}} {{> imageIconTemplate}}{{/thumbnail}}{{/thumbnailUrl}}
         </div>
-        <div class ="text_column">
+        <div class ="text-column">
             <!--This part is filled with subtemplates-->
         {{#subTemplateContent}}
             {{{subTemplateContent}}}
         {{/subTemplateContent}}
         </div>
     </div>
-        <div class="footer">
-            {{#potentialAction}}<button type="button" class="actionButton" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
+        <div class="ld-card__footer">
+            {{#potentialAction}}<button type="button" class="ld-card__action-button" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
         </div>
 </div>
     

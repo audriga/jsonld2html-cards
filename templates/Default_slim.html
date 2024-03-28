@@ -1,13 +1,13 @@
 <!--This template is supposed to serve in emails which providing confirmation codes,
 it places the copy button besides or underneath the confirmation code-->
-<div class="smlCard">
-    <div class="smlCardRow">
-        <div class ="slim_text_column">
+<div class="ld-card">
+    <div class="ld-card__row">
+        <div class ="text-column--slim">
                 <!--Only render this part if we dont have a subTemplateContent-->
             {{^subTemplateContent}}
-                <h1 class="card_title"> {{title}}</h1>
+                <h1 class="title"> {{title}}</h1>
                 {{#content}}
-                    <p class="card_content">{{.}}</p>
+                    <p class="content">{{.}}</p>
                 {{/content}}
             <div class="card_footnote">{{footer}}
             </div>
@@ -19,9 +19,9 @@ it places the copy button besides or underneath the confirmation code-->
             {{/subTemplateContent}}
         </div>
     </div>
-    <div class="footer">
+    <div class="ld-card__footer">
         <!-- NOTE The data to be copied need to have a html class called: "data_to_copy" -->
-        {{#copyAction}}<button type="button" class="actionButton" onclick="
+        {{#copyAction}}<button type="button" class="ld-card__action-button" onclick="
                                             let data =(this.parentElement.parentElement.getElementsByClassName('data_to_copy')[0].textContent);
                                              console.log(this.parentElement.parentElement.getElementsByClassName('data_to_copy')[0]);
                                             navigator.clipboard.writeText(data.trim());

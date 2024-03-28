@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-.smlCard {
+.ld-card {
     /* maximal absoulute card width */
     max-width: 600px;
 
@@ -16,11 +16,9 @@
 
     background: #f1f1f3;
     box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
-
 }
 
- .header {
-
+.ld-card__header {
     margin-bottom: 3px;
     border-bottom-width: 1px;
     border-bottom-color: #dddddd;
@@ -28,50 +26,40 @@
 
 }
 
-
-ul.breadcrumb {
+ul.ld-card__breadcrumb {
     margin: 0;
     padding: 0;
 
     list-style: none;
-
 }
 
 /* Display list items side by side */
-ul.breadcrumb li {
+ul.ld-card__breadcrumb li {
     display: inline;
     font-size: 14px;
-
-
-
-
 }
 
 /* Add a slash symbol (/) before/behind each list item */
-ul.breadcrumb li+li:before {
+ul.ld-card__breadcrumb li+li:before {
     padding: 8px;
     color: black;
     content: "/\00a0";
-
-
-
 }
 
 /* Add a color to all links inside the list */
-ul.breadcrumb li a {
+ul.ld-card__breadcrumb li a {
     color: #0275d8;
     text-decoration: none;
 }
 
 /* Add a color on mouse-over */
-ul.breadcrumb li a:hover {
+ul.ld-card__breadcrumb li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
+
 /* Defines the horizontal row container in which the image and text column are placed =====*/
-.smlCardRow {
-
-
+.ld-card__row {
     /*Layout Settings*/
 
     /* declaring the card class to a flex-contatiner */
@@ -97,12 +85,12 @@ ul.breadcrumb li a:hover {
 
     /* maximal absolute card height */
     max-height: 150px;
-
 }
 
 
-.smlCardRow .text_column {
+.ld-card__row .text-column {
 
+    /* declaring the card class to a flex-contatiner */
     display: flex;
 
     /* setting the alignment of the childs to vertical row layout*/
@@ -129,7 +117,7 @@ ul.breadcrumb li a:hover {
 
 }
 
-.smlCardRow .image_column {
+.ld-card__row .image-column {
 
     /* declaring the card class to a flex-contatiner */
     display: flex;
@@ -148,21 +136,14 @@ ul.breadcrumb li a:hover {
     overflow: hidden;
 }
 
-
-
-
-
-.smlCardRow img{
-
+.ld-card__row img{
     display: block;
     max-width: 100px;
     max-height: 100px;
     min-width: 100px;
 }
 
-
-.smlCardRow .card_content {
-
+.ld-card__row .content {
     margin-top: 4px;
     margin-bottom: 2px;
     margin-left: 8%;
@@ -181,8 +162,7 @@ ul.breadcrumb li a:hover {
 
 }
 
-.smlCardRow .card_title {
-
+.ld-card__row .title {
     margin: 4px;
     margin-left: 8%;
 
@@ -197,32 +177,21 @@ ul.breadcrumb li a:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-
-
-
-
-
-
-
 }
 
-.smlCardRow .card_footnote {
+.ld-card__row .footnote {
     padding-left: 15%;
     color: #6e6b80;
     font-size: 0.8rem;
 }
 
-.footer {
-
-
-
+.ld-card__footer {
     max-height: 50px;
     margin-top: 3px;
 
     border-top-width: 1px;
     border-top-color: #dddddd;
     border-top-style: solid;
-
 
     display: flex;
 
@@ -237,11 +206,9 @@ ul.breadcrumb li a:hover {
 
     /* align the items vertically in the center */
     align-items: flex-end;
-;
-
 }
 
- .actionButton {
+.ld-card__action-button {
     transition-duration: 0.4s;
 
     background-color: #e8e3e3;
@@ -259,44 +226,17 @@ ul.breadcrumb li a:hover {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    float: right;
-
 }
-.actionButton:hover {
+
+.ld-card__action-button:hover {
     background-color: #4CAF50;
     color: #01447e;
     text-decoration: underline;
 }
 
-
-
-details {
-    user-select: none;
-}
-
-details>summary span.icon {
-    width: 24px;
-    height: 24px;
-    transition: all 0.3s;
-    margin-left: auto;
-}
-
-details[open] summary span.icon {
-    transform: rotate(180deg);
-}
-
-summary {
-    display: flex;
-    cursor: pointer;
-}
-
-summary::-webkit-details-marker {
-    display: none;
-}
-
 /* =====  background image card  ========*/
 
-.smlCard--backgroundImage{
+.ld-card--background-image{
     /* maximal absoulute card width */
     max-width: 600px;
 
@@ -318,7 +258,7 @@ summary::-webkit-details-marker {
     background-size:cover;
 }
 
-.smlCardRow .text_column--backgroundImage{
+.ld-card__row .text-column--background-image{
     /*
     Actually these two are the only two additional attributes compared to normal text_column
     BEGIN   ============================ BEGIN */
@@ -331,7 +271,6 @@ summary::-webkit-details-marker {
 
 
 
-    /
     display: flex;
 
     /* setting the alignment of the childs to vertical row layout*/
@@ -361,7 +300,7 @@ summary::-webkit-details-marker {
 
 /* ======  slim default card  ====== */
 
-.smlCardRow .slim_text_column {
+.ld-card__row .text-column--slim {
 
     display: flex;
 
@@ -391,4 +330,3 @@ summary::-webkit-details-marker {
 
 
 /* ======  component promo cards  ========*/
-

@@ -1,8 +1,8 @@
 
-<div class="smlCard">
-<div class = "header">
+<div class="ld-card">
+<div class = "ld-card__header">
     {{^breadcrumbList.itemListElement}} {{@type}}   {{#iconName}}<i class="fa-solid fa-{{iconName}} fa-1x" ></i>{{/iconName}}  {{/breadcrumbList.itemListElement}}
-    <ul class="breadcrumb">
+    <ul class="ld-card__breadcrumb">
         {{#breadcrumbList.itemListElement}}<li><a href= {{item.id}} >{{item.name}}</a></li>{{/breadcrumbList.itemListElement}}
     </ul>
 
@@ -10,7 +10,7 @@
 </div>
 
 <div class="smlCardPromoRow">
-    <div class="image_column">
+    <div class="image-column">
 
         <img src="{{logo}}">
 
@@ -37,8 +37,8 @@
 
 
 </div>
-    <div class="footer">
-        {{#potentialAction}}<button type="button" class="actionButton" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
+    <div class="ld-card__footer">
+        {{#potentialAction}}<button type="button" class="ld-card__action-button" onclick="window.open('{{target}}', '_blank');">{{@type}}</button>{{/potentialAction}}
 
     </div>
 
