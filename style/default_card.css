@@ -152,6 +152,7 @@ ul.ld-card__breadcrumb li a:hover {
     font-size: 0.86rem;
 
     margin-bottom: 2px;
+    padding-bottom: 4px;
 
 
     /* this is for truncating multiline texts*/
