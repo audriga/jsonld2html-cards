@@ -8,7 +8,6 @@ import createPotentialViewAction from './lib/view_action.js'
 import {typeToIconMap,headerIconTemplate,imageIconTemplate,transportIconTemplate} from './lib/type_to_icon_map.js';
 import * as tmpExp from './lib/template_exporter.js';
 
-
 var jsonld2html = {
     name: 'jsonld2html.js',
     version: '0.0.1'
@@ -30,6 +29,11 @@ function findValueInArray(object,key){
     }
 }
 
+/**
+ * Create two dedicated properties from startDate of Reservation object
+ * @param object jsonObject - JSON-LD object of type Reservation
+ * @return object Returns JSON-LD object with two addtional properties
+ */
 function splitStartDateTime(jsonObject) {
     if("reservationFor" in jsonObject)
     {    if ("startDate" in jsonObject.reservationFor) {
