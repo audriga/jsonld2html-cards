@@ -41,7 +41,7 @@
 }
 
 /* Style the tab content */
-.smlCard .smlCardRow .smlCardFlightReservationTextColumn .tabcontent {
+.ld-card .ld-card__row .smlCardFlightReservationTextColumn .tabcontent {
     display: none;
     padding: 3px 2px;
     flex-direction: row;
@@ -67,7 +67,7 @@
 
 }
 /*   A specific text column for flight reservations*/
-.smlCardRow .smlCardFlightReservationTextColumn {
+.ld-card__row .smlCardFlightReservationTextColumn {
 
     display: flex;
 
