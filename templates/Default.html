@@ -7,7 +7,8 @@
         </ul> -->
 
         <!-- No breadcrumblist:  -->
-        {{> headerIconTemplate}}
+        {{#thumbnailUrl}}{{> headerIconTemplate}}{{/thumbnailUrl}}
+        {{#thumbnail}}{{> headerIconTemplate}}{{/thumbnail}}
         
     </div>
     <div class="ld-card__row">
