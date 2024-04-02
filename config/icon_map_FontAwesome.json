@@ -10,6 +10,8 @@
         "City": "city",
         "CreativeWork": "paintbrush",
         "EmailMessage": "envelope",
+        "Event": "calendar",
+        "EventReservation": "calendar",
         "FoodEstablishmentReservation":"utensils",
         "FlightReservation" : "plane",
         "Invoice": "file-invoice-dollar",
@@ -34,6 +36,6 @@
         "WebSite": "globe",
         "Webpage": "globe",
         "https://ld2h/Default": "image",
-        "https://ld2h/FlightReservation": "plane"
+        "https://ld2h/FlightReservations": "plane"
     }
 }

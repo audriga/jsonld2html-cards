@@ -12,6 +12,6 @@
         "NewsArticle": "newspaper",
         "TVSeries":"live_tv",
         "https://ld2h/Default": "add_photo_alternate",
-        "https://ld2h/FlightReservation": "flight"
+        "https://ld2h/FlightReservations": "flight"
     }
 }
