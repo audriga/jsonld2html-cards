@@ -1,6 +1,7 @@
 {
     "headerIconTemplate": "<span style='vertical-align: sub;font-size: 20px;' class='material-symbols-outlined'>{{iconName}}</span>",
     "imageIconTemplate": "<span style='vertical-align: middle;font-size: 100px;' class='material-symbols-outlined'>{{iconName}}</span>",
+    "transportIconTemplate": "<span style='vertical-align: middle;font-size: 60px;' class='material-icons'>{{iconName}}</span>",
     "iconMap": {
         "Article": "news",
         "BusReservation": "directions_bus",
@@ -11,7 +12,10 @@
         "MusicRecording": "music_note",
         "NewsArticle": "newspaper",
         "TVSeries":"live_tv",
+        "TrainReservation":"train",
         "https://ld2h/Default": "add_photo_alternate",
-        "https://ld2h/FlightReservations": "flight"
+        "https://ld2h/FlightReservations": "flight",
+        "https://ld2h/TrainReservations": "train",
+        "https://ld2h/BusReservations": "directions_bus"
     }
 }

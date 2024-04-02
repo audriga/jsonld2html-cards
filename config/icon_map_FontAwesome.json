@@ -1,6 +1,7 @@
 {
     "headerIconTemplate": "<i class='fa-solid fa-{{iconName}} fa-1x'></i>",
     "imageIconTemplate":"<i class='fa-solid fa-{{iconName}} fa-5x'></i>",
+    "transportIconTemplate": "<i class='fa-solid fa-{{iconName}} fa-3x'></i>",
     "iconMap": {
         "Article": "comment",
         "AudioObject": "music",
@@ -36,6 +37,8 @@
         "WebSite": "globe",
         "Webpage": "globe",
         "https://ld2h/Default": "image",
-        "https://ld2h/FlightReservations": "plane"
+        "https://ld2h/FlightReservations": "plane",
+        "https://ld2h/TrainReservations": "train",
+        "https://ld2h/BusReservations": "bus"
     }
 }

@@ -5,8 +5,9 @@ import mustache from 'mustache';
 import {getMainEntity, transformArrayProperties} from './lib/main_entity.js';
 import extractImage from './lib/image_extraction.js';
 import createPotentialViewAction from './lib/view_action.js'
-import {typeToIconMap,headerIconTemplate,imageIconTemplate} from './lib/type_to_icon_map.js';
+import {typeToIconMap,headerIconTemplate,imageIconTemplate,transportIconTemplate} from './lib/type_to_icon_map.js';
 import * as tmpExp from './lib/template_exporter.js';
+
 
 var jsonld2html = {
     name: 'jsonld2html.js',
@@ -30,12 +31,29 @@ function findValueInArray(object,key){
 }
 
 function splitStartDateTime(jsonObject) {
-    if ("startDate" in jsonObject.reservationFor) {
-        const iDate = new Date(Date.parse(jsonObject.reservationFor.startDate.split('T')[0]));
-        const iDateTime = new Date(Date.parse(jsonObject.reservationFor.startDate));
-        jsonObject["reservationFor"]["ld2hStartDate"] = iDate.toISOString(); // TODO I18N
-        jsonObject["reservationFor"]["ld2hStartTime"] = iDateTime.toISOString(); // TODO I18N
+    if("reservationFor" in jsonObject)
+    {    if ("startDate" in jsonObject.reservationFor) {
+            const iDate = new Date(Date.parse(jsonObject.reservationFor.startDate.split('T')[0]));
+            const iDateTime = new Date(Date.parse(jsonObject.reservationFor.startDate));
+            jsonObject["reservationFor"]["ld2hStartDate"] = iDate.toLocaleDateString();// TODO I18N
+            jsonObject["reservationFor"]["ld2hStartTime"] = iDateTime.toLocaleTimeString([], { timeStyle: 'short' }); // TODO I18N
+        }
+        if("arrivalTime" in jsonObject.reservationFor) {
+            const iDate = new Date(Date.parse(jsonObject.reservationFor.arrivalTime.split('T')[0]));
+            const iDateTime = new Date(Date.parse(jsonObject.reservationFor.arrivalTime));
+            jsonObject["reservationFor"]["ld2hStartDate"] = iDate.toLocaleDateString();
+            jsonObject["reservationFor"]["ld2hStartTime"] = iDateTime.toLocaleTimeString([], { timeStyle: 'short' }); // TODO I18N
+
+        }
+        if("departureTime" in jsonObject.reservationFor) {
+            const iDate = new Date(Date.parse(jsonObject.reservationFor.departureTime.split('T')[0]));
+            const iDateTime = new Date(Date.parse(jsonObject.reservationFor.departureTime));
+            jsonObject["reservationFor"]["ld2hEndDate"] = iDate.toLocaleDateString();
+            jsonObject["reservationFor"]["ld2hEndTime"] = iDateTime.toLocaleTimeString([], { timeStyle: 'short' }); // TODO I18N
+
+        }
     }
+    
     return jsonObject;
 }
 
@@ -47,12 +65,17 @@ function splitStartDateTime(jsonObject) {
  * @returns {string} Returns rendered card template
  */
 function renderFromTemplate(jsonLd, template, artificialType = "") {
-    let partials = {headerIconTemplate, imageIconTemplate};
+    let partials = {headerIconTemplate, imageIconTemplate,transportIconTemplate};
 
     // Determine icon based on schema type
     // Prefer artificialType over actual @type, fallback to https://ld2h/Default
     if(artificialType !== ""){
         jsonLd["iconName"] = typeToIconMap.get(artificialType);
+        // NOTE Render the icon globally because of limited access to the iconName in array renderings
+        let iconNameObj = {"iconName":typeToIconMap.get(artificialType)};
+        partials["headerIconTemplate"] = mustache.render(partials["headerIconTemplate"], iconNameObj);
+        partials["imageIconTemplate"] = mustache.render(partials["imageIconTemplate"], iconNameObj);
+        partials["transportIconTemplate"] = mustache.render(partials["transportIconTemplate"], iconNameObj);
     } else if(jsonLd["@type"] !== undefined && typeToIconMap.has(jsonLd["@type"])) {
         jsonLd["iconName"] = typeToIconMap.get(jsonLd["@type"]);
     } else {
@@ -121,15 +144,13 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
             iterator["tabValues"] = tabValues;
 
             iterator = transformArrayProperties(iterator);
-            if (artificialType === "https://ld2h/EventReservations") {
-                iterator = splitStartDateTime(iterator);
-            }
+            iterator = splitStartDateTime(iterator);
 
             // Fallbak to https://ld2h/Reservations for Reservations without dedicated subtemplate
             if (tmpExp.hasSubtemplateOfType(artificialType)) {
-                output += mustache.render(tmpExp.getSubtemplateOfType(artificialType), transformArrayProperties(iterator));
+                output += mustache.render(tmpExp.getSubtemplateOfType(artificialType), transformArrayProperties(iterator),partials);
             } else {
-                output += mustache.render(tmpExp.getSubtemplateOfType("https://ld2h/Reservations"), transformArrayProperties(iterator));
+                output += mustache.render(tmpExp.getSubtemplateOfType("https://ld2h/Reservations"), transformArrayProperties(iterator), partials);
             }
             i++;
         }
@@ -153,10 +174,19 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
         if (!tmpExp.hasSubtemplateOfType(jsonLd["@type"])) {
             subTemplate = tmpExp.getSubtemplateOfType("https://ld2h/Reservations");
         }
+        if(jsonLd["@type"] === "FlightReservation"){
+            jsonLd = splitStartDateTime(jsonLd);
+        }
+        if(jsonLd["@type"] === "TrainReservation"){
+            jsonLd = splitStartDateTime(jsonLd);
+        }
+        if(jsonLd["@type"] === "BusReservation"){
+            jsonLd = splitStartDateTime(jsonLd);
+        }
     }
 
     subTemplate = tmpExp.getSubtemplateOfType(jsonLd["@type"]);
-    let output =  mustache.render(subTemplate, jsonLd);
+    let output =  mustache.render(subTemplate, jsonLd, partials);
     jsonLd["subTemplateContent"] = output;
 
     // Log unmatched fields

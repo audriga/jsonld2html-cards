@@ -5,8 +5,7 @@
 
     <div class="flightReservationFirstColumn">
         <!-- <p style="margin: 0;font-weight: bold; margin-bottom: 5px;">Departure :</p> -->
-        <h4 style="margin: 0;">{{reservationFor.departureAirport.name}}</h4>
-        <p class = "content" style="margin: 0;">{{reservationFor.departureAirport.iataCode}}</p>
+        <h4 style="margin: 0;">{{reservationFor.departureStation.name}}</h4>
         <p class = "content" style="margin: 0;">{{reservationFor.ld2hStartDate}} <br> {{reservationFor.ld2hStartTime}}</p>
 
         
@@ -15,16 +14,13 @@
     <div class = "flightReservationMidColumn">
         {{> transportIconTemplate}}
         <br>
-        <p class = "content" style="margin: 0;; padding-top: 2px">{{reservationFor.flightNumber}}</p>
-        <p class = "content" style="margin: 0;">{{reservationFor.airline.name}}</p>
-        <p class = "content" style="margin: 0;">{{reservationNumber}}</p>
+        <p class = "content" style="margin: 0;padding-top: 2px;">{{reservationNumber}}</p>
         
     </div>
 
     <div class="flightReservationLastColumn">
         <!-- <p style="margin: 0;font-weight: bold;margin-bottom: 5px;">Arrival :</p> -->
-        <h4 style="margin: 0;">{{reservationFor.arrivalAirport.name}}</h4>
-        <p class = "content" style="margin: 0;">{{reservationFor.arrivalAirport.iataCode}}</p>
+        <h4 style="margin: 0;">{{reservationFor.arrivalStation.name}}</h4>
         <p class = "content" style="margin: 0;">{{reservationFor.ld2hEndDate}}<br> {{reservationFor.ld2hEndTime}} </p>
     </div>
 
