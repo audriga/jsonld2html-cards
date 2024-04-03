@@ -65,21 +65,18 @@ function splitStartDateTime(jsonObject) {
 /**
  * @param {object} jsonLd - As a parsed object
  * @param {string} template - The mustache template as a string
- * @param {string} artificialType - Optional type if the provided jsonLd dont have one. For example if arrays of Objects need to be rendered
+ * @param {string} arrayType - Optional type if the provided jsonLd dont have one. For example if arrays of Objects need to be rendered
  * @returns {string} Returns rendered card template
  */
-function renderFromTemplate(jsonLd, template, artificialType = "") {
+function renderFromTemplate(jsonLd, template, arrayType = "") {
     let partials = {headerIconTemplate, imageIconTemplate,transportIconTemplate};
 
     // Determine icon based on schema type
-    // Prefer artificialType over actual @type, fallback to https://ld2h/Default
-    if(artificialType !== ""){
-        jsonLd["iconName"] = typeToIconMap.get(artificialType);
-        // NOTE Render the icon globally because of limited access to the iconName in array renderings
-        let iconNameObj = {"iconName":typeToIconMap.get(artificialType)};
-        partials["headerIconTemplate"] = mustache.render(partials["headerIconTemplate"], iconNameObj);
-        partials["imageIconTemplate"] = mustache.render(partials["imageIconTemplate"], iconNameObj);
-        partials["transportIconTemplate"] = mustache.render(partials["transportIconTemplate"], iconNameObj);
+    // Prefer arrayType over actual @type, fallback to https://ld2h/Default
+    if(arrayType !== ""){
+        for (const jsonLditem of jsonLd) {
+            jsonLditem["iconName"] = typeToIconMap.get(arrayType);
+        }
     } else if(jsonLd["@type"] !== undefined && typeToIconMap.has(jsonLd["@type"])) {
         jsonLd["iconName"] = typeToIconMap.get(jsonLd["@type"]);
     } else {
@@ -88,7 +85,7 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     
     
     // ===== Special case "PromotionCards" =====
-    if(artificialType === "https://ld2h/PromotionCards" &&
+    if(arrayType === "https://ld2h/PromotionCards" &&
         tmpExp.getSubtemplateOfType("https://ld2h/PromotionCards") == tmpExp.allSubtemplates.subPromotionCards){
 
         let mustacheDataObj = new Object();
@@ -112,7 +109,7 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
                 oldPrice: String(obj["price"]),
                 priceCurrency: obj["priceCurrency"]
             }
-            mustacheDataObj["promotionCards"].push(mustache.render(tmpExp.getSubtemplateOfType(artificialType), transformArrayProperties(promoCard)))
+            mustacheDataObj["promotionCards"].push(mustache.render(tmpExp.getSubtemplateOfType(arrayType), transformArrayProperties(promoCard)))
         }
         // Do not transform Arrays here as PromotionCards are inside an array
         let finalCard = mustache.render(template, mustacheDataObj, partials);
@@ -121,7 +118,7 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
     
     // ===== Custom base template with custom subtemplate
     // Case: Reservation base template with Reservation subtemplate
-    if (artificialType != "" && artificialType.endsWith("Reservations")){
+    if (arrayType != "" && arrayType.endsWith("Reservations")){
         console.log("Applying special rendering for Reservations")
         // Creating ID for the bar to wire it with its tabs
         partials["tabBarId"] = "bar" + Math.floor(Math.random() * 100);
@@ -151,8 +148,8 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
             iterator = splitStartDateTime(iterator);
 
             // Fallbak to https://ld2h/Reservations for Reservations without dedicated subtemplate
-            if (tmpExp.hasSubtemplateOfType(artificialType)) {
-                output += mustache.render(tmpExp.getSubtemplateOfType(artificialType), transformArrayProperties(iterator),partials);
+            if (tmpExp.hasSubtemplateOfType(arrayType)) {
+                output += mustache.render(tmpExp.getSubtemplateOfType(arrayType), transformArrayProperties(iterator),partials);
             } else {
                 output += mustache.render(tmpExp.getSubtemplateOfType("https://ld2h/Reservations"), transformArrayProperties(iterator), partials);
             }
@@ -161,12 +158,12 @@ function renderFromTemplate(jsonLd, template, artificialType = "") {
 
         partials["tabContent"] = output;
 
-        if (artificialType.endsWith("Reservations") && !tmpExp.hasTemplateOfType(artificialType)) {
+        if (arrayType.endsWith("Reservations") && !tmpExp.hasTemplateOfType(arrayType)) {
             return mustache.render(tmpExp.getTemplateOfType("https://ld2h/Reservations"), jsonLd, partials);
         }
 
         // Do not transform Arrays here as FlightReservations are inside an array
-        return mustache.render(tmpExp.getTemplateOfType(artificialType), jsonLd, partials);
+        return mustache.render(tmpExp.getTemplateOfType(arrayType), jsonLd, partials);
     }
 
     jsonLd = transformArrayProperties(jsonLd);
@@ -221,8 +218,6 @@ jsonld2html.render = function render(jsonLd) {
             }
         }
         let type = `https://ld2h/${jsonLd[0]["@type"]}s`;
-        console.log(type)  // TODO remove
-        console.log(isReservationArray) // TODO remove
         if(isReservationArray) {
             console.log("Applying special rendering for JSON-LD array")
             if (tmpExp.hasSubtemplateOfType(type) && tmpExp.hasTemplateOfType(type)) {  
@@ -244,8 +239,8 @@ jsonld2html.render = function render(jsonLd) {
             }
         }
         if(promoCardCounter === 3){
-            let artificialType = "https://ld2h/PromotionCards";
-            return renderFromTemplate(jsonLd,tmpExp.getTemplateOfType(artificialType),artificialType);
+            let arrayType = "https://ld2h/PromotionCards";
+            return renderFromTemplate(jsonLd,tmpExp.getTemplateOfType(arrayType),arrayType);
         }
     }
 
