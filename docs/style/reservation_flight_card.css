@@ -1,0 +1,215 @@
+/* CSS rules specific to Reservation types */
+
+.ld-card__row--reservations{
+
+
+}
+
+/* Style the tab */
+.tab {
+
+    display: flex;
+
+    flex-direction: row;
+
+    justify-content: flex-start;
+
+    overflow: hidden;
+
+    background-color: #f1f1f1;
+
+
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+
+    font-size: 10px;
+    border-radius: 0.25rem;
+
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 14px;
+    transition: 0.3s;
+    margin: 0;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.ld-card .ld-card__row--reservations .smlCardFlightReservationTextColumn .tabcontent {
+    display: none;
+    padding: 3px 2px;
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: space-evenly;
+
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 100%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 100px;
+    max-height: 150px;
+
+    max-width: inherit;
+
+
+}
+/*   A specific text column for flight reservations*/
+.ld-card__row--reservations .smlCardFlightReservationTextColumn {
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: space-evenly;
+
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 100%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 100px;
+    max-height: 150px;
+
+    /* this property is needed to make the truncating working for the child elements*/
+    min-width: 0;
+
+}
+
+.smlCardFlightReservationTextColumn .flightReservationFirstColumn{
+    max-width: 180px;
+    overflow-wrap: break-word;
+    padding: 10px;
+    text-align: right;
+}
+
+.smlCardFlightReservationTextColumn .flightReservationMidColumn{
+
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-wrap: break-word;
+    padding: 10px;
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: center;
+
+    /* align the items vertically in the center */
+    align-items: center;
+}
+
+
+.smlCardFlightReservationTextColumn .flightReservationLastColumn{
+    max-width: 180px;
+    overflow-wrap: break-word;
+    padding: 10px;
+}
+
+.flightReservationMidColumn .ld2hTransIcon {
+
+    padding-bottom: 4px;
+}
+
+
+
+/* Responsiveness for mobile devices */
+
+@media (max-width: 550px) {
+
+    .ld-card__row--reservations .smlCardFlightReservationTextColumn{
+        flex-direction: column;
+        max-height: unset;
+        align-items: unset;
+    }
+
+    .smlCardFlightReservationTextColumn .flightReservationFirstColumn {
+    
+    
+        max-width: unset;
+        width: -moz-available;
+        display: flex;
+
+        flex-flow: column;
+        align-items: center;
+        border-bottom: darkgray;
+        border-bottom-style: groove;
+        border-bottom-width: thin;
+        justify-content: space-around;
+        }
+
+    .smlCardFlightReservationTextColumn .flightReservationLastColumn {
+        
+        display: flex;
+        max-width: unset;
+        width: -moz-available;
+        
+             
+        overflow-wrap: break-word;
+        padding: 10px;
+        text-align: right;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        border-top: darkgray;
+        border-top-style: groove;
+        border-top-width: thin;
+        justify-content: space-around;
+        }
+
+    .ld-card .ld-card__row--reservations .smlCardFlightReservationTextColumn .tabcontent {
+        
+        max-height: unset;
+        flex-direction: column;
+        }
+        
+    .smlCardFlightReservationTextColumn .flightReservationMidColumn {
+        display: flex;
+        flex-direction: row;
+        width: -moz-available;
+        justify-content: center;
+        }
+        
+      
+    .flightReservationMidColumn .ld2hTransIcon {
+        font-size: 2em!important;
+        padding-bottom: 0;
+    }
+
+    .flightReservationMidColumn .ld2hTransIcon__NextCloud {
+        width:39px!important;
+        height:39px!important;
+        margin:-4px;
+    }
+
+    .ld-card__row--reservations .ld-card--content {
+        overflow: unset !important;
+        padding-left: 10px;
+    }
+
+}

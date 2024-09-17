@@ -1,0 +1,352 @@
+/* CSS rules covering most types */
+
+* {
+    box-sizing: border-box;
+}
+
+.ld-card {
+    /* maximal absoulute card width */
+    max-width: 600px;
+
+    /* round corners*/
+    border-radius: 0.75rem;
+
+    /* padding in the card*/
+    padding: 0.5rem;
+
+    font-family: "Arial";
+
+    background: #f1f1f3;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+}
+
+.ld-card__header {
+    margin-bottom: 3px;
+    border-bottom-width: 1px;
+    border-bottom-color: #dddddd;
+    border-bottom-style: solid;
+
+}
+
+ul.ld-card__breadcrumb {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+/* Display list items side by side */
+ul.ld-card__breadcrumb li {
+    display: inline;
+    font-size: 14px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.ld-card__breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.ld-card__breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.ld-card__breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+
+/* Defines the horizontal row container in which the image and text column are placed =====*/
+.ld-card__row {
+    /*Layout Settings*/
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* positioning in a html document*/
+    position: relative;
+
+    /* maximal absoulute card width */
+    max-width: 600px;
+
+    /* maximal absolute card height */
+    /*! max-height: 150px; */
+}
+
+
+.ld-card__row .text-column {
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 90%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 100px;
+    max-height: 100px;
+
+    /* this property is needed to make the truncating working for the child elements*/
+    min-width: 0;
+
+    
+    width: -moz-available;
+
+}
+
+.ld-card__row .image-column {
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* align the items vertically in the center */
+    align-items: center;
+
+    /* align the items horizontally in the cointainer to center */
+    justify-content: center;
+
+    min-height: 100px;
+    min-width: 100px;
+    
+
+    /* in case of bigger elements in the box, cut off the sides*/
+    overflow: hidden;
+    flex-basis: 23%;
+    width: 90%;
+}
+
+.ld-card__row img{
+    display: block;
+    max-width: 100px;
+    max-height: 100px;
+    min-width: 100px;
+}
+
+.ld-card--content {
+    
+    /* Due to a paragraph class this properties are marked as important */
+    
+    margin-top: 1px !important;
+    margin-bottom: 2px !important;
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+    font-size: 0.86rem !important;
+    padding-bottom: 1px !important;
+
+
+    /* this is for truncating multiline texts*/
+
+
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 4 !important;
+    overflow: hidden !important;
+
+}
+
+.title {
+    margin: 4px;
+    margin-left: 5%;
+
+
+    font-size: 1.1rem;
+    font-weight: bold;
+    min-height: 20%;
+
+    /* settings for truncating single line text */
+
+    max-width: 90%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ld-card__row .footnote {
+    padding-left: 15%;
+    color: #6e6b80;
+    font-size: 0.8rem;
+}
+
+.ld-card__footer {
+    max-height: 50px;
+    margin-top: 3px;
+
+    border-top-width: 1px;
+    border-top-color: #dddddd;
+    border-top-style: solid;
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: row;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: wrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-end;
+
+    /* align the items vertically in the center */
+    align-items: flex-end;
+}
+
+.ld-card__action-button {
+    transition-duration: 0.4s;
+
+    background-color: #e8e3e3;
+    border: #cccccc;
+    border-width: 2px;
+    border-radius: 0.3rem;
+    color: black;
+    padding: 02px 8px;
+
+    margin-top: 3px;
+    margin-bottom: 0px;
+    margin-right: 5px;
+    margin-left: 5px;
+
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.ld-card__action-button:hover {
+    background-color: #4CAF50;
+    color: #01447e;
+    text-decoration: underline;
+}
+
+/* =====  background image card  ========*/
+
+.ld-card--background-image{
+    /* maximal absoulute card width */
+    max-width: 600px;
+
+    /* round corners*/
+    border-radius: 0.75rem;
+
+    /* padding in the card*/
+    padding: 0.5rem;
+
+    font-family: "Arial";
+
+    background: #f1f1f3;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+    
+
+    border-style: groove;
+    border-width: 2px;
+    background-position:top center;
+    background-size:cover;
+}
+
+.ld-card__row .text-column--background-image{
+    /*
+    Actually these two are the only two additional attributes compared to normal text_column
+    BEGIN   ============================ BEGIN */
+
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    
+    /*  
+    END     ============================ END */
+
+
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 90%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 100px;
+    max-height: 100px;
+
+    /* this property is needed to make the truncating working for the child elements*/
+    min-width: 0;
+}
+
+
+
+/* ======  slim default card  ====== */
+
+.ld-card__row .text-column--slim {
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 90%;
+
+    /* minimum height , same as the picture box*/
+    min-height: 0px;
+    max-height: 100px;
+
+    /* this property is needed to make the truncating working for the child elements*/
+    min-width: 0;
+
+}
+
+
+/* Responsive behavior */
+
+
+@media (max-width: 550px) {
+    .ld-card__row {
+      flex-direction: column;
+    }
+}
+
+
+/* ======  component promo cards  ========*/
