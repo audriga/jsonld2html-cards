@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charSet="UTF-8"> 
+        <title>LD2H cards (still work in progress)</title>
+
+     
+
+        <script src="src/mustache.min.js"></script>
+        <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>
+        <script type="module" src="src/main.js"></script>
+        <script src="src/jsonld2html-bundle.js"></script>
+            
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            fluent-text-area {
+                margin-bottom: 20px;
+                
+            }
+            .text-input {
+                width:680px;
+            }
+
+        </style>
+
+    </head>
+
+
+    <body>
+        <h2>Render your JSON-LDs!</h2>
+
+        <div class="container"></div>
+            <div class="input-site">
+
+                <fluent-text-area id="json-input-field" class="text-input" placeholder="Place your JSON-LD here" appearance="filled" rows="25" columns="50" resize="both"></fluent-text-area>        
+                
+                <p id="status-bar"></p>
+                
+                <fluent-button id="render-default-button">Render default style</fluent-button>
+                <fluent-button id="render-fluent-button">Render fluent style</fluent-button>
+                
+            </div>
+            <br>
+            <div class="output-site">
+                
+                <div id="output-target">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>

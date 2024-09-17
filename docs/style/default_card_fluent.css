@@ -1,0 +1,253 @@
+/* CSS rules covering most types */
+
+* {
+    box-sizing: border-box;
+}
+
+.ld-card {
+    /* maximal absolute card width */
+    max-width: 600px;
+
+    
+
+    /* padding in the card */
+    padding: 12px;
+
+    font-family: var(--body-font);
+    
+}
+
+.ld-card__header {
+    margin-bottom: 3px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--neutral-layer-3);
+    border-bottom-style: solid;
+}
+
+ul.ld-card__breadcrumb {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Display list items side by side */
+ul.ld-card__breadcrumb li {
+    display: inline;
+    font-size: var(--type-ramp-base-font-size);
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.ld-card__breadcrumb li + li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.ld-card__breadcrumb li a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.ld-card__breadcrumb li a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+/* Defines the horizontal row container in which the image and text column are placed ===== */
+.ld-card__row {
+    /* Layout Settings */
+    /* declaring the card class to a flex-container */
+    display: flex;
+    gap: 25px;
+
+  
+}
+
+.text-column {
+
+    /* declaring the card class to a flex-contatiner */
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout*/
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items horizontally in the cointainer to left side (flex-start) */
+    justify-content: center;
+
+    /* align the items vertically in the center 
+    align-items: flex-start;*/
+
+    /* initial/standard size of the text column (shrinkage still possible)*/
+    flex-basis: 90%;
+
+    max-height: 150px;
+    
+    width: -moz-available;
+
+}
+
+.image-column {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    min-width: 150px;
+    overflow: hidden;
+    padding: 10px;
+    
+}
+
+.ld-card__row img {
+    align-self: center;
+    max-width: 150px;
+    height: auto;
+    max-height:150px;
+}
+
+.ld-card--content {
+    margin: 0px;
+    -webkit-line-clamp: 4;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+}
+
+.title {
+
+    margin: 0px;
+    font-size: var(--type-ramp-plus-2-font-size);
+    font-weight: bold;
+
+    -webkit-line-clamp: 1;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+}
+
+.ld-card__row .footnote {
+    padding-left: 15%;
+    color: #6e6b80;
+    font-size: var(--type-ramp-base-font-size);
+}
+
+.ld-card__footer {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.ld-card__action-button {
+    transition-duration: 0.4s;
+    background-color: var(--button-background);
+    border: var(--button-border);
+    border-width: 2px;
+    border-radius: var(--border-radius-small);
+    color: black;
+    padding: var(--design-unit-2);
+    margin-top: 3px;
+    margin-bottom: 0px;
+    margin-right: 5px;
+    margin-left: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.ld-card__action-button:hover {
+    background-color: var(--button-hover-background);
+    color: var(--button-hover-color);
+    text-decoration: underline;
+}
+
+/* ===== background image card ======== */
+.ld-card--background-image {
+    /* maximal absolute card width */
+    max-width: 600px;
+
+    /* round corners */
+    border-radius: var(--border-radius-medium);
+
+    /* padding in the card */
+    padding: var(--design-unit-4);
+    font-family: var(--body-font);
+    background: var(--neutral-fill-rest);
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+    border-style: groove;
+    border-width: 2px;
+    background-position: top center;
+    background-size: cover;
+}
+
+.ld-card__row .text-column--background-image {
+    /* Actually these two are the only two additional attributes compared to normal text_column BEGIN ============================ BEGIN */
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1; /* Consider mapping this to a design token if needed */
+    /* END ============================ END */
+
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout */
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items in the container to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* initial/standard size of the text column (shrinkage still possible) */
+    flex-basis: 90%;
+
+    /* minimum height, same as the picture box */
+    min-height: 100px;
+    max-height: 100px;
+
+    /* this property is needed to make the truncating working for the child elements */
+    min-width: 0;
+}
+
+/* ====== slim default card ====== */
+.ld-card__row .text-column--slim {
+    display: flex;
+
+    /* setting the alignment of the childs to vertical row layout */
+    flex-direction: column;
+
+    /* the items in the container are able to wrap, works like a line break */
+    flex-wrap: nowrap;
+
+    /* align the items in the container to left side (flex-start) */
+    justify-content: flex-start;
+
+    /* align the items vertically in the center */
+    align-items: flex-start;
+
+    /* initial/standard size of the text column (shrinkage still possible) */
+    flex-basis: 90%;
+
+    /* minimum height, same as the picture box */
+    min-height: 0px;
+    max-height: 100px;
+
+    /* this property is needed to make the truncating working for the child elements */
+    min-width: 0;
+}
+
+/* Responsive behavior */
+@media (max-width: 550px) {
+    .ld-card__row {
+        flex-direction: column;
+    }
+}
+
+/* ====== component promo cards ======== */
